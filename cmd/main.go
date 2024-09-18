@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	dsn := "root:root@tcp(127.0.0.1:63383)/product-configurator-mysql?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root@tcp(127.0.0.1:63383)/product_configurator?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to connect DB: %v", err)
