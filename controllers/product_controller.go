@@ -9,11 +9,11 @@ import (
 )
 
 type ProductController struct {
-	ProductService *services.ProductService
+	productService services.ProductServiceInterface
 }
 
-func NewProductController(service *services.ProductService) *ProductController {
-	return &ProductController{ProductService: service}
+func NewProductController(service services.ProductServiceInterface) *ProductController {
+	return &ProductController{productService: service}
 }
 
 func (c *ProductController) CreateProduct(ctx *gin.Context) {
@@ -22,7 +22,7 @@ func (c *ProductController) CreateProduct(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := c.ProductService.CreateProduct(&product); err != nil {
+	if err := c.productService.CreateProduct(&product); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
 		return
 	}
@@ -31,7 +31,7 @@ func (c *ProductController) CreateProduct(ctx *gin.Context) {
 
 func (c *ProductController) GetProductByID(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
-	product, err := c.ProductService.GetProductByID(uint(id))
+	product, err := c.productService.GetProductByID(uint(id))
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
 		return
@@ -45,7 +45,7 @@ func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := c.ProductService.UpdateProduct(&product); err != nil {
+	if err := c.productService.UpdateProduct(&product); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
 		return
 	}
@@ -54,7 +54,7 @@ func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 
 func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
-	if err := c.ProductService.DeleteProduct(uint(id)); err != nil {
+	if err := c.productService.DeleteProduct(uint(id)); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
 		return
 	}
@@ -62,7 +62,7 @@ func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 }
 
 func (c *ProductController) GetAllProducts(ctx *gin.Context) {
-	products, err := c.ProductService.GetAllProducts()
+	products, err := c.productService.GetAllProducts()
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve products"})
 		return

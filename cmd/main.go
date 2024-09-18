@@ -23,8 +23,8 @@ func main() {
 		log.Fatalf("Failed to migrate database: %v", err)
 	}
 
-	productRepository := repository.NewProductRepository(db)
-	productService := services.NewProductService(productRepository)
+	productRepository := repository.NewProductRepositoryImpl(db)
+	productService := services.NewProductServiceImpl(productRepository)
 	productController := controllers.NewProductController(productService)
 
 	router := gin.Default()
