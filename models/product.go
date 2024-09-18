@@ -25,3 +25,7 @@ type Product struct {
 	QuantitiesSelection  datatypes.JSON `gorm:"type:json;not null"`
 	PriceCalculationType string         `gorm:"size:50;not null"`
 }
+
+func (Product) TableName() string {
+	return "product"
+}
