@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
 	"main-admin-api/controllers"
+
+	"github.com/gin-gonic/gin"
 )
 
 func ProductRoutes(router *gin.Engine, controller *controllers.ProductController) {
@@ -11,7 +12,7 @@ func ProductRoutes(router *gin.Engine, controller *controllers.ProductController
 		productGroup.POST("/", controller.CreateProduct)
 		productGroup.GET("/", controller.GetAllProducts)
 		productGroup.GET("/:id", controller.GetProductByID)
-		productGroup.PUT("/", controller.UpdateProduct)
+		productGroup.PUT("/:id", controller.UpdateProduct)
 		productGroup.DELETE("/:id", controller.DeleteProduct)
 	}
 }
