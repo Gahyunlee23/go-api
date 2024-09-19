@@ -21,7 +21,7 @@ func (s *ProductServiceImpl) GetProductByID(id uint) (*models.Product, error) {
 	return s.productRepository.GetByID(id)
 }
 
-func (s *ProductServiceImpl) GetAllProducts() ([]models.Product, error) {
+func (s *ProductServiceImpl) GetAllProducts() ([]models.ProductLite, error) {
 	return s.productRepository.GetAll()
 }
 

@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"gorm.io/gorm"
 	"main-admin-api/models"
+
+	"gorm.io/gorm"
 )
 
 type ProductRepositoryImpl struct {
@@ -25,9 +26,9 @@ func (r *ProductRepositoryImpl) GetByID(id uint) (*models.Product, error) {
 	return &product, nil
 }
 
-func (r *ProductRepositoryImpl) GetAll() ([]models.Product, error) {
-	var products []models.Product
-	if err := r.db.Debug().Select("id", "cloud_lab_id", "name", "code", "type").Find(&products).Error; err != nil {
+func (r *ProductRepositoryImpl) GetAll() ([]models.ProductLite, error) {
+	var products []models.ProductLite
+	if err := r.db.Find(&products).Error; err != nil {
 		return nil, err
 	}
 	return products, nil
