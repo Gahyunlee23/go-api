@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-	dsn := "root:root@tcp(127.0.0.1:63383)/product_configurator?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root@tcp(127.0.0.1:64619)/product_configurator?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Failed to connect DB: %v", err)
@@ -33,7 +33,12 @@ func main() {
 	productService := services.NewProductServiceImpl(productRepository)
 	productController := controllers.NewProductController(productService)
 
+	productPartRepository := repository.NewProductPartRepositoryImpl(db)
+	productPartService := services.NewProductPartServiceImpl(productPartRepository)
+	productPartController := controllers.NewProductPartController(productPartService)
+
 	router := gin.Default()
+	router.RedirectTrailingSlash = false
 
 	router.Use(cors.New(cors.Config{
 		AllowAllOrigins: true,
@@ -48,6 +53,7 @@ func main() {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	routes.ProductRoutes(router, productController)
+	routes.ProductPartRoutes(router, productPartController)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
