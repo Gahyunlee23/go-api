@@ -21,7 +21,7 @@ func (s *ProductPartServiceImpl) GetProductPartByID(id uint) (*models.ProductPar
 	return s.productPartRepository.GetByID(id)
 }
 
-func (s *ProductPartServiceImpl) GetAllProductPart() (*[]models.ProductPart, error) {
+func (s *ProductPartServiceImpl) GetAllProductPart() ([]models.ProductPart, error) {
 	return s.productPartRepository.GetAll()
 }
 

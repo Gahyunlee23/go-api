@@ -18,3 +18,7 @@ type ProductPart struct {
 
 	DenyRules []DenyRule `gorm:"foreignKey:ProductPartID" json:"deny_rules"`
 }
+
+func (*ProductPart) TableName() string {
+	return "product_part"
+}

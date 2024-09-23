@@ -1,15 +1,14 @@
 package controllers
 
 import (
-	"encoding/json"
 	"log"
 	"main-admin-api/models"
 	"main-admin-api/services"
+	"main-admin-api/utils"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/datatypes"
 )
 
 type ProductController struct {
@@ -30,7 +29,7 @@ func NewProductController(service services.ProductServiceInterface) *ProductCont
 // @Success 200 {object} models.Product
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /products [post]
+// @Router /products/ [post]
 func (c *ProductController) CreateProduct(ctx *gin.Context) {
 	var product models.Product
 
@@ -40,36 +39,28 @@ func (c *ProductController) CreateProduct(ctx *gin.Context) {
 		return
 	}
 
-	renamingRulesJSON, err := json.Marshal(product.RenamingRules)
+	var err error
+	product.RenamingRules, err = utils.MarshalAndAssignJSON(product.RenamingRules, "renaming_rules", ctx)
 	if err != nil {
-		log.Println("Error marshalling renaming_rules:", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process renaming_rules"})
 		return
 	}
-	product.RenamingRules = datatypes.JSON(renamingRulesJSON)
 
-	orderRulesJSON, err := json.Marshal(product.OrderRules)
+	product.OrderRules, err = utils.MarshalAndAssignJSON(product.OrderRules, "order_rules", ctx)
 	if err != nil {
-		log.Println("Error marshalling order_rules:", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process order_rules"})
 		return
 	}
-	product.OrderRules = datatypes.JSON(orderRulesJSON)
 
-	quantitySelectionJSON, err := json.Marshal(product.QuantitiesSelection)
+	product.QuantitiesSelection, err = utils.MarshalAndAssignJSON(product.QuantitiesSelection, "quantities_selection", ctx)
 	if err != nil {
-		log.Println("Error marshalling quantity_selection:", err)
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to process quantity_selection"})
 		return
 	}
-	product.QuantitiesSelection = datatypes.JSON(quantitySelectionJSON)
 
 	if err := c.productService.CreateProduct(&product); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, product)
+	ctx.JSON(http.StatusCreated, gin.H{"product": product})
 }
 
 // GetProductByID godoc
@@ -91,6 +82,23 @@ func (c *ProductController) GetProductByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, product)
 }
 
+// GetAllProducts godoc
+// @Summary Get all products
+// @Description Retrieve a list of all products
+// @Tags products
+// @Produce  json
+// @Success 200 {array} models.Product
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /products/ [get]
+func (c *ProductController) GetAllProducts(ctx *gin.Context) {
+	products, err := c.productService.GetAllProducts()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve products"})
+		return
+	}
+	ctx.JSON(http.StatusOK, products)
+}
+
 // UpdateProduct godoc
 // @Summary Update an existing product
 // @Description Update the details of an existing product by providing the updated JSON payload
@@ -101,7 +109,7 @@ func (c *ProductController) GetProductByID(ctx *gin.Context) {
 // @Success 200 {object} models.Product
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /products [put]
+// @Router /products/{id} [put]
 func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 	var product models.Product
 	if err := ctx.ShouldBindJSON(&product); err != nil {
@@ -131,21 +139,4 @@ func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
-}
-
-// GetAllProducts godoc
-// @Summary Get all products
-// @Description Retrieve a list of all products
-// @Tags products
-// @Produce  json
-// @Success 200 {array} models.Product
-// @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /products [get]
-func (c *ProductController) GetAllProducts(ctx *gin.Context) {
-	products, err := c.productService.GetAllProducts()
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve products"})
-		return
-	}
-	ctx.JSON(http.StatusOK, products)
 }

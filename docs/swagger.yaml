@@ -34,10 +34,142 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.ProductPart:
+    type: object
 info:
   contact: {}
 paths:
-  /products:
+  /product-parts/:
+    get:
+      description: Retrieve a list of all product parts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ProductPart'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all product parts
+      tags:
+      - productPart
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Product Part data
+        in: body
+        name: productPart
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductPart'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProductPart'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new product part
+      tags:
+      - productPart
+  /product-parts/{id}:
+    delete:
+      description: Delete a single product part by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a product part by ID
+      tags:
+      - productPart
+    get:
+      description: Get a single Product Part by its ID
+      parameters:
+      - description: Product Part ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProductPart'
+        "404":
+          description: Product Part not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Product Part by ID
+      tags:
+      - productPart
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing product part by providing the
+        updated JSON payload
+      parameters:
+      - description: Updated product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductPart'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProductPart'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing product part
+      tags:
+      - productPart
+  /products/:
     get:
       description: Retrieve a list of all products
       produces:
@@ -88,38 +220,6 @@ paths:
       summary: Create a new product
       tags:
       - products
-    put:
-      consumes:
-      - application/json
-      description: Update the details of an existing product by providing the updated
-        JSON payload
-      parameters:
-      - description: Updated product data
-        in: body
-        name: product
-        required: true
-        schema:
-          $ref: '#/definitions/models.Product'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Product'
-        "400":
-          description: Bad request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal server error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Update an existing product
-      tags:
-      - products
   /products/{id}:
     delete:
       description: Delete a single product by its ID
@@ -166,6 +266,38 @@ paths:
             additionalProperties: true
             type: object
       summary: Get product by ID
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing product by providing the updated
+        JSON payload
+      parameters:
+      - description: Updated product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Product'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing product
       tags:
       - products
 swagger: "2.0"
