@@ -143,6 +143,47 @@ func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
 		return
 	}
 
+	var err error
+	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
+	if err != nil {
+		return
+	}
+
+	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
+	if err != nil {
+		return
+	}
+
 	if err := c.productPartService.UpdateProductPart(&productPart); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

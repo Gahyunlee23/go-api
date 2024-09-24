@@ -23,13 +23,12 @@ func (r *ProductPartRepositoryImpl) GetByID(id uint) (*models.ProductPart, error
 	if err := r.db.First(&productPart, id).Error; err != nil {
 		return nil, err
 	}
-
 	return &productPart, nil
 }
 
 func (r *ProductPartRepositoryImpl) GetAll() ([]models.ProductPart, error) {
 	var productPart []models.ProductPart
-	if err := r.db.Debug().Find(&productPart).Error; err != nil {
+	if err := r.db.Find(&productPart).Error; err != nil {
 		return nil, err
 	}
 	return productPart, nil
