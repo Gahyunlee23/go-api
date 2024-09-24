@@ -3,60 +3,44 @@ package main
 import (
 	"log"
 	"main-admin-api/controllers"
+	"main-admin-api/database"
 	_ "main-admin-api/docs"
-	"main-admin-api/models"
-	"main-admin-api/repository"
+	"main-admin-api/middleware"
 	"main-admin-api/routes"
 	"main-admin-api/services"
-	"time"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	"github.com/joho/godotenv"
 )
 
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+}
+
 func main() {
-	dsn := "root:root@tcp(127.0.0.1:64619)/product_configurator?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := database.ConnectDB()
 	if err != nil {
 		log.Fatalf("Failed to connect DB: %v", err)
 	}
 
-	if err := db.AutoMigrate(&models.Product{}); err != nil {
-		log.Fatalf("Failed to migrate database: %v", err)
-	}
-
-	productRepository := repository.NewProductRepositoryImpl(db)
-	productService := services.NewProductServiceImpl(productRepository)
-	productController := controllers.NewProductController(productService)
-
-	productPartRepository := repository.NewProductPartRepositoryImpl(db)
-	productPartService := services.NewProductPartServiceImpl(productPartRepository)
-	productPartController := controllers.NewProductPartController(productPartService)
+	serviceFactory := services.NewServiceFactory(db)
+	productController := controllers.NewProductController(serviceFactory.CreateProductService())
+	productPartController := controllers.NewProductPartController(serviceFactory.CreateProductPartService())
+	denyRuleController := controllers.NewDenyRuleController(serviceFactory.CreateDenyRuleService())
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
+	router.Use(middleware.SetupCORS())
 
-	router.Use(cors.New(cors.Config{
-		AllowAllOrigins: true,
-		//AllowOrigins:     []string{"http://localhost:9001"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
+	allRoutes := routes.InitRoutes(productController, productPartController, denyRuleController)
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	routes.RegisterRoutes(router, allRoutes)
 
-	routes.ProductRoutes(router, productController)
-	routes.ProductPartRoutes(router, productPartController)
+	routes.SwaggerRoutes(router)
 
 	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
-
 }
