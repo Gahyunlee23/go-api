@@ -19,3 +19,7 @@ type DenyRule struct {
 	Finishing     datatypes.JSON `gorm:"type:json;not null"`
 	ProductPart   ProductPart    `gorm:"foreignKey:ProductPartID;references:ID"`
 }
+
+func (*DenyRule) TableName() string {
+	return "deny_rule"
+}

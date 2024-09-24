@@ -4,6 +4,213 @@
         "contact": {}
     },
     "paths": {
+        "/deny-rules/": {
+            "get": {
+                "description": "Retrieve a list of all deny rules",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "denyRule"
+                ],
+                "summary": "Get all deny rules",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DenyRule"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a deny rule with the provided JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "denyRule"
+                ],
+                "summary": "Create a new deny rule",
+                "parameters": [
+                    {
+                        "description": "Deny Rule data",
+                        "name": "denyRule",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DenyRule"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.DenyRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/deny-rules/{id}": {
+            "get": {
+                "description": "Get a single Deny Rule by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "denyRule"
+                ],
+                "summary": "Get Deny Rule by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deny Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.DenyRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Deny Rule not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing deny rule by providing the updated JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "denyRule"
+                ],
+                "summary": "Update an existing deny rule",
+                "parameters": [
+                    {
+                        "description": "Updated deny rule data",
+                        "name": "denyRule",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DenyRule"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.DenyRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single deny rule by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "denyRule"
+                ],
+                "summary": "Delete a deny rule by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Deny Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/product-parts/": {
             "get": {
                 "description": "Retrieve a list of all product parts",
@@ -105,6 +312,13 @@
                             "$ref": "#/definitions/models.ProductPart"
                         }
                     },
+                    "400": {
+                        "description": "Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "404": {
                         "description": "Product Part not found",
                         "schema": {
@@ -181,6 +395,13 @@
                 "responses": {
                     "200": {
                         "description": "Product deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -391,6 +612,9 @@
         }
     },
     "definitions": {
+        "models.DenyRule": {
+            "type": "object"
+        },
         "models.Product": {
             "type": "object",
             "properties": {

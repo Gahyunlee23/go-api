@@ -1,4 +1,6 @@
 definitions:
+  models.DenyRule:
+    type: object
   models.Product:
     properties:
       cloud_lab_id:
@@ -39,6 +41,147 @@ definitions:
 info:
   contact: {}
 paths:
+  /deny-rules/:
+    get:
+      description: Retrieve a list of all deny rules
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.DenyRule'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all deny rules
+      tags:
+      - denyRule
+    post:
+      consumes:
+      - application/json
+      description: Create a deny rule with the provided JSON payload
+      parameters:
+      - description: Deny Rule data
+        in: body
+        name: denyRule
+        required: true
+        schema:
+          $ref: '#/definitions/models.DenyRule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DenyRule'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new deny rule
+      tags:
+      - denyRule
+  /deny-rules/{id}:
+    delete:
+      description: Delete a single deny rule by its ID
+      parameters:
+      - description: Deny Rule ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a deny rule by ID
+      tags:
+      - denyRule
+    get:
+      description: Get a single Deny Rule by its ID
+      parameters:
+      - description: Deny Rule ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DenyRule'
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Deny Rule not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Deny Rule by ID
+      tags:
+      - denyRule
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing deny rule by providing the updated
+        JSON payload
+      parameters:
+      - description: Updated deny rule data
+        in: body
+        name: denyRule
+        required: true
+        schema:
+          $ref: '#/definitions/models.DenyRule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DenyRule'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing deny rule
+      tags:
+      - denyRule
   /product-parts/:
     get:
       description: Retrieve a list of all product parts
@@ -106,6 +249,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
@@ -129,6 +277,11 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.ProductPart'
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
         "404":
           description: Product Part not found
           schema:

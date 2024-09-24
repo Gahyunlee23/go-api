@@ -90,10 +90,14 @@ func (c *DenyRuleController) CreateDenyRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} models.DenyRule
+// @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Deny Rule not found"
 // @Router /deny-rules/{id} [get]
 func (c *DenyRuleController) GetDenyRuleByID(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
+	}
 	denyRule, err := c.denyRuleService.GetDenyRuleByID(uint(id))
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -181,11 +185,22 @@ func (c *DenyRuleController) UpdateDenyRule(ctx *gin.Context) {
 }
 
 // DeleteDenyRule godoc
-// @Summary Delete a product part by ID
-// @Description Delete a single product part by its ID
-// @Tags productPart
+// @Summary Delete a deny rule by ID
+// @Description Delete a single deny rule by its ID
+// @Tags denyRule
 // @Produce  json
-// @Param   id  path  int  true  "Product ID"
+// @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} map[string]interface{} "Product deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /product-parts/{id} [delete]
+// @Router /deny-rules/{id} [delete]
+func (c *DenyRuleController) DeleteDenyRule(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
+	}
+	if err := c.denyRuleService.DeleteDenyRule(uint(id)); err != nil {
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"denyRule": nil})
+}
