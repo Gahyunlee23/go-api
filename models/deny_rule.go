@@ -6,18 +6,18 @@ import (
 
 type DenyRule struct {
 	ID            uint           `gorm:"primaryKey;autoIncrement"`
-	ProductPartID *uint          `gorm:"index;foreignKey:ProductPartID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	ProductPartID *uint          `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Name          string         `gorm:"type:varchar(255);not null"`
 	Code          string         `gorm:"type:varchar(255);not null"`
-	IsGlobal      bool           `gorm:"type:tinyint(1);not null"`
-	Paper         datatypes.JSON `gorm:"type:json;not null"`
-	Format        datatypes.JSON `gorm:"type:json;not null"`
-	Pages         datatypes.JSON `gorm:"type:json;not null"`
-	Colors        datatypes.JSON `gorm:"type:json;not null"`
-	BookBinding   datatypes.JSON `gorm:"type:json;not null"`
-	Refinement    datatypes.JSON `gorm:"type:json;not null"`
-	Finishing     datatypes.JSON `gorm:"type:json;not null"`
-	ProductPart   ProductPart    `gorm:"foreignKey:ProductPartID;references:ID"`
+	IsGlobal      bool           `gorm:"not null"`
+	Paper         datatypes.JSON `gorm:"not null"`
+	Format        datatypes.JSON `gorm:"not null"`
+	Pages         datatypes.JSON `gorm:"not null"`
+	Colors        datatypes.JSON `gorm:"not null"`
+	BookBinding   datatypes.JSON `gorm:"not null"`
+	Refinement    datatypes.JSON `gorm:"not null"`
+	Finishing     datatypes.JSON `gorm:"not null"`
+	ProductPart   ProductPart    `gorm:"foreignKey:ProductPartID"`
 }
 
 func (*DenyRule) TableName() string {
