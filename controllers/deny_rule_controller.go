@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"main-admin-api/models"
 	"main-admin-api/services"
 	"main-admin-api/utils"
@@ -110,12 +111,18 @@ func (c *DenyRuleController) GetDenyRuleByID(ctx *gin.Context) {
 // @Summary Get all deny rules
 // @Description Retrieve a list of all deny rules
 // @Tags denyRule
+// @Param page query int false "Page number" default(1)
+// @Param page_size query int false "Number of items per page" default(10)
+// @Param search query string false "Search term for filtering by name or code"
 // @Produce  json
 // @Success 200 {array} models.DenyRule
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/ [get]
 func (c *DenyRuleController) GetAllDenyRules(ctx *gin.Context) {
-	denyRules, err := c.denyRuleService.GetAllDenyRules()
+	denyRules, err := c.denyRuleService.GetAllDenyRules(ctx)
+	page, _ := strconv.Atoi(ctx.Query("page"))
+	pageSize, _ := strconv.Atoi(ctx.Query("page_size"))
+	fmt.Println("Page:", page, "Page Size:", pageSize)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

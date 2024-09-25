@@ -2,7 +2,9 @@ package repository
 
 import (
 	"main-admin-api/models"
+	"main-admin-api/utils"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -26,9 +28,9 @@ func (r *ProductPartRepositoryImpl) GetByID(id uint) (*models.ProductPart, error
 	return &productPart, nil
 }
 
-func (r *ProductPartRepositoryImpl) GetAll() ([]models.ProductPart, error) {
+func (r *ProductPartRepositoryImpl) GetAll(ctx *gin.Context) ([]models.ProductPart, error) {
 	var productPart []models.ProductPart
-	if err := r.db.Find(&productPart).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Find(&productPart).Error; err != nil {
 		return nil, err
 	}
 	return productPart, nil

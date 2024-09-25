@@ -3,6 +3,8 @@ package services
 import (
 	"main-admin-api/models"
 	"main-admin-api/repository"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ProductServiceImpl struct {
@@ -21,8 +23,8 @@ func (s *ProductServiceImpl) GetProductByID(id uint) (*models.Product, error) {
 	return s.productRepository.GetByID(id)
 }
 
-func (s *ProductServiceImpl) GetAllProducts() ([]models.ProductLite, error) {
-	return s.productRepository.GetAll()
+func (s *ProductServiceImpl) GetAllProducts(ctx *gin.Context) ([]models.ProductLite, error) {
+	return s.productRepository.GetAll(ctx)
 }
 
 func (s *ProductServiceImpl) UpdateProduct(product *models.Product) error {

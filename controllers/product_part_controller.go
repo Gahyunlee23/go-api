@@ -116,12 +116,15 @@ func (c *ProductPartController) GetProductPartByID(ctx *gin.Context) {
 // @Summary Get all product parts
 // @Description Retrieve a list of all product parts
 // @Tags productPart
+// @Param page query int false "Page number" default(1)
+// @Param page_size query int false "Number of items per page" default(10)
+// @Param search query string false "Search term for filtering by name or code"
 // @Produce  json
 // @Success 200 {array} models.ProductPart
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/ [get]
 func (c *ProductPartController) GetAllProductParts(ctx *gin.Context) {
-	productParts, err := c.productPartService.GetAllProductPart()
+	productParts, err := c.productPartService.GetAllProductPart(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
