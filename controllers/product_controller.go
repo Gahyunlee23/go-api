@@ -22,7 +22,7 @@ func NewProductController(service services.ProductServiceInterface) *ProductCont
 // CreateProduct godoc
 // @Summary Create a new product
 // @Description Create a product with the provided JSON payload
-// @Tags products
+// @Tags Products
 // @Accept  json
 // @Produce  json
 // @Param   product  body  models.Product  true  "Product data"
@@ -66,7 +66,7 @@ func (c *ProductController) CreateProduct(ctx *gin.Context) {
 // GetProductByID godoc
 // @Summary Get product by ID
 // @Description Get a single product by its ID
-// @Tags products
+// @Tags Products
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} models.Product
@@ -85,7 +85,7 @@ func (c *ProductController) GetProductByID(ctx *gin.Context) {
 // GetAllProducts godoc
 // @Summary Get all products
 // @Description Retrieve a list of all products
-// @Tags products
+// @Tags Products
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Search term for filtering by name or code"
@@ -105,7 +105,7 @@ func (c *ProductController) GetAllProducts(ctx *gin.Context) {
 // UpdateProduct godoc
 // @Summary Update an existing product
 // @Description Update the details of an existing product by providing the updated JSON payload
-// @Tags products
+// @Tags Products
 // @Accept  json
 // @Produce  json
 // @Param   product  body  models.Product  true  "Updated product data"
@@ -145,14 +145,19 @@ func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 // DeleteProduct godoc
 // @Summary Delete a product by ID
 // @Description Delete a single product by its ID
-// @Tags products
+// @Tags Products
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} map[string]interface{} "Product deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [delete]
 func (c *ProductController) DeleteProduct(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
+		return
+	}
 	if err := c.productService.DeleteProduct(uint(id)); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
 		return

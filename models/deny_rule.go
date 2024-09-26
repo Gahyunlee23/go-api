@@ -10,13 +10,13 @@ type DenyRule struct {
 	Name          string         `gorm:"type:varchar(255);not null"`
 	Code          string         `gorm:"type:varchar(255);not null"`
 	IsGlobal      bool           `gorm:"not null"`
-	Paper         datatypes.JSON `gorm:"not null"`
-	Format        datatypes.JSON `gorm:"not null"`
-	Pages         datatypes.JSON `gorm:"not null"`
-	Colors        datatypes.JSON `gorm:"not null"`
-	BookBinding   datatypes.JSON `gorm:"not null"`
-	Refinement    datatypes.JSON `gorm:"not null"`
-	Finishing     datatypes.JSON `gorm:"not null"`
+	Paper         datatypes.JSON `gorm:"not null" swaggerignore:"true"`
+	Format        datatypes.JSON `gorm:"not null" swaggerignore:"true"`
+	Pages         datatypes.JSON `gorm:"not null" swaggerignore:"true"`
+	Colors        datatypes.JSON `gorm:"not null" swaggerignore:"true"`
+	BookBinding   datatypes.JSON `gorm:"not null" swaggerignore:"true"`
+	Refinement    datatypes.JSON `gorm:"not null" swaggerignore:"true"`
+	Finishing     datatypes.JSON `gorm:"not null" swaggerignore:"true"`
 	ProductPart   ProductPart    `gorm:"foreignKey:ProductPartID"`
 }
 

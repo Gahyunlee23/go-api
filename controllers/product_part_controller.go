@@ -23,7 +23,7 @@ func NewProductPartController(service services.ProductPartServiceInterface) *Pro
 
 // CreateProductPart godoc
 // @Summary Create a new product part
-// @Tags productPart
+// @Tags ProductPart
 // @Accept json
 // @Produce  json
 // @Param   productPart  body  models.ProductPart  true  "Product Part data"
@@ -92,7 +92,7 @@ func (c *ProductPartController) CreateProductPart(ctx *gin.Context) {
 // GetProductPartByID godoc
 // @Summary Get Product Part by ID
 // @Description Get a single Product Part by its ID
-// @Tags productPart
+// @Tags ProductPart
 // @Produce  json
 // @Param   id  path  int  true  "Product Part ID"
 // @Success 200 {object} models.ProductPart
@@ -112,10 +112,10 @@ func (c *ProductPartController) GetProductPartByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, productPart)
 }
 
-// GetAllProductParts GetProductParts godoc
+// GetAllProductParts godoc
 // @Summary Get all product parts
 // @Description Retrieve a list of all product parts
-// @Tags productPart
+// @Tags ProductPart
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Search term for filtering by name or code"
@@ -135,7 +135,7 @@ func (c *ProductPartController) GetAllProductParts(ctx *gin.Context) {
 // UpdateProductPart godoc
 // @Summary Update an existing product part
 // @Description Update the details of an existing product part by providing the updated JSON payload
-// @Tags productPart
+// @Tags ProductPart
 // @Accept  json
 // @Produce  json
 // @Param   product  body  models.ProductPart  true  "Updated product data"
@@ -201,7 +201,7 @@ func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
 // DeleteProductPart godoc
 // @Summary Delete a product part by ID
 // @Description Delete a single product part by its ID
-// @Tags productPart
+// @Tags ProductPart
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
