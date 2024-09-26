@@ -13,6 +13,6 @@ func ProductPartRoutes(router *gin.Engine, controller *controllers.ProductPartCo
 		productPartGroup.GET("/", controller.GetAllProductParts)
 		productPartGroup.GET("/:id", controller.GetProductPartByID)
 		productPartGroup.PUT("/:id", controller.UpdateProductPart)
-		productPartGroup.DELETE("/", controller.DeleteProductPart)
+		productPartGroup.DELETE("/:id", controller.DeleteProductPart)
 	}
 }

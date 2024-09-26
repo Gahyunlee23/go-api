@@ -11,7 +11,7 @@ type Route struct {
 	Register   func(router *gin.Engine, controller interface{})
 }
 
-func InitRoutes(productController *controllers.ProductController, productPartController *controllers.ProductPartController, denyRuleController *controllers.DenyRuleController) []Route {
+func InitRoutes(productController *controllers.ProductController, productPartController *controllers.ProductPartController, denyRuleController *controllers.DenyRuleController, attributeController *controllers.AttributeController) []Route {
 	return []Route{
 		{Controller: productController, Register: func(r *gin.Engine, c interface{}) {
 			ProductRoutes(r, c.(*controllers.ProductController))
@@ -21,6 +21,9 @@ func InitRoutes(productController *controllers.ProductController, productPartCon
 		}},
 		{Controller: denyRuleController, Register: func(r *gin.Engine, c interface{}) {
 			DenyRuleRoutes(r, c.(*controllers.DenyRuleController))
+		}},
+		{Controller: attributeController, Register: func(r *gin.Engine, c interface{}) {
+			AttributeRoutes(r, c.(*controllers.AttributeController))
 		}},
 	}
 }

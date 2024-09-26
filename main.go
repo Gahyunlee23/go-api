@@ -29,12 +29,13 @@ func main() {
 	productController := controllers.NewProductController(serviceFactory.CreateProductService())
 	productPartController := controllers.NewProductPartController(serviceFactory.CreateProductPartService())
 	denyRuleController := controllers.NewDenyRuleController(serviceFactory.CreateDenyRuleService())
+	attributeController := controllers.NewAttributeController(serviceFactory.CreateAttributeService())
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
 	router.Use(middleware.SetupCORS())
 
-	allRoutes := routes.InitRoutes(productController, productPartController, denyRuleController)
+	allRoutes := routes.InitRoutes(productController, productPartController, denyRuleController, attributeController)
 
 	routes.RegisterRoutes(router, allRoutes)
 

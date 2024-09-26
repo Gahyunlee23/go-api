@@ -28,3 +28,8 @@ func (f *ServiceFactory) CreateDenyRuleService() DenyRuleServiceInterface {
 	denyRuleRepo := repository.NewDenyRuleRepositoryImpl(f.db)
 	return NewDenyRuleServiceImpl(denyRuleRepo)
 }
+
+func (f *ServiceFactory) CreateAttributeService() AttributeServiceInterface {
+	attributeRepo := repository.NewAttributeRepositoryImpl(f.db)
+	return NewAttributeServiceImpl(attributeRepo)
+}
