@@ -31,7 +31,7 @@ The api server for main admin, it contains product configurator and editor
     ```bash
     go mod tidy
     ```
-4. Set up environment variables (if using `.env` file):
+4. Set up environment variables (it's located in project root):
     ```bash
     cp .env.example .env
     ```
@@ -41,4 +41,9 @@ The api server for main admin, it contains product configurator and editor
 ### Running the Project
 To run the server locally:
 ```bash
-go run cmd/main.go
+go run main.go
+```
+
+To access to the Jenkins:
+
+http://localhost:{your_port}/swagger/index.html
