@@ -22,7 +22,7 @@ func NewDenyRuleController(service services.DenyRuleServiceInterface) *DenyRuleC
 // CreateDenyRule godoc
 // @Summary Create a new deny rule
 // @Description Create a deny rule with the provided JSON payload
-// @Tags denyRule
+// @Tags DenyRule
 // @Accept  json
 // @Produce  json
 // @Param   denyRule  body  models.DenyRule  true  "Deny Rule data"
@@ -87,7 +87,7 @@ func (c *DenyRuleController) CreateDenyRule(ctx *gin.Context) {
 // GetDenyRuleByID godoc
 // @Summary Get Deny Rule by ID
 // @Description Get a single Deny Rule by its ID
-// @Tags denyRule
+// @Tags DenyRule
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} models.DenyRule
@@ -110,7 +110,7 @@ func (c *DenyRuleController) GetDenyRuleByID(ctx *gin.Context) {
 // GetAllDenyRules GetDenyRules godoc
 // @Summary Get all deny rules
 // @Description Retrieve a list of all deny rules
-// @Tags denyRule
+// @Tags DenyRule
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Search term for filtering by name or code"
@@ -133,7 +133,7 @@ func (c *DenyRuleController) GetAllDenyRules(ctx *gin.Context) {
 // UpdateDenyRule godoc
 // @Summary Update an existing deny rule
 // @Description Update the details of an existing deny rule by providing the updated JSON payload
-// @Tags denyRule
+// @Tags DenyRule
 // @Accept  json
 // @Produce  json
 // @Param   denyRule  body  models.DenyRule  true  "Updated deny rule data"
@@ -194,7 +194,7 @@ func (c *DenyRuleController) UpdateDenyRule(ctx *gin.Context) {
 // DeleteDenyRule godoc
 // @Summary Delete a deny rule by ID
 // @Description Delete a single deny rule by its ID
-// @Tags denyRule
+// @Tags DenyRule
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} map[string]interface{} "Product deleted successfully"

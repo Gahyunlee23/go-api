@@ -1,5 +1,44 @@
 definitions:
+  models.Attribute:
+    properties:
+      category:
+        $ref: '#/definitions/models.AttributeCategory'
+      categoryID:
+        type: integer
+      code:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      order:
+        type: integer
+    type: object
+  models.AttributeCategory:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   models.DenyRule:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      isGlobal:
+        type: boolean
+      name:
+        type: string
+      productPart:
+        $ref: '#/definitions/models.ProductPart'
+      productPartID:
+        type: integer
     type: object
   models.Product:
     properties:
@@ -37,13 +76,197 @@ definitions:
         type: string
     type: object
   models.ProductPart:
+    properties:
+      code:
+        type: string
+      content_type:
+        type: string
+      deny_rules:
+        items:
+          $ref: '#/definitions/models.DenyRule'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
     type: object
 info:
   contact: {}
 paths:
+  /attributes/:
+    get:
+      description: Retrieve a list of all attributes
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Search term for filtering by name or code
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Attribute'
+            type: array
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all attribute
+      tags:
+      - Attributes
+    post:
+      consumes:
+      - application/json
+      description: Create a attribute with the provided JSON payload
+      parameters:
+      - description: Attribute data
+        in: body
+        name: Attribute
+        required: true
+        schema:
+          $ref: '#/definitions/models.Attribute'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Attribute'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new attribute
+      tags:
+      - Attributes
+  /attributes/{id}:
+    delete:
+      description: Delete a single attribute by its ID
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Attribute deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an attribute by ID
+      tags:
+      - Attributes
+    get:
+      description: Get a single attribute by its ID
+      parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Attribute'
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Attribute not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Attribute by ID
+      tags:
+      - Attributes
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing attribute by providing the updated
+        JSON payload
+      parameters:
+      - description: Updated Attribute data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Attribute'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Attribute'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing attribute
+      tags:
+      - Attributes
   /deny-rules/:
     get:
       description: Retrieve a list of all deny rules
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Search term for filtering by name or code
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
@@ -60,7 +283,7 @@ paths:
             type: object
       summary: Get all deny rules
       tags:
-      - denyRule
+      - DenyRule
     post:
       consumes:
       - application/json
@@ -91,7 +314,7 @@ paths:
             type: object
       summary: Create a new deny rule
       tags:
-      - denyRule
+      - DenyRule
   /deny-rules/{id}:
     delete:
       description: Delete a single deny rule by its ID
@@ -121,7 +344,7 @@ paths:
             type: object
       summary: Delete a deny rule by ID
       tags:
-      - denyRule
+      - DenyRule
     get:
       description: Get a single Deny Rule by its ID
       parameters:
@@ -149,7 +372,7 @@ paths:
             type: object
       summary: Get Deny Rule by ID
       tags:
-      - denyRule
+      - DenyRule
     put:
       consumes:
       - application/json
@@ -181,10 +404,25 @@ paths:
             type: object
       summary: Update an existing deny rule
       tags:
-      - denyRule
+      - DenyRule
   /product-parts/:
     get:
       description: Retrieve a list of all product parts
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Search term for filtering by name or code
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
@@ -201,7 +439,7 @@ paths:
             type: object
       summary: Get all product parts
       tags:
-      - productPart
+      - ProductPart
     post:
       consumes:
       - application/json
@@ -231,7 +469,7 @@ paths:
             type: object
       summary: Create a new product part
       tags:
-      - productPart
+      - ProductPart
   /product-parts/{id}:
     delete:
       description: Delete a single product part by its ID
@@ -261,7 +499,7 @@ paths:
             type: object
       summary: Delete a product part by ID
       tags:
-      - productPart
+      - ProductPart
     get:
       description: Get a single Product Part by its ID
       parameters:
@@ -289,7 +527,7 @@ paths:
             type: object
       summary: Get Product Part by ID
       tags:
-      - productPart
+      - ProductPart
     put:
       consumes:
       - application/json
@@ -321,10 +559,25 @@ paths:
             type: object
       summary: Update an existing product part
       tags:
-      - productPart
+      - ProductPart
   /products/:
     get:
       description: Retrieve a list of all products
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Search term for filtering by name or code
+        in: query
+        name: search
+        type: string
       produces:
       - application/json
       responses:
@@ -341,7 +594,7 @@ paths:
             type: object
       summary: Get all products
       tags:
-      - products
+      - Products
     post:
       consumes:
       - application/json
@@ -372,7 +625,7 @@ paths:
             type: object
       summary: Create a new product
       tags:
-      - products
+      - Products
   /products/{id}:
     delete:
       description: Delete a single product by its ID
@@ -390,6 +643,11 @@ paths:
           schema:
             additionalProperties: true
             type: object
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
@@ -397,7 +655,7 @@ paths:
             type: object
       summary: Delete a product by ID
       tags:
-      - products
+      - Products
     get:
       description: Get a single product by its ID
       parameters:
@@ -420,7 +678,7 @@ paths:
             type: object
       summary: Get product by ID
       tags:
-      - products
+      - Products
     put:
       consumes:
       - application/json
@@ -452,5 +710,5 @@ paths:
             type: object
       summary: Update an existing product
       tags:
-      - products
+      - Products
 swagger: "2.0"
