@@ -2,7 +2,9 @@ package repository
 
 import (
 	"main-admin-api/models"
+	"main-admin-api/utils"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -26,9 +28,10 @@ func (r *DenyRuleRepositoryImpl) GetByID(id uint) (*models.DenyRule, error) {
 	return &denyRule, nil
 }
 
-func (r *DenyRuleRepositoryImpl) GetAll() ([]models.DenyRule, error) {
+func (r *DenyRuleRepositoryImpl) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 	var denyRules []models.DenyRule
-	if err := r.db.Debug().Find(&denyRules).Error; err != nil {
+
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "name", "code")).Find(&denyRules).Error; err != nil {
 		return nil, err
 	}
 	return denyRules, nil

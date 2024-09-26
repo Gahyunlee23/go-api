@@ -86,12 +86,15 @@ func (c *ProductController) GetProductByID(ctx *gin.Context) {
 // @Summary Get all products
 // @Description Retrieve a list of all products
 // @Tags products
+// @Param page query int false "Page number" default(1)
+// @Param page_size query int false "Number of items per page" default(10)
+// @Param search query string false "Search term for filtering by name or code"
 // @Produce  json
 // @Success 200 {array} models.Product
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/ [get]
 func (c *ProductController) GetAllProducts(ctx *gin.Context) {
-	products, err := c.productService.GetAllProducts()
+	products, err := c.productService.GetAllProducts(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve products"})
 		return
