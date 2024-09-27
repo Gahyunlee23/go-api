@@ -12,4 +12,5 @@ type ProductRepositoryInterface interface {
 	GetAll(ctx *gin.Context) ([]models.ProductLite, error)
 	Update(product *models.Product) error
 	Delete(id uint) error
+	ArchiveProduct(id uint) error
 }
