@@ -5,7 +5,6 @@ import (
 	"log"
 	"main-admin-api/models"
 	"main-admin-api/services"
-	"main-admin-api/utils"
 	"net/http"
 	"strconv"
 
@@ -40,48 +39,7 @@ func (c *ProductPartController) CreateProductPart(ctx *gin.Context) {
 		return
 	}
 
-	var err error
-	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
-	if err != nil {
-		return
-	}
-
-	if err := c.productPartService.CreateProductPart(&productPart); err != nil {
+	if err := c.productPartService.CreateProductPart(&productPart, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -138,6 +96,7 @@ func (c *ProductPartController) GetAllProductParts(ctx *gin.Context) {
 // @Tags ProductPart
 // @Accept  json
 // @Produce  json
+// @Param   id  path  int  true  "Product Part ID"
 // @Param   product  body  models.ProductPart  true  "Updated product data"
 // @Success 200 {object} models.ProductPart
 // @Failure 400 {object} map[string]interface{} "Bad request"
@@ -150,48 +109,7 @@ func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
 		return
 	}
 
-	var err error
-	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
-	if err != nil {
-		return
-	}
-
-	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
-	if err != nil {
-		return
-	}
-
-	if err := c.productPartService.UpdateProductPart(&productPart); err != nil {
+	if err := c.productPartService.UpdateProductPart(&productPart, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -206,16 +124,16 @@ func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
 // @Param   id  path  int  true  "Product ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
-// @Success 200 {object} map[string]interface{} "Product deleted successfully"
+// @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
 // @Router /product-parts/{id} [delete]
 func (c *ProductPartController) DeleteProductPart(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
 	}
-	if err := c.productPartService.DeleteProductPart(uint(id)); err != nil {
+	if err := c.productPartService.ArchiveProductPart(uint(id)); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"productPart": nil})
+	ctx.JSON(http.StatusOK, gin.H{"Product Part deleted successfully": id})
 }

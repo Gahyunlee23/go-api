@@ -12,4 +12,5 @@ type AttributeRepositoryInterface interface {
 	GetAll(ctx *gin.Context) ([]models.Attribute, error)
 	Update(attribute *models.Attribute) error
 	Delete(ID uint) error
+	Archive(ID uint) error
 }

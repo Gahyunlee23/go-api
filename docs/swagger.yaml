@@ -3,9 +3,11 @@ definitions:
     properties:
       category:
         $ref: '#/definitions/models.AttributeCategory'
-      categoryID:
+      category_id:
         type: integer
       code:
+        type: string
+      created_at:
         type: string
       description:
         type: string
@@ -15,30 +17,40 @@ definitions:
         type: string
       order:
         type: integer
+      updated_at:
+        type: string
     type: object
   models.AttributeCategory:
     properties:
       code:
         type: string
+      created_at:
+        type: string
       id:
         type: integer
       name:
+        type: string
+      updated_at:
         type: string
     type: object
   models.DenyRule:
     properties:
       code:
         type: string
+      created_at:
+        type: string
       id:
         type: integer
-      isGlobal:
+      is_global:
         type: boolean
       name:
         type: string
+      product_part_id:
+        type: integer
       productPart:
         $ref: '#/definitions/models.ProductPart'
-      productPartID:
-        type: integer
+      updated_at:
+        type: string
     type: object
   models.Product:
     properties:
@@ -81,6 +93,8 @@ definitions:
         type: string
       content_type:
         type: string
+      created_at:
+        type: string
       deny_rules:
         items:
           $ref: '#/definitions/models.DenyRule'
@@ -88,6 +102,8 @@ definitions:
       id:
         type: integer
       name:
+        type: string
+      updated_at:
         type: string
     type: object
 info:
@@ -223,6 +239,11 @@ paths:
       description: Update the details of an existing attribute by providing the updated
         JSON payload
       parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated Attribute data
         in: body
         name: product
@@ -328,7 +349,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Product deleted successfully
+          description: Deny Rule deleted successfully
           schema:
             additionalProperties: true
             type: object
@@ -379,6 +400,11 @@ paths:
       description: Update the details of an existing deny rule by providing the updated
         JSON payload
       parameters:
+      - description: Deny Rule ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated deny rule data
         in: body
         name: denyRule
@@ -483,7 +509,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Product deleted successfully
+          description: Product Part deleted successfully
           schema:
             additionalProperties: true
             type: object
@@ -534,6 +560,11 @@ paths:
       description: Update the details of an existing product part by providing the
         updated JSON payload
       parameters:
+      - description: Product Part ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated product data
         in: body
         name: product
@@ -685,6 +716,11 @@ paths:
       description: Update the details of an existing product by providing the updated
         JSON payload
       parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated product data
         in: body
         name: product

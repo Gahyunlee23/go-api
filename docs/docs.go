@@ -169,6 +169,13 @@ const docTemplate = `{
                 "summary": "Update an existing attribute",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "Attribute ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Updated Attribute data",
                         "name": "product",
                         "in": "body",
@@ -398,6 +405,13 @@ const docTemplate = `{
                 "summary": "Update an existing deny rule",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "Deny Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Updated deny rule data",
                         "name": "denyRule",
                         "in": "body",
@@ -450,7 +464,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Product deleted successfully",
+                        "description": "Deny Rule deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -626,6 +640,13 @@ const docTemplate = `{
                 "summary": "Update an existing product part",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "Product Part ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Updated product data",
                         "name": "product",
                         "in": "body",
@@ -678,7 +699,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Product deleted successfully",
+                        "description": "Product Part deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -848,6 +869,13 @@ const docTemplate = `{
                 "summary": "Update an existing product",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "Product ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
                         "description": "Updated product data",
                         "name": "product",
                         "in": "body",
@@ -931,10 +959,13 @@ const docTemplate = `{
                 "category": {
                     "$ref": "#/definitions/models.AttributeCategory"
                 },
-                "categoryID": {
+                "category_id": {
                     "type": "integer"
                 },
                 "code": {
+                    "type": "string"
+                },
+                "created_at": {
                     "type": "string"
                 },
                 "description": {
@@ -948,6 +979,9 @@ const docTemplate = `{
                 },
                 "order": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -957,10 +991,16 @@ const docTemplate = `{
                 "code": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -971,10 +1011,13 @@ const docTemplate = `{
                 "code": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "isGlobal": {
+                "is_global": {
                     "type": "boolean"
                 },
                 "name": {
@@ -983,8 +1026,11 @@ const docTemplate = `{
                 "productPart": {
                     "$ref": "#/definitions/models.ProductPart"
                 },
-                "productPartID": {
+                "product_part_id": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -1050,6 +1096,9 @@ const docTemplate = `{
                 "content_type": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "deny_rules": {
                     "type": "array",
                     "items": {
@@ -1060,6 +1109,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }

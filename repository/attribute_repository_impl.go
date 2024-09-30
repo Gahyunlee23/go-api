@@ -21,25 +21,33 @@ func (r *AttributeRepositoryImpl) Create(Attribute *models.Attribute) error {
 }
 
 func (r *AttributeRepositoryImpl) GetByID(id uint) (*models.Attribute, error) {
-	var attribute models.Attribute
-	if err := r.db.First(&attribute, id).Error; err != nil {
+	Attribute := &models.Attribute{ID: id}
+	if err := r.db.Model(Attribute).First(Attribute).Error; err != nil {
 		return nil, err
 	}
-	return &attribute, nil
+	return Attribute, nil
 }
 
 func (r *AttributeRepositoryImpl) GetAll(ctx *gin.Context) ([]models.Attribute, error) {
 	var attributes []models.Attribute
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "code", "name")).Find(&attributes).Error; err != nil {
+	if err := r.db.Model(&models.Attribute{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "code", "name")).Find(&attributes).Error; err != nil {
 		return nil, err
 	}
 	return attributes, nil
 }
 
 func (r *AttributeRepositoryImpl) Update(Attribute *models.Attribute) error {
-	return r.db.Save(Attribute).Error
+	return r.db.Model(Attribute).Updates(Attribute).Error
 }
 
 func (r *AttributeRepositoryImpl) Delete(id uint) error {
-	return r.db.Delete(&models.Attribute{}, id).Error
+	attribute := &models.Attribute{ID: id}
+	return r.db.Model(attribute).Delete(id).Error
+}
+
+func (r *AttributeRepositoryImpl) Archive(id uint) error {
+	attribute := &models.Attribute{ID: id}
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		return utils.ArchiveAndDelete(tx, attribute, id)
+	})
 }

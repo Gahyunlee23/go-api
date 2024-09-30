@@ -21,25 +21,33 @@ func (r *ProductPartRepositoryImpl) Create(productPart *models.ProductPart) erro
 }
 
 func (r *ProductPartRepositoryImpl) GetByID(id uint) (*models.ProductPart, error) {
-	var productPart models.ProductPart
-	if err := r.db.First(&productPart, id).Error; err != nil {
+	ProductPart := &models.ProductPart{ID: id}
+	if err := r.db.Model(ProductPart).First(ProductPart).Error; err != nil {
 		return nil, err
 	}
-	return &productPart, nil
+	return ProductPart, nil
 }
 
 func (r *ProductPartRepositoryImpl) GetAll(ctx *gin.Context) ([]models.ProductPart, error) {
 	var productPart []models.ProductPart
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Find(&productPart).Error; err != nil {
+	if err := r.db.Model(&models.ProductPart{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Find(&productPart).Error; err != nil {
 		return nil, err
 	}
 	return productPart, nil
 }
 
 func (r *ProductPartRepositoryImpl) Update(productPart *models.ProductPart) error {
-	return r.db.Save(productPart).Error
+	return r.db.Model(productPart).Updates(productPart).Error
 }
 
 func (r *ProductPartRepositoryImpl) Delete(id uint) error {
-	return r.db.Delete(&models.ProductPart{}, id).Error
+	productPart := &models.ProductPart{ID: id}
+	return r.db.Model(productPart).Delete(id).Error
+}
+
+func (r *ProductPartRepositoryImpl) Archive(id uint) error {
+	productPart := &models.ProductPart{ID: id}
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		return utils.ArchiveAndDelete(tx, productPart, id)
+	})
 }

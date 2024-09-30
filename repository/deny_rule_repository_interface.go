@@ -12,4 +12,5 @@ type DenyRuleRepositoryInterface interface {
 	GetAll(ctx *gin.Context) ([]models.DenyRule, error)
 	Update(denyRule *models.DenyRule) error
 	Delete(id uint) error
+	Archive(id uint) error
 }

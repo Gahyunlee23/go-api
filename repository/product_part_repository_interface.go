@@ -12,4 +12,5 @@ type ProductPartRepositoryInterface interface {
 	GetAll(ctx *gin.Context) ([]models.ProductPart, error)
 	Update(productPart *models.ProductPart) error
 	Delete(id uint) error
+	Archive(id uint) error
 }
