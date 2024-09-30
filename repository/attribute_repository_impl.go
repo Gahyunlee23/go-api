@@ -48,6 +48,6 @@ func (r *AttributeRepositoryImpl) Delete(id uint) error {
 func (r *AttributeRepositoryImpl) Archive(id uint) error {
 	attribute := &models.Attribute{ID: id}
 	return r.db.Transaction(func(tx *gorm.DB) error {
-		return utils.ArchiveAndDelete(tx.Model(attribute), attribute, id)
+		return utils.ArchiveAndDelete(tx, attribute, id)
 	})
 }

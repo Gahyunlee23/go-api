@@ -132,5 +132,6 @@ func (c *AttributeController) DeleteAttribute(ctx *gin.Context) {
 	if err := c.attributeService.ArchiveAttribute(uint(id)); err != nil {
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"Success": true})
+
+	ctx.JSON(http.StatusOK, gin.H{"Attribute deleted successfully": id})
 }

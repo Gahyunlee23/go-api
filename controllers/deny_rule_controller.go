@@ -124,7 +124,7 @@ func (c *DenyRuleController) UpdateDenyRule(ctx *gin.Context) {
 // @Tags DenyRule
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
-// @Success 200 {object} map[string]interface{} "Product deleted successfully"
+// @Success 200 {object} map[string]interface{} "Deny Rule deleted successfully"
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/{id} [delete]
@@ -136,5 +136,5 @@ func (c *DenyRuleController) DeleteDenyRule(ctx *gin.Context) {
 	if err := c.denyRuleService.ArchiveDenyRule(uint(id)); err != nil {
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"denyRule": nil})
+	ctx.JSON(http.StatusOK, gin.H{"Deny Rule deleted successfully": id})
 }

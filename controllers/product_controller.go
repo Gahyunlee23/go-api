@@ -131,5 +131,5 @@ func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
+	ctx.JSON(http.StatusOK, gin.H{"Product deleted successfully": id})
 }

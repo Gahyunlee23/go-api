@@ -464,7 +464,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Product deleted successfully",
+                        "description": "Deny Rule deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -699,7 +699,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Product deleted successfully",
+                        "description": "Product Part deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

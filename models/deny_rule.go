@@ -1,7 +1,10 @@
 package models
 
 import (
+	"time"
+
 	"gorm.io/datatypes"
+	"gorm.io/gorm"
 )
 
 type DenyRule struct {
@@ -18,6 +21,9 @@ type DenyRule struct {
 	Refinement    datatypes.JSON `gorm:"not null" swaggerignore:"true"`
 	Finishing     datatypes.JSON `gorm:"not null" swaggerignore:"true"`
 	ProductPart   ProductPart    `gorm:"foreignKey:ProductPartID"`
+	CreatedAt     time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt     time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt     gorm.DeletedAt `gorm:"index" swaggerignore:"true" json:"deleted_at"`
 }
 
 func (*DenyRule) TableName() string {

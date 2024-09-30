@@ -341,7 +341,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Product deleted successfully
+          description: Deny Rule deleted successfully
           schema:
             additionalProperties: true
             type: object
@@ -501,7 +501,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Product deleted successfully
+          description: Product Part deleted successfully
           schema:
             additionalProperties: true
             type: object

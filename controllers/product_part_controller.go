@@ -124,7 +124,7 @@ func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
 // @Param   id  path  int  true  "Product ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
-// @Success 200 {object} map[string]interface{} "Product deleted successfully"
+// @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
 // @Router /product-parts/{id} [delete]
 func (c *ProductPartController) DeleteProductPart(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
@@ -135,5 +135,5 @@ func (c *ProductPartController) DeleteProductPart(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"productPart": nil})
+	ctx.JSON(http.StatusOK, gin.H{"Product Part deleted successfully": id})
 }

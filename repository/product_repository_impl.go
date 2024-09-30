@@ -48,6 +48,6 @@ func (r *ProductRepositoryImpl) Delete(id uint) error {
 func (r *ProductRepositoryImpl) Archive(id uint) error {
 	product := &models.Product{ID: id}
 	return r.db.Transaction(func(tx *gorm.DB) error {
-		return utils.ArchiveAndDelete(tx.Model(product), product, id)
+		return utils.ArchiveAndDelete(tx, product, id)
 	})
 }

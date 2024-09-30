@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"log"
 	"main-admin-api/models"
 	"main-admin-api/utils"
 
@@ -37,8 +38,9 @@ func (r *DenyRuleRepositoryImpl) GetAll(ctx *gin.Context) ([]models.DenyRule, er
 	return denyRules, nil
 }
 
-func (r *DenyRuleRepositoryImpl) Update(DenyRule *models.DenyRule) error {
-	return r.db.Save(DenyRule).Error
+func (r *DenyRuleRepositoryImpl) Update(denyRule *models.DenyRule) error {
+	log.Printf("Updating DenyRule with ID: %d", denyRule.ID)
+	return r.db.Model(denyRule).Updates(denyRule).Error
 }
 
 func (r *DenyRuleRepositoryImpl) Delete(id uint) error {
@@ -49,6 +51,6 @@ func (r *DenyRuleRepositoryImpl) Delete(id uint) error {
 func (r *DenyRuleRepositoryImpl) Archive(id uint) error {
 	denyRule := &models.DenyRule{ID: id}
 	return r.db.Transaction(func(tx *gorm.DB) error {
-		return utils.ArchiveAndDelete(tx.Model(denyRule), denyRule, id)
+		return utils.ArchiveAndDelete(tx, denyRule, id)
 	})
 }

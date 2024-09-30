@@ -1,6 +1,11 @@
 package models
 
-import "gorm.io/datatypes"
+import (
+	"time"
+
+	"gorm.io/datatypes"
+	"gorm.io/gorm"
+)
 
 type ProductPart struct {
 	ID                uint           `gorm:"primaryKey;autoIncrement" json:"id"`
@@ -15,8 +20,10 @@ type ProductPart struct {
 	Refinement        datatypes.JSON `gorm:"type:json;not null" swaggerignore:"true" json:"refinement"`
 	Finishing         datatypes.JSON `gorm:"type:json;not null" swaggerignore:"true" json:"finishing"`
 	DefaultSelections datatypes.JSON `gorm:"type:json;not null" swaggerignore:"true" json:"default_selections"`
-
-	DenyRules []DenyRule `gorm:"foreignKey:ProductPartID" json:"deny_rules"`
+	CreatedAt         time.Time      `gorm:"autoCreateTime" json:"created_at"`
+	UpdatedAt         time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
+	DeletedAt         gorm.DeletedAt `gorm:"index" swaggerignore:"true" json:"deleted_at"`
+	DenyRules         []DenyRule     `gorm:"foreignKey:ProductPartID" json:"deny_rules"`
 }
 
 func (*ProductPart) TableName() string {
