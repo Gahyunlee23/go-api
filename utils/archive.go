@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"log"
 	"main-admin-api/models"
 
 	"gorm.io/datatypes"
@@ -17,6 +18,9 @@ func ArchiveAndDelete(tx *gorm.DB, model interface{ TableName() string }, id uin
 	if err != nil {
 		return err
 	}
+
+	log.Println(jsonData)
+	println("아니뭔데")
 
 	archiveRecord := models.ArchivedRecord{
 		SourceTable:  model.TableName(),
