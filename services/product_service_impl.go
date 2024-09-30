@@ -34,3 +34,7 @@ func (s *ProductServiceImpl) UpdateProduct(product *models.Product) error {
 func (s *ProductServiceImpl) DeleteProduct(id uint) error {
 	return s.productRepository.Delete(id)
 }
+
+func (s *ProductServiceImpl) ArchiveProduct(id uint) error {
+	return s.productRepository.Archive(id)
+}

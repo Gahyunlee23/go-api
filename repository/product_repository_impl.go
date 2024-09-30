@@ -44,22 +44,9 @@ func (r *ProductRepositoryImpl) Delete(id uint) error {
 	return r.db.Delete(&models.Product{}, id).Error
 }
 
-// ArchiveProduct process the logic of soft delete and move the row to the backup table. It conjuncts as one transaction.
-func (r *ProductRepositoryImpl) ArchiveProduct(id uint) error {
+func (r *ProductRepositoryImpl) Archive(id uint) error {
+	var product models.Product
 	return r.db.Transaction(func(tx *gorm.DB) error {
-		var product models.Product
-		if err := tx.First(&product, id).Error; err != nil {
-			return err
-		}
-
-		if err := tx.Table("deleted_product").Create(&product).Error; err != nil {
-			return err
-		}
-
-		if err := tx.Unscoped().Delete(&product, id).Error; err != nil {
-			return err
-		}
-
-		return nil
+		return utils.ArchiveAndDelete(tx, &product, id)
 	})
 }

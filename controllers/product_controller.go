@@ -158,7 +158,7 @@ func (c *ProductController) DeleteProduct(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
 		return
 	}
-	if err := c.productService.DeleteProduct(uint(id)); err != nil {
+	if err := c.productService.ArchiveProduct(uint(id)); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
 		return
 	}

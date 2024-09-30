@@ -213,7 +213,7 @@ func (c *ProductPartController) DeleteProductPart(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
 	}
-	if err := c.productPartService.DeleteProductPart(uint(id)); err != nil {
+	if err := c.productPartService.ArchiveProductPart(uint(id)); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

@@ -43,3 +43,10 @@ func (r *ProductPartRepositoryImpl) Update(productPart *models.ProductPart) erro
 func (r *ProductPartRepositoryImpl) Delete(id uint) error {
 	return r.db.Delete(&models.ProductPart{}, id).Error
 }
+
+func (r *ProductPartRepositoryImpl) Archive(id uint) error {
+	var productPart models.ProductPart
+	return r.db.Transaction(func(tx *gorm.DB) error {
+		return utils.ArchiveAndDelete(tx, &productPart, id)
+	})
+}

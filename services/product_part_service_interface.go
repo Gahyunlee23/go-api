@@ -12,4 +12,5 @@ type ProductPartServiceInterface interface {
 	GetAllProductPart(ctx *gin.Context) ([]models.ProductPart, error)
 	UpdateProductPart(productPart *models.ProductPart) error
 	DeleteProductPart(id uint) error
+	ArchiveProductPart(id uint) error
 }

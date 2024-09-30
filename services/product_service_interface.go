@@ -12,4 +12,5 @@ type ProductServiceInterface interface {
 	GetAllProducts(ctx *gin.Context) ([]models.ProductLite, error)
 	UpdateProduct(product *models.Product) error
 	DeleteProduct(id uint) error
+	ArchiveProduct(id uint) error
 }

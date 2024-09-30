@@ -34,3 +34,7 @@ func (s *ProductPartServiceImpl) UpdateProductPart(productPart *models.ProductPa
 func (s *ProductPartServiceImpl) DeleteProductPart(id uint) error {
 	return s.productPartRepository.Delete(id)
 }
+
+func (s *ProductPartServiceImpl) ArchiveProductPart(id uint) error {
+	return s.productPartRepository.Archive(id)
+}
