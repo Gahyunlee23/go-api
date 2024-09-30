@@ -1011,10 +1011,13 @@ const docTemplate = `{
                 "code": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "isGlobal": {
+                "is_global": {
                     "type": "boolean"
                 },
                 "name": {
@@ -1023,8 +1026,11 @@ const docTemplate = `{
                 "productPart": {
                     "$ref": "#/definitions/models.ProductPart"
                 },
-                "productPartID": {
+                "product_part_id": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -1090,6 +1096,9 @@ const docTemplate = `{
                 "content_type": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "deny_rules": {
                     "type": "array",
                     "items": {
@@ -1100,6 +1109,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }

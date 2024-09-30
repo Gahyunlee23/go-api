@@ -37,16 +37,20 @@ definitions:
     properties:
       code:
         type: string
+      created_at:
+        type: string
       id:
         type: integer
-      isGlobal:
+      is_global:
         type: boolean
       name:
         type: string
+      product_part_id:
+        type: integer
       productPart:
         $ref: '#/definitions/models.ProductPart'
-      productPartID:
-        type: integer
+      updated_at:
+        type: string
     type: object
   models.Product:
     properties:
@@ -89,6 +93,8 @@ definitions:
         type: string
       content_type:
         type: string
+      created_at:
+        type: string
       deny_rules:
         items:
           $ref: '#/definitions/models.DenyRule'
@@ -96,6 +102,8 @@ definitions:
       id:
         type: integer
       name:
+        type: string
+      updated_at:
         type: string
     type: object
 info:

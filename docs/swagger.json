@@ -1000,10 +1000,13 @@
                 "code": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "isGlobal": {
+                "is_global": {
                     "type": "boolean"
                 },
                 "name": {
@@ -1012,8 +1015,11 @@
                 "productPart": {
                     "$ref": "#/definitions/models.ProductPart"
                 },
-                "productPartID": {
+                "product_part_id": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },
@@ -1079,6 +1085,9 @@
                 "content_type": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "deny_rules": {
                     "type": "array",
                     "items": {
@@ -1089,6 +1098,9 @@
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }
