@@ -8,7 +8,7 @@ import (
 )
 
 type DenyRule struct {
-	ID            uint           `gorm:"primaryKey;autoIncrement"`
+	ID            uint           `gorm:"primaryKey;autoIncrement" json:"id"`
 	ProductPartID *uint          `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Name          string         `gorm:"type:varchar(255);not null" json:"name"`
 	Code          string         `gorm:"type:varchar(255);not null" json:"code"`
