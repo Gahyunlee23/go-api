@@ -3,6 +3,7 @@ package services
 import (
 	"main-admin-api/models"
 	"main-admin-api/repository"
+	"main-admin-api/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,8 +16,53 @@ func NewProductPartServiceImpl(repository repository.ProductPartRepositoryInterf
 	return &ProductPartServiceImpl{productPartRepository: repository}
 }
 
-func (s *ProductPartServiceImpl) CreateProductPart(productPart *models.ProductPart) error {
-	return s.productPartRepository.Create(productPart)
+func (s *ProductPartServiceImpl) CreateProductPart(productPart *models.ProductPart, ctx *gin.Context) error {
+	var err error
+	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
+	if err != nil {
+		return err
+	}
+
+	if err := s.productPartRepository.Create(productPart); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *ProductPartServiceImpl) GetProductPartByID(id uint) (*models.ProductPart, error) {
@@ -27,8 +73,53 @@ func (s *ProductPartServiceImpl) GetAllProductPart(ctx *gin.Context) ([]models.P
 	return s.productPartRepository.GetAll(ctx)
 }
 
-func (s *ProductPartServiceImpl) UpdateProductPart(productPart *models.ProductPart) error {
-	return s.productPartRepository.Update(productPart)
+func (s *ProductPartServiceImpl) UpdateProductPart(productPart *models.ProductPart, ctx *gin.Context) error {
+	var err error
+	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
+	if err != nil {
+		return err
+	}
+
+	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
+	if err != nil {
+		return err
+	}
+
+	if err := s.productPartRepository.Update(productPart); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s *ProductPartServiceImpl) DeleteProductPart(id uint) error {

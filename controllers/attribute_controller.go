@@ -36,6 +36,10 @@ func (c *AttributeController) CreateAttribute(ctx *gin.Context) {
 		return
 	}
 
+	if err := c.attributeService.CreateAttribute(&attribute, ctx); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+
 	ctx.JSON(http.StatusCreated, gin.H{"attribute": attribute})
 }
 
@@ -89,6 +93,7 @@ func (c *AttributeController) GetAllAttributes(ctx *gin.Context) {
 // @Tags Attributes
 // @Accept  json
 // @Produce  json
+// @Param   id  path  int  true  "Attribute ID"
 // @Param   product  body  models.Attribute  true  "Updated Attribute data"
 // @Success 200 {object} models.Attribute
 // @Failure 400 {object} map[string]interface{} "Bad request"
@@ -100,7 +105,8 @@ func (c *AttributeController) UpdateAttribute(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := c.attributeService.UpdateAttribute(&attribute); err != nil {
+
+	if err := c.attributeService.UpdateAttribute(&attribute, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update attribute"})
 		return
 	}
@@ -123,7 +129,7 @@ func (c *AttributeController) DeleteAttribute(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
 		return
 	}
-	if err := c.attributeService.DeleteAttribute(uint(id)); err != nil {
+	if err := c.attributeService.ArchiveAttribute(uint(id)); err != nil {
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{"Success": true})

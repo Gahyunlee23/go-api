@@ -3,9 +3,11 @@ definitions:
     properties:
       category:
         $ref: '#/definitions/models.AttributeCategory'
-      categoryID:
+      category_id:
         type: integer
       code:
+        type: string
+      created_at:
         type: string
       description:
         type: string
@@ -15,14 +17,20 @@ definitions:
         type: string
       order:
         type: integer
+      updated_at:
+        type: string
     type: object
   models.AttributeCategory:
     properties:
       code:
         type: string
+      created_at:
+        type: string
       id:
         type: integer
       name:
+        type: string
+      updated_at:
         type: string
     type: object
   models.DenyRule:
@@ -223,6 +231,11 @@ paths:
       description: Update the details of an existing attribute by providing the updated
         JSON payload
       parameters:
+      - description: Attribute ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated Attribute data
         in: body
         name: product
@@ -379,6 +392,11 @@ paths:
       description: Update the details of an existing deny rule by providing the updated
         JSON payload
       parameters:
+      - description: Deny Rule ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated deny rule data
         in: body
         name: denyRule
@@ -534,6 +552,11 @@ paths:
       description: Update the details of an existing product part by providing the
         updated JSON payload
       parameters:
+      - description: Product Part ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated product data
         in: body
         name: product
@@ -685,6 +708,11 @@ paths:
       description: Update the details of an existing product by providing the updated
         JSON payload
       parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Updated product data
         in: body
         name: product

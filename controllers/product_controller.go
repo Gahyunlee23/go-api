@@ -4,7 +4,6 @@ import (
 	"log"
 	"main-admin-api/models"
 	"main-admin-api/services"
-	"main-admin-api/utils"
 	"net/http"
 	"strconv"
 
@@ -39,23 +38,7 @@ func (c *ProductController) CreateProduct(ctx *gin.Context) {
 		return
 	}
 
-	var err error
-	product.RenamingRules, err = utils.MarshalAndAssignJSON(product.RenamingRules, "renaming_rules", ctx)
-	if err != nil {
-		return
-	}
-
-	product.OrderRules, err = utils.MarshalAndAssignJSON(product.OrderRules, "order_rules", ctx)
-	if err != nil {
-		return
-	}
-
-	product.QuantitiesSelection, err = utils.MarshalAndAssignJSON(product.QuantitiesSelection, "quantities_selection", ctx)
-	if err != nil {
-		return
-	}
-
-	if err := c.productService.CreateProduct(&product); err != nil {
+	if err := c.productService.CreateProduct(&product, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
 		return
 	}
@@ -108,6 +91,7 @@ func (c *ProductController) GetAllProducts(ctx *gin.Context) {
 // @Tags Products
 // @Accept  json
 // @Produce  json
+// @Param   id  path  int  true  "Product ID"
 // @Param   product  body  models.Product  true  "Updated product data"
 // @Success 200 {object} models.Product
 // @Failure 400 {object} map[string]interface{} "Bad request"
@@ -119,23 +103,8 @@ func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	var err error
-	product.RenamingRules, err = utils.MarshalAndAssignJSON(product.RenamingRules, "renaming_rules", ctx)
-	if err != nil {
-		return
-	}
 
-	product.OrderRules, err = utils.MarshalAndAssignJSON(product.OrderRules, "order_rules", ctx)
-	if err != nil {
-		return
-	}
-
-	product.QuantitiesSelection, err = utils.MarshalAndAssignJSON(product.QuantitiesSelection, "quantities_selection", ctx)
-	if err != nil {
-		return
-	}
-
-	if err := c.productService.UpdateProduct(&product); err != nil {
+	if err := c.productService.UpdateProduct(&product, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
 		return
 	}

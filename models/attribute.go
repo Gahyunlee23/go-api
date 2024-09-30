@@ -3,16 +3,18 @@ package models
 import (
 	"time"
 
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
 type Attribute struct {
 	ID          uint              `gorm:"primaryKey;autoIncrement"`
-	CategoryID  uint              `gorm:"not null;index"`
+	CategoryID  uint              `gorm:"not null;index" json:"category_id"`
 	Code        string            `gorm:"type:varchar(255);not null;uniqueIndex"`
 	Name        string            `gorm:"type:varchar(255);not null"`
 	Description string            `gorm:"type:mediumtext"`
 	Order       int               `gorm:"not null"`
+	Settings    datatypes.JSON    `gorm:"type:json" swaggerignore:"true"`
 	CreatedAt   time.Time         `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time         `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt    `gorm:"index" swaggerignore:"true" json:"deleted_at"`
