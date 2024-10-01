@@ -2,12 +2,12 @@ package main
 
 import (
 	"log"
-	"main-admin-api/controllers"
-	"main-admin-api/database"
 	_ "main-admin-api/docs"
-	"main-admin-api/middleware"
-	"main-admin-api/routes"
-	"main-admin-api/services"
+	controllers2 "main-admin-api/internal/api/handlers"
+	"main-admin-api/internal/api/middleware"
+	"main-admin-api/internal/api/routes"
+	"main-admin-api/internal/services"
+	"main-admin-api/pkg/database"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -26,10 +26,10 @@ func main() {
 	}
 
 	serviceFactory := services.NewServiceFactory(db)
-	productController := controllers.NewProductController(serviceFactory.CreateProductService())
-	productPartController := controllers.NewProductPartController(serviceFactory.CreateProductPartService())
-	denyRuleController := controllers.NewDenyRuleController(serviceFactory.CreateDenyRuleService())
-	attributeController := controllers.NewAttributeController(serviceFactory.CreateAttributeService())
+	productController := controllers2.NewProductController(serviceFactory.CreateProductService())
+	productPartController := controllers2.NewProductPartController(serviceFactory.CreateProductPartService())
+	denyRuleController := controllers2.NewDenyRuleController(serviceFactory.CreateDenyRuleService())
+	attributeController := controllers2.NewAttributeController(serviceFactory.CreateAttributeService())
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
