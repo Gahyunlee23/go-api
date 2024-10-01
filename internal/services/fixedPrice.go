@@ -1,12 +1,15 @@
 package services
 
 import (
+	"errors"
+	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	services "main-admin-api/internal/services/interfaces"
 	"main-admin-api/internal/utils"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type fixedPriceService struct {
@@ -18,40 +21,25 @@ func NewFixedPriceService(repository repository.FixedPriceRepository) services.F
 }
 
 func (s *fixedPriceService) CreateFixedPrice(ctx *gin.Context, fixedPrice *models.FixedPrice) error {
-	var err error
-	fixedPrice.Paper, err = utils.MarshalAndAssignJSON(fixedPrice.Paper, "paper", ctx)
-	if err != nil {
-		return err
+	// JSON fields to process
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&fixedPrice.Paper, "paper"},
+		{&fixedPrice.Format, "format"},
+		{&fixedPrice.Pages, "pages"},
+		{&fixedPrice.Colors, "colors"},
+		{&fixedPrice.BookBinding, "bookBinding"},
+		{&fixedPrice.Refinement, "refinement"},
+		{&fixedPrice.Finishing, "finishing"},
 	}
 
-	fixedPrice.Format, err = utils.MarshalAndAssignJSON(fixedPrice.Format, "format", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.Pages, err = utils.MarshalAndAssignJSON(fixedPrice.Pages, "pages", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.Colors, err = utils.MarshalAndAssignJSON(fixedPrice.Colors, "colors", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.BookBinding, err = utils.MarshalAndAssignJSON(fixedPrice.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.Refinement, err = utils.MarshalAndAssignJSON(fixedPrice.Refinement, "refinement", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.Finishing, err = utils.MarshalAndAssignJSON(fixedPrice.Finishing, "finishing", ctx)
-	if err != nil {
-		return err
+	// Process all JSON fields
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
 	if err := s.fixedPriceRepository.Create(fixedPrice); err != nil {
@@ -69,45 +57,45 @@ func (s *fixedPriceService) GetAllFixedPrices(ctx *gin.Context) ([]models.FixedP
 	return s.fixedPriceRepository.GetAll(ctx)
 }
 
-func (s *fixedPriceService) UpdateFixedPrice(ctx *gin.Context, fixedPrice *models.FixedPrice) error {
-	var err error
-	fixedPrice.Paper, err = utils.MarshalAndAssignJSON(fixedPrice.Paper, "paper", ctx)
-	if err != nil {
-		return err
+func (s *fixedPriceService) UpdateFixedPrice(urlID uint, fixedPrice *models.FixedPrice, ctx *gin.Context) error {
+	// Verify that URL ID matches the fixed price ID
+	if urlID != fixedPrice.ID {
+		return errors.New("fixed price ID in URL does not match the ID in the request body")
 	}
 
-	fixedPrice.Format, err = utils.MarshalAndAssignJSON(fixedPrice.Format, "format", ctx)
+	// Check if the fixed price exists
+	_, err := s.fixedPriceRepository.GetByID(urlID)
 	if err != nil {
-		return err
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("fixed price not found")
+		}
+		return fmt.Errorf("error checking existing fixed price: %w", err)
 	}
 
-	fixedPrice.Pages, err = utils.MarshalAndAssignJSON(fixedPrice.Pages, "pages", ctx)
-	if err != nil {
-		return err
+	// JSON fields to process
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&fixedPrice.Paper, "paper"},
+		{&fixedPrice.Format, "format"},
+		{&fixedPrice.Pages, "pages"},
+		{&fixedPrice.Colors, "colors"},
+		{&fixedPrice.BookBinding, "bookBinding"},
+		{&fixedPrice.Refinement, "refinement"},
+		{&fixedPrice.Finishing, "finishing"},
 	}
 
-	fixedPrice.Colors, err = utils.MarshalAndAssignJSON(fixedPrice.Colors, "colors", ctx)
-	if err != nil {
-		return err
+	// Process all JSON fields
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
-	fixedPrice.BookBinding, err = utils.MarshalAndAssignJSON(fixedPrice.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.Refinement, err = utils.MarshalAndAssignJSON(fixedPrice.Refinement, "refinement", ctx)
-	if err != nil {
-		return err
-	}
-
-	fixedPrice.Finishing, err = utils.MarshalAndAssignJSON(fixedPrice.Finishing, "finishing", ctx)
-	if err != nil {
-		return err
-	}
-
+	// Update the fixed price
 	if err := s.fixedPriceRepository.Update(fixedPrice); err != nil {
-		return err
+		return fmt.Errorf("failed to update fixed price: %w", err)
 	}
 
 	return nil

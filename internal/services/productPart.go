@@ -1,12 +1,15 @@
 package services
 
 import (
+	"errors"
+	"fmt"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/repository/interfaces"
 	services "main-admin-api/internal/services/interfaces"
 	"main-admin-api/internal/utils"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type ProductPartServiceImpl struct {
@@ -18,45 +21,26 @@ func NewProductPartService(repository repository.ProductPartRepository) services
 }
 
 func (s *ProductPartServiceImpl) CreateProductPart(productPart *models.ProductPart, ctx *gin.Context) error {
-	var err error
-	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
-	if err != nil {
-		return err
+	// JSON fields to process
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&productPart.Paper, "paper"},
+		{&productPart.Format, "format"},
+		{&productPart.Pages, "pages"},
+		{&productPart.Colors, "colors"},
+		{&productPart.BookBinding, "bookBinding"},
+		{&productPart.Refinement, "refinement"},
+		{&productPart.Finishing, "finishing"},
+		{&productPart.DefaultSelections, "defaultSelections"},
 	}
 
-	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
-	if err != nil {
-		return err
+	// Process all JSON fields
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
 	if err := s.productPartRepository.Create(productPart); err != nil {
@@ -74,50 +58,46 @@ func (s *ProductPartServiceImpl) GetAllProductPart(ctx *gin.Context) ([]models.P
 	return s.productPartRepository.GetAll(ctx)
 }
 
-func (s *ProductPartServiceImpl) UpdateProductPart(productPart *models.ProductPart, ctx *gin.Context) error {
-	var err error
-	productPart.Paper, err = utils.MarshalAndAssignJSON(productPart.Paper, "paper", ctx)
-	if err != nil {
-		return err
+func (s *ProductPartServiceImpl) UpdateProductPart(urlID uint, productPart *models.ProductPart, ctx *gin.Context) error {
+	// Verify that URL ID matches the product part ID
+	if urlID != productPart.ID {
+		return errors.New("product part ID in URL does not match the ID in the request body")
 	}
 
-	productPart.Format, err = utils.MarshalAndAssignJSON(productPart.Format, "format", ctx)
+	// Check if the product part exists
+	_, err := s.productPartRepository.GetByID(urlID)
 	if err != nil {
-		return err
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("product part not found")
+		}
+		return fmt.Errorf("error checking existing product part: %w", err)
 	}
 
-	productPart.Pages, err = utils.MarshalAndAssignJSON(productPart.Pages, "pages", ctx)
-	if err != nil {
-		return err
+	// JSON fields to process
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&productPart.Paper, "paper"},
+		{&productPart.Format, "format"},
+		{&productPart.Pages, "pages"},
+		{&productPart.Colors, "colors"},
+		{&productPart.BookBinding, "bookBinding"},
+		{&productPart.Refinement, "refinement"},
+		{&productPart.Finishing, "finishing"},
+		{&productPart.DefaultSelections, "defaultSelections"},
 	}
 
-	productPart.Colors, err = utils.MarshalAndAssignJSON(productPart.Colors, "colors", ctx)
-	if err != nil {
-		return err
+	// Process all JSON fields
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
-	productPart.BookBinding, err = utils.MarshalAndAssignJSON(productPart.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.Refinement, err = utils.MarshalAndAssignJSON(productPart.Refinement, "refinement", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.Finishing, err = utils.MarshalAndAssignJSON(productPart.Finishing, "finishing", ctx)
-	if err != nil {
-		return err
-	}
-
-	productPart.DefaultSelections, err = utils.MarshalAndAssignJSON(productPart.DefaultSelections, "defaultSelections", ctx)
-	if err != nil {
-		return err
-	}
-
+	// Update the product part
 	if err := s.productPartRepository.Update(productPart); err != nil {
-		return err
+		return fmt.Errorf("failed to update product part: %w", err)
 	}
 
 	return nil

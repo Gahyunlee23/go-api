@@ -100,13 +100,14 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [put]
 func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Param("id"))
 	var fixedPrice models.FixedPrice
 	if err := ctx.ShouldBindJSON(&fixedPrice); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := c.FixedPriceService.UpdateFixedPrice(ctx, &fixedPrice); err != nil {
+	if err := c.FixedPriceService.UpdateFixedPrice(uint(id), &fixedPrice, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update FixedPrice"})
 		return
 	}

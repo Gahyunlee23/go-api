@@ -98,14 +98,20 @@ func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [put]
 func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+		return
+	}
+
 	var product models.Product
 	if err := ctx.ShouldBindJSON(&product); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := c.productService.UpdateProduct(&product, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update product"})
+	if err := c.productService.UpdateProduct(uint(id), &product, ctx); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	ctx.JSON(http.StatusOK, product)

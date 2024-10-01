@@ -1,6 +1,8 @@
 package services
 
 import (
+	"errors"
+	"fmt"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/repository/interfaces"
 	services "main-admin-api/internal/services/interfaces"
@@ -18,21 +20,19 @@ func NewProductService(repository repository.ProductRepository) services.Product
 }
 
 func (s *productService) CreateProduct(product *models.Product, ctx *gin.Context) error {
-	var err error
-
-	product.RenamingRules, err = utils.MarshalAndAssignJSON(product.RenamingRules, "renaming_rules", ctx)
-	if err != nil {
-		return err
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&product.RenamingRules, "renaming_rules"},
+		{&product.OrderRules, "order_rules"},
+		{&product.QuantitiesSelection, "quantities_selection"},
 	}
 
-	product.OrderRules, err = utils.MarshalAndAssignJSON(product.OrderRules, "order_rules", ctx)
-	if err != nil {
-		return err
-	}
-
-	product.QuantitiesSelection, err = utils.MarshalAndAssignJSON(product.QuantitiesSelection, "quantities_selection", ctx)
-	if err != nil {
-		return err
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
 	if err := s.productRepository.Create(product); err != nil {
@@ -50,26 +50,33 @@ func (s *productService) GetAllProducts(ctx *gin.Context) ([]models.ProductLite,
 	return s.productRepository.GetAll(ctx)
 }
 
-func (s *productService) UpdateProduct(product *models.Product, ctx *gin.Context) error {
-	var err error
-
-	product.RenamingRules, err = utils.MarshalAndAssignJSON(product.RenamingRules, "renaming_rules", ctx)
-	if err != nil {
-		return err
+func (s *productService) UpdateProduct(urlID uint, product *models.Product, ctx *gin.Context) error {
+	if urlID != product.ID {
+		return errors.New("product ID in URL does not match the ID in the request body")
 	}
 
-	product.OrderRules, err = utils.MarshalAndAssignJSON(product.OrderRules, "order_rules", ctx)
+	_, err := s.productRepository.GetByID(urlID)
 	if err != nil {
-		return err
+		return errors.New("product not found")
 	}
 
-	product.QuantitiesSelection, err = utils.MarshalAndAssignJSON(product.QuantitiesSelection, "quantities_selection", ctx)
-	if err != nil {
-		return err
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&product.RenamingRules, "renaming_rules"},
+		{&product.OrderRules, "order_rules"},
+		{&product.QuantitiesSelection, "quantities_selection"},
+	}
+
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
 	if err := s.productRepository.Update(product); err != nil {
-		return err
+		return fmt.Errorf("failed to update product: %w", err)
 	}
 
 	return nil
