@@ -34,3 +34,8 @@ func (f *ServiceFactory) CreateAttributeService() services.AttributeService {
 	attributeRepo := repository.NewAttributeRepository(f.db)
 	return NewAttributeService(attributeRepo)
 }
+
+func (f *ServiceFactory) CreateFixedPriceService() services.FixedPriceService {
+	fixedPriceRepo := repository.NewFixedPriceRepository(f.db)
+	return NewFixedPriceService(fixedPriceRepo)
+}

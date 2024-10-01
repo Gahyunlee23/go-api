@@ -12,7 +12,7 @@ type FixedPrice struct {
 	ProductPartID *uint          `gorm:"index;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"product_part_id"`
 	Name          string         `gorm:"type:varchar(255);not null" json:"name"`
 	Code          string         `gorm:"type:varchar(255);not null" json:"code"`
-	Prices        datatypes.JSON `gorm:"not null" json:"prices"`
+	Prices        datatypes.JSON `gorm:"not null" swaggerignore:"true" json:"prices"`
 	Paper         datatypes.JSON `gorm:"not null" swaggerignore:"true" json:"paper"`
 	Format        datatypes.JSON `gorm:"not null" swaggerignore:"true" json:"format"`
 	Pages         datatypes.JSON `gorm:"not null" swaggerignore:"true" json:"pages"`
