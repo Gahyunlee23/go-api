@@ -105,13 +105,15 @@ func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/{id} [put]
 func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Param("id"))
+
 	var denyRule models.DenyRule
 	if err := ctx.ShouldBindJSON(&denyRule); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := c.denyRuleService.UpdateDenyRule(&denyRule, ctx); err != nil {
+	if err := c.denyRuleService.UpdateDenyRule(uint(id), &denyRule, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

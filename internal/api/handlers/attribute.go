@@ -100,16 +100,26 @@ func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [put]
 func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
+	// Extract ID from the URL
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid attribute ID"})
+		return
+	}
+
+	// Bind JSON to attribute struct
 	var attribute models.Attribute
 	if err := ctx.ShouldBindJSON(&attribute); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := c.attributeService.UpdateAttribute(&attribute, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update attribute"})
+	// Call service layer to update the attribute
+	if err := c.attributeService.UpdateAttribute(uint(id), &attribute, ctx); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	ctx.JSON(http.StatusOK, attribute)
 }
 

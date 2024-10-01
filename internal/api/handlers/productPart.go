@@ -103,13 +103,14 @@ func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [put]
 func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Param("id"))
 	var productPart models.ProductPart
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := c.productPartService.UpdateProductPart(&productPart, ctx); err != nil {
+	if err := c.productPartService.UpdateProductPart(uint(id), &productPart, ctx); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
