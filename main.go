@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	_ "main-admin-api/docs"
-	controllers2 "main-admin-api/internal/api/handlers"
+	Handlers "main-admin-api/internal/api/handlers"
 	"main-admin-api/internal/api/middleware"
 	"main-admin-api/internal/api/routes"
 	"main-admin-api/internal/services"
@@ -26,16 +26,16 @@ func main() {
 	}
 
 	serviceFactory := services.NewServiceFactory(db)
-	productController := controllers2.NewProductController(serviceFactory.CreateProductService())
-	productPartController := controllers2.NewProductPartController(serviceFactory.CreateProductPartService())
-	denyRuleController := controllers2.NewDenyRuleController(serviceFactory.CreateDenyRuleService())
-	attributeController := controllers2.NewAttributeController(serviceFactory.CreateAttributeService())
+	productHandler := Handlers.NewProductHandler(serviceFactory.CreateProductService())
+	productPartHandler := Handlers.NewProductPartHandler(serviceFactory.CreateProductPartService())
+	denyRuleHandler := Handlers.NewDenyRuleHandler(serviceFactory.CreateDenyRuleService())
+	attributeHandler := Handlers.NewAttributeHandler(serviceFactory.CreateAttributeService())
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
 	router.Use(middleware.SetupCORS())
 
-	allRoutes := routes.InitRoutes(productController, productPartController, denyRuleController, attributeController)
+	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler)
 
 	routes.RegisterRoutes(router, allRoutes)
 

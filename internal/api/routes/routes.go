@@ -1,35 +1,35 @@
 package routes
 
 import (
-	controllers2 "main-admin-api/internal/api/handlers"
+	Handlers2 "main-admin-api/internal/api/handlers"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Route struct {
-	Controller interface{}
-	Register   func(router *gin.Engine, controller interface{})
+	Handler  interface{}
+	Register func(router *gin.Engine, Handler interface{})
 }
 
-func InitRoutes(productController *controllers2.ProductController, productPartController *controllers2.ProductPartController, denyRuleController *controllers2.DenyRuleController, attributeController *controllers2.AttributeController) []Route {
+func InitRoutes(productHandler *Handlers2.ProductHandler, productPartHandler *Handlers2.ProductPartHandler, denyRuleHandler *Handlers2.DenyRuleHandler, attributeHandler *Handlers2.AttributeHandler) []Route {
 	return []Route{
-		{Controller: productController, Register: func(r *gin.Engine, c interface{}) {
-			ProductRoutes(r, c.(*controllers2.ProductController))
+		{Handler: productHandler, Register: func(r *gin.Engine, c interface{}) {
+			ProductRoutes(r, c.(*Handlers2.ProductHandler))
 		}},
-		{Controller: productPartController, Register: func(r *gin.Engine, c interface{}) {
-			ProductPartRoutes(r, c.(*controllers2.ProductPartController))
+		{Handler: productPartHandler, Register: func(r *gin.Engine, c interface{}) {
+			ProductPartRoutes(r, c.(*Handlers2.ProductPartHandler))
 		}},
-		{Controller: denyRuleController, Register: func(r *gin.Engine, c interface{}) {
-			DenyRuleRoutes(r, c.(*controllers2.DenyRuleController))
+		{Handler: denyRuleHandler, Register: func(r *gin.Engine, c interface{}) {
+			DenyRuleRoutes(r, c.(*Handlers2.DenyRuleHandler))
 		}},
-		{Controller: attributeController, Register: func(r *gin.Engine, c interface{}) {
-			AttributeRoutes(r, c.(*controllers2.AttributeController))
+		{Handler: attributeHandler, Register: func(r *gin.Engine, c interface{}) {
+			AttributeRoutes(r, c.(*Handlers2.AttributeHandler))
 		}},
 	}
 }
 
 func RegisterRoutes(router *gin.Engine, routes []Route) {
 	for _, route := range routes {
-		route.Register(router, route.Controller)
+		route.Register(router, route.Handler)
 	}
 }

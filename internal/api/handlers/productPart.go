@@ -1,4 +1,4 @@
-package controllers
+package handler
 
 import (
 	_ "encoding/json"
@@ -12,12 +12,12 @@ import (
 	_ "gorm.io/datatypes"
 )
 
-type ProductPartController struct {
+type ProductPartHandler struct {
 	productPartService services.ProductPartService
 }
 
-func NewProductPartController(service services.ProductPartService) *ProductPartController {
-	return &ProductPartController{productPartService: service}
+func NewProductPartHandler(service services.ProductPartService) *ProductPartHandler {
+	return &ProductPartHandler{productPartService: service}
 }
 
 // CreateProductPart godoc
@@ -30,7 +30,7 @@ func NewProductPartController(service services.ProductPartService) *ProductPartC
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/ [post]
-func (c *ProductPartController) CreateProductPart(ctx *gin.Context) {
+func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 	var productPart models.ProductPart
 
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
@@ -57,7 +57,7 @@ func (c *ProductPartController) CreateProductPart(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Product Part not found"
 // @Router /product-parts/{id} [get]
-func (c *ProductPartController) GetProductPartByID(ctx *gin.Context) {
+func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
@@ -81,7 +81,7 @@ func (c *ProductPartController) GetProductPartByID(ctx *gin.Context) {
 // @Success 200 {array} models.ProductPart
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/ [get]
-func (c *ProductPartController) GetAllProductParts(ctx *gin.Context) {
+func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 	productParts, err := c.productPartService.GetAllProductPart(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -102,7 +102,7 @@ func (c *ProductPartController) GetAllProductParts(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [put]
-func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
+func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 	var productPart models.ProductPart
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -126,7 +126,7 @@ func (c *ProductPartController) UpdateProductPart(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
 // @Router /product-parts/{id} [delete]
-func (c *ProductPartController) DeleteProductPart(ctx *gin.Context) {
+func (c *ProductPartHandler) DeleteProductPart(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})

@@ -6,13 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ProductPartRoutes(router *gin.Engine, controller *controllers.ProductPartController) {
+func ProductPartRoutes(router *gin.Engine, handler *handler.ProductPartHandler) {
 	productPartGroup := router.Group("/product-parts")
 	{
-		productPartGroup.POST("/", controller.CreateProductPart)
-		productPartGroup.GET("/", controller.GetAllProductParts)
-		productPartGroup.GET("/:id", controller.GetProductPartByID)
-		productPartGroup.PUT("/:id", controller.UpdateProductPart)
-		productPartGroup.DELETE("/:id", controller.DeleteProductPart)
+		productPartGroup.POST("/", handler.CreateProductPart)
+		productPartGroup.GET("/", handler.GetAllProductParts)
+		productPartGroup.GET("/:id", handler.GetProductPartByID)
+		productPartGroup.PUT("/:id", handler.UpdateProductPart)
+		productPartGroup.DELETE("/:id", handler.DeleteProductPart)
 	}
 }

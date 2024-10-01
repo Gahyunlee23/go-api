@@ -1,4 +1,4 @@
-package controllers
+package handler
 
 import (
 	"main-admin-api/internal/models"
@@ -9,12 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type AttributeController struct {
+type AttributeHandler struct {
 	attributeService services.AttributeService
 }
 
-func NewAttributeController(service services.AttributeService) *AttributeController {
-	return &AttributeController{attributeService: service}
+func NewAttributeHandler(service services.AttributeService) *AttributeHandler {
+	return &AttributeHandler{attributeService: service}
 }
 
 // CreateAttribute godoc
@@ -28,7 +28,7 @@ func NewAttributeController(service services.AttributeService) *AttributeControl
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/ [post]
-func (c *AttributeController) CreateAttribute(ctx *gin.Context) {
+func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 	var attribute models.Attribute
 
 	if err := ctx.ShouldBindJSON(&attribute); err != nil {
@@ -53,7 +53,7 @@ func (c *AttributeController) CreateAttribute(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Attribute not found"
 // @Router /attributes/{id} [get]
-func (c *AttributeController) GetAttributeByID(ctx *gin.Context) {
+func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -78,7 +78,7 @@ func (c *AttributeController) GetAttributeByID(ctx *gin.Context) {
 // @Success 200 {array} models.Attribute
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/ [get]
-func (c *AttributeController) GetAllAttributes(ctx *gin.Context) {
+func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 	attributes, err := c.attributeService.GetAllAttributes(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -99,7 +99,7 @@ func (c *AttributeController) GetAllAttributes(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [put]
-func (c *AttributeController) UpdateAttribute(ctx *gin.Context) {
+func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 	var attribute models.Attribute
 	if err := ctx.ShouldBindJSON(&attribute); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -123,7 +123,7 @@ func (c *AttributeController) UpdateAttribute(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [delete]
-func (c *AttributeController) DeleteAttribute(ctx *gin.Context) {
+func (c *AttributeHandler) DeleteAttribute(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})

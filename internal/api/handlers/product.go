@@ -1,4 +1,4 @@
-package controllers
+package handler
 
 import (
 	"log"
@@ -10,12 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ProductController struct {
+type ProductHandler struct {
 	productService services.ProductService
 }
 
-func NewProductController(service services.ProductService) *ProductController {
-	return &ProductController{productService: service}
+func NewProductHandler(service services.ProductService) *ProductHandler {
+	return &ProductHandler{productService: service}
 }
 
 // CreateProduct godoc
@@ -29,7 +29,7 @@ func NewProductController(service services.ProductService) *ProductController {
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/ [post]
-func (c *ProductController) CreateProduct(ctx *gin.Context) {
+func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 	var product models.Product
 
 	if err := ctx.ShouldBindJSON(&product); err != nil {
@@ -55,7 +55,7 @@ func (c *ProductController) CreateProduct(ctx *gin.Context) {
 // @Success 200 {object} models.Product
 // @Failure 404 {object} map[string]interface{} "Product not found"
 // @Router /products/{id} [get]
-func (c *ProductController) GetProductByID(ctx *gin.Context) {
+func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Param("id"))
 	product, err := c.productService.GetProductByID(uint(id))
 	if err != nil {
@@ -76,7 +76,7 @@ func (c *ProductController) GetProductByID(ctx *gin.Context) {
 // @Success 200 {array} models.Product
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/ [get]
-func (c *ProductController) GetAllProducts(ctx *gin.Context) {
+func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 	products, err := c.productService.GetAllProducts(ctx)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve products"})
@@ -97,7 +97,7 @@ func (c *ProductController) GetAllProducts(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Bad request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [put]
-func (c *ProductController) UpdateProduct(ctx *gin.Context) {
+func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
 	var product models.Product
 	if err := ctx.ShouldBindJSON(&product); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -121,7 +121,7 @@ func (c *ProductController) UpdateProduct(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Invalid ID"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [delete]
-func (c *ProductController) DeleteProduct(ctx *gin.Context) {
+func (c *ProductHandler) DeleteProduct(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})

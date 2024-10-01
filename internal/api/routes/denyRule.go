@@ -6,13 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func DenyRuleRoutes(router *gin.Engine, controller *controllers.DenyRuleController) {
+func DenyRuleRoutes(router *gin.Engine, handler *handler.DenyRuleHandler) {
 	DenyRuleGroup := router.Group("/deny-rules")
 	{
-		DenyRuleGroup.POST("/", controller.CreateDenyRule)
-		DenyRuleGroup.GET("/", controller.GetAllDenyRules)
-		DenyRuleGroup.GET("/:id", controller.GetDenyRuleByID)
-		DenyRuleGroup.PUT("/:id", controller.UpdateDenyRule)
-		DenyRuleGroup.DELETE("/:id", controller.DeleteDenyRule)
+		DenyRuleGroup.POST("/", handler.CreateDenyRule)
+		DenyRuleGroup.GET("/", handler.GetAllDenyRules)
+		DenyRuleGroup.GET("/:id", handler.GetDenyRuleByID)
+		DenyRuleGroup.PUT("/:id", handler.UpdateDenyRule)
+		DenyRuleGroup.DELETE("/:id", handler.DeleteDenyRule)
 	}
 }

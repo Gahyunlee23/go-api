@@ -6,13 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AttributeRoutes(router *gin.Engine, controller *controllers.AttributeController) {
+func AttributeRoutes(router *gin.Engine, handler *handler.AttributeHandler) {
 	AttributeGroup := router.Group("/attributes")
 	{
-		AttributeGroup.POST("/", controller.CreateAttribute)
-		AttributeGroup.GET("/", controller.GetAllAttributes)
-		AttributeGroup.GET("/:id", controller.GetAttributeByID)
-		AttributeGroup.PUT("/:id", controller.UpdateAttribute)
-		AttributeGroup.DELETE("/:id", controller.DeleteAttribute)
+		AttributeGroup.POST("/", handler.CreateAttribute)
+		AttributeGroup.GET("/", handler.GetAllAttributes)
+		AttributeGroup.GET("/:id", handler.GetAttributeByID)
+		AttributeGroup.PUT("/:id", handler.UpdateAttribute)
+		AttributeGroup.DELETE("/:id", handler.DeleteAttribute)
 	}
 }
