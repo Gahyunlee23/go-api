@@ -52,7 +52,8 @@ func (c *SelectionRuleHandler) CreateSelectionRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} models.SelectionRule
-// @Failure 404 {object} map[string]interface{} "Selection Rule not found"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [get]
 func (c *SelectionRuleHandler) GetSelectionRuleByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
@@ -100,7 +101,7 @@ func (c *SelectionRuleHandler) GetAllSelectionRules(ctx *gin.Context) {
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Param   SelectionRule  body  models.SelectionRule  true  "Updated Selection Rule data"
 // @Success 200 {object} models.SelectionRule
-// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [put]
 func (c *SelectionRuleHandler) UpdateSelectionRule(ctx *gin.Context) {
@@ -131,7 +132,7 @@ func (c *SelectionRuleHandler) UpdateSelectionRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} map[string]interface{} "SelectionRule deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid ID"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [delete]
 func (c *SelectionRuleHandler) DeleteSelectionRule(ctx *gin.Context) {

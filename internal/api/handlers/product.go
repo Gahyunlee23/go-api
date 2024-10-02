@@ -53,7 +53,9 @@ func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} models.Product
-// @Failure 404 {object} map[string]interface{} "Product not found"
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [get]
 func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -101,7 +103,8 @@ func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 // @Param   id  path  int  true  "Product ID"
 // @Param   product  body  models.Product  true  "Updated product data"
 // @Success 200 {object} models.Product
-// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [put]
 func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
@@ -132,7 +135,8 @@ func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} map[string]interface{} "Product deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Invalid ID"
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [delete]
 func (c *ProductHandler) DeleteProduct(ctx *gin.Context) {
