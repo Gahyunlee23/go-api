@@ -52,6 +52,7 @@ func (c *SelectionRuleHandler) CreateSelectionRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} models.SelectionRule
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [get]
@@ -101,6 +102,7 @@ func (c *SelectionRuleHandler) GetAllSelectionRules(ctx *gin.Context) {
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Param   SelectionRule  body  models.SelectionRule  true  "Updated Selection Rule data"
 // @Success 200 {object} models.SelectionRule
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [put]
@@ -132,6 +134,7 @@ func (c *SelectionRuleHandler) UpdateSelectionRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} map[string]interface{} "SelectionRule deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [delete]

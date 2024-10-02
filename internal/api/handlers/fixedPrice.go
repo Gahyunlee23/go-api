@@ -52,6 +52,7 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "FixedPrice ID"
 // @Success 200 {object} models.FixedPrice
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [get]
@@ -101,6 +102,7 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 // @Param   id  path  int  true  "FixedPrice ID"
 // @Param   product  body  models.FixedPrice  true  "Updated FixedPrice data"
 // @Success 200 {object} models.FixedPrice
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [put]
@@ -132,6 +134,7 @@ func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 // @Produce json
 // @Param id path int true "Fixed Price ID"
 // @Success 200 {object} map[string]interface{} "Fixed Price deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [delete]

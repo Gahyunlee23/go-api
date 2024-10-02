@@ -52,6 +52,7 @@ func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} models.DenyRule
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 404 {object} map[string]interface{} "Deny Rule not found"
 // @Router /deny-rules/{id} [get]

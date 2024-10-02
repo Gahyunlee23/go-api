@@ -102,7 +102,8 @@ func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 // @Param   id  path  int  true  "Product Part ID"
 // @Param   product  body  models.ProductPart  true  "Updated product data"
 // @Success 200 {object} models.ProductPart
-// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [put]
 func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
@@ -133,6 +134,7 @@ func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [delete]

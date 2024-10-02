@@ -140,14 +140,21 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "Attribute not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -193,7 +200,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -235,7 +249,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -376,7 +397,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -612,14 +633,21 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "Fixed Price not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -665,7 +693,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -707,7 +742,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -900,7 +942,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -942,7 +991,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1082,8 +1138,22 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.Product"
                         }
                     },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "404": {
-                        "description": "Product not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1129,7 +1199,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1171,7 +1248,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1311,8 +1395,22 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.SelectionRule"
                         }
                     },
+                    "400": {
+                        "description": "Entity 'Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "404": {
-                        "description": "Selection Rule not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1358,7 +1456,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Entity 'Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1400,7 +1505,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

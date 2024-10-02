@@ -229,7 +229,12 @@ paths:
             additionalProperties: true
             type: object
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -257,12 +262,17 @@ paths:
           schema:
             $ref: '#/definitions/models.Attribute'
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
           schema:
             additionalProperties: true
             type: object
         "404":
-          description: Attribute not found
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
           schema:
             additionalProperties: true
             type: object
@@ -294,7 +304,12 @@ paths:
           schema:
             $ref: '#/definitions/models.Attribute'
         "400":
-          description: Bad request
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -418,7 +433,7 @@ paths:
           schema:
             $ref: '#/definitions/models.DenyRule'
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
           schema:
             additionalProperties: true
             type: object
@@ -551,7 +566,12 @@ paths:
             additionalProperties: true
             type: object
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -579,12 +599,17 @@ paths:
           schema:
             $ref: '#/definitions/models.FixedPrice'
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
           schema:
             additionalProperties: true
             type: object
         "404":
-          description: Fixed Price not found
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
           schema:
             additionalProperties: true
             type: object
@@ -616,7 +641,12 @@ paths:
           schema:
             $ref: '#/definitions/models.FixedPrice'
         "400":
-          description: Bad request
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -711,7 +741,12 @@ paths:
             additionalProperties: true
             type: object
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -776,7 +811,12 @@ paths:
           schema:
             $ref: '#/definitions/models.ProductPart'
         "400":
-          description: Bad request
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -872,7 +912,12 @@ paths:
             additionalProperties: true
             type: object
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -899,8 +944,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Product'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
         "404":
-          description: Product not found
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
           schema:
             additionalProperties: true
             type: object
@@ -932,7 +987,12 @@ paths:
           schema:
             $ref: '#/definitions/models.Product'
         "400":
-          description: Bad request
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -1028,7 +1088,12 @@ paths:
             additionalProperties: true
             type: object
         "400":
-          description: Invalid ID
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object
@@ -1055,8 +1120,18 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.SelectionRule'
+        "400":
+          description: Entity 'Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
         "404":
-          description: Selection Rule not found
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
           schema:
             additionalProperties: true
             type: object
@@ -1088,7 +1163,12 @@ paths:
           schema:
             $ref: '#/definitions/models.SelectionRule'
         "400":
-          description: Bad request
+          description: Entity 'Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
           schema:
             additionalProperties: true
             type: object

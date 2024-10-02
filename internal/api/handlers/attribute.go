@@ -52,7 +52,7 @@ func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Attribute ID"
 // @Success 200 {object} models.Attribute
-// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [get]
@@ -102,7 +102,7 @@ func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 // @Param   id  path  int  true  "Attribute ID"
 // @Param   product  body  models.Attribute  true  "Updated Attribute data"
 // @Success 200 {object} models.Attribute
-// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [put]
@@ -135,7 +135,7 @@ func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 // @Produce json
 // @Param id path int true "Attribute ID"
 // @Success 200 {object} map[string]interface{} "Attribute deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [delete]
