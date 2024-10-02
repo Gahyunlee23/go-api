@@ -9,7 +9,6 @@ import (
 	"main-admin-api/internal/utils"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type attributeService struct {
@@ -49,12 +48,9 @@ func (s *attributeService) UpdateAttribute(urlID uint, attribute *models.Attribu
 	}
 
 	// Check if the attribute exists
-	_, err := s.attributeRepository.GetByID(urlID)
+	_, err := utils.ValidateAndFetchEntity(s.attributeRepository, urlID, "Attribute")
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New("attribute not found")
-		}
-		return fmt.Errorf("error checking existing attribute: %w", err)
+		return err
 	}
 
 	// Marshal and assign JSON for settings
@@ -76,5 +72,14 @@ func (s *attributeService) DeleteAttribute(id uint) error {
 }
 
 func (s *attributeService) ArchiveAttribute(id uint) error {
-	return s.attributeRepository.Archive(id)
+	_, err := utils.ValidateAndFetchEntity[models.Attribute](s.attributeRepository, id, "Fixed Price")
+	if err != nil {
+		return fmt.Errorf("failed to validate fixed price: %w", err)
+	}
+
+	if err := s.attributeRepository.Archive(id); err != nil {
+		return fmt.Errorf("failed to archive fixed price: %w", err)
+	}
+
+	return nil
 }

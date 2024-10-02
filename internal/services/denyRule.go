@@ -9,7 +9,6 @@ import (
 	"main-admin-api/internal/utils"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type denyRuleService struct {
@@ -79,12 +78,9 @@ func (s *denyRuleService) UpdateDenyRule(urlID uint, denyRule *models.DenyRule, 
 	}
 
 	// Check if the deny rule exists
-	_, err := s.denyRuleRepository.GetByID(urlID)
+	_, err := utils.ValidateAndFetchEntity(s.denyRuleRepository, urlID, "Deny Rule")
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New("deny rule not found")
-		}
-		return fmt.Errorf("error checking existing deny rule: %w", err)
+		return err
 	}
 
 	// JSON fields to process
@@ -121,5 +117,15 @@ func (s *denyRuleService) DeleteDenyRule(id uint) error {
 }
 
 func (s *denyRuleService) ArchiveDenyRule(id uint) error {
-	return s.denyRuleRepository.Archive(id)
+	_, err := utils.ValidateAndFetchEntity[models.DenyRule](s.denyRuleRepository, id, "Deny Rule")
+	if err != nil {
+		return fmt.Errorf("failed to validate fixed price: %w", err)
+	}
+
+	if err := s.denyRuleRepository.Archive(id); err != nil {
+		return fmt.Errorf("failed to archive fixed price: %w", err)
+	}
+
+	return nil
+
 }

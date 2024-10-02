@@ -1,8 +1,9 @@
 package handler
 
 import (
+	"main-admin-api/internal/api/errors"
 	"main-admin-api/internal/models"
-	"main-admin-api/internal/services/interfaces"
+	services "main-admin-api/internal/services/interfaces"
 	"net/http"
 	"strconv"
 
@@ -32,15 +33,16 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 	var fixedPrice models.FixedPrice
 
 	if err := ctx.ShouldBindJSON(&fixedPrice); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.FixedPriceService.CreateFixedPrice(ctx, &fixedPrice); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
+		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"FixedPrice": fixedPrice})
+	ctx.JSON(http.StatusCreated, fixedPrice)
 }
 
 // GetFixedPriceByID godoc
@@ -54,17 +56,19 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 // @Failure 404 {object} map[string]interface{} "Fixed Price not found"
 // @Router /fixed-prices/{id} [get]
 func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
 		return
 	}
-	FixedPrice, err := c.FixedPriceService.GetFixedPriceByID(uint(id))
+
+	fixedPrice, err := c.FixedPriceService.GetFixedPriceByID(uint(id))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, FixedPrice)
+
+	ctx.JSON(http.StatusOK, fixedPrice)
 }
 
 // GetAllFixedPrices godoc
@@ -79,12 +83,13 @@ func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/ [get]
 func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
-	FixedPrices, err := c.FixedPriceService.GetAllFixedPrices(ctx)
+	fixedPrices, err := c.FixedPriceService.GetAllFixedPrices(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, FixedPrices)
+
+	ctx.JSON(http.StatusOK, fixedPrices)
 }
 
 // UpdateFixedPrice godoc
@@ -100,17 +105,23 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [put]
 func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
+		return
+	}
+
 	var fixedPrice models.FixedPrice
 	if err := ctx.ShouldBindJSON(&fixedPrice); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.FixedPriceService.UpdateFixedPrice(uint(id), &fixedPrice, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update FixedPrice"})
+		errors.HandleError(ctx, err)
 		return
 	}
+
 	ctx.JSON(http.StatusOK, fixedPrice)
 }
 
@@ -125,14 +136,16 @@ func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [delete]
 func (c *FixedPriceHandler) DeleteFixedPrice(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
-		return
-	}
-	if err := c.FixedPriceService.ArchiveFixedPrice(uint(id)); err != nil {
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"Fixed Price deleted successfully": id})
+	if err := c.FixedPriceService.ArchiveFixedPrice(uint(id)); err != nil {
+		errors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Fixed Price deleted successfully", "id": id})
 }

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+	"main-admin-api/internal/api/errors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -33,17 +33,16 @@ func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 	var denyRule models.DenyRule
 
 	if err := ctx.ShouldBindJSON(&denyRule); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.denyRuleService.CreateDenyRule(&denyRule, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"denyRule": denyRule})
-
+	ctx.JSON(http.StatusCreated, denyRule)
 }
 
 // GetDenyRuleByID godoc
@@ -57,19 +56,22 @@ func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 // @Failure 404 {object} map[string]interface{} "Deny Rule not found"
 // @Router /deny-rules/{id} [get]
 func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
-	}
-	denyRule, err := c.denyRuleService.GetDenyRuleByID(uint(id))
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"denyRule": denyRule})
+
+	denyRule, err := c.denyRuleService.GetDenyRuleByID(uint(id))
+	if err != nil {
+		errors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, denyRule)
 }
 
-// GetAllDenyRules GetDenyRules godoc
+// GetAllDenyRules godoc
 // @Summary Get all deny rules
 // @Description Retrieve a list of all deny rules
 // @Tags DenyRule
@@ -82,14 +84,12 @@ func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
 // @Router /deny-rules/ [get]
 func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 	denyRules, err := c.denyRuleService.GetAllDenyRules(ctx)
-	page, _ := strconv.Atoi(ctx.Query("page"))
-	pageSize, _ := strconv.Atoi(ctx.Query("page_size"))
-	fmt.Println("Page:", page, "Page Size:", pageSize)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"denyRules": denyRules})
+
+	ctx.JSON(http.StatusOK, denyRules)
 }
 
 // UpdateDenyRule godoc
@@ -105,19 +105,24 @@ func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/{id} [put]
 func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
+		return
+	}
 
 	var denyRule models.DenyRule
 	if err := ctx.ShouldBindJSON(&denyRule); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.denyRuleService.UpdateDenyRule(uint(id), &denyRule, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"denyRule": denyRule})
+
+	ctx.JSON(http.StatusOK, denyRule)
 }
 
 // DeleteDenyRule godoc
@@ -131,12 +136,16 @@ func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/{id} [delete]
 func (c *DenyRuleHandler) DeleteDenyRule(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
-	}
-	if err := c.denyRuleService.ArchiveDenyRule(uint(id)); err != nil {
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"Deny Rule deleted successfully": id})
+
+	if err := c.denyRuleService.ArchiveDenyRule(uint(id)); err != nil {
+		errors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Deny Rule deleted successfully", "id": id})
 }
