@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"errors"
+	"fmt"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	"main-admin-api/internal/utils"
@@ -23,8 +26,14 @@ func (r *attributeRepo) Create(Attribute *models.Attribute) error {
 
 func (r *attributeRepo) GetByID(id uint) (*models.Attribute, error) {
 	Attribute := &models.Attribute{ID: id}
-	if err := r.db.Model(Attribute).First(Attribute).Error; err != nil {
-		return nil, err
+	if err := r.db.First(Attribute, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &customerrors.EntityNotFoundError{
+				EntityType: "Attribute",
+				ID:         id,
+			}
+		}
+		return nil, fmt.Errorf("failed to fetch attribute: %w", err)
 	}
 	return Attribute, nil
 }

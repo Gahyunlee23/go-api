@@ -1,7 +1,10 @@
 package repository
 
 import (
+	"errors"
+	"fmt"
 	"log"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	"main-admin-api/internal/utils"
@@ -24,9 +27,17 @@ func (r *denyRuleRepo) Create(DenyRule *models.DenyRule) error {
 
 func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
 	DenyRule := &models.DenyRule{ID: id}
-	if err := r.db.Model(DenyRule).First(DenyRule).Error; err != nil {
-		return nil, err
+
+	if err := r.db.First(DenyRule, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &customerrors.EntityNotFoundError{
+				EntityType: "DenyRule",
+				ID:         id,
+			}
+		}
+		return nil, fmt.Errorf("failed to fetch deny rule: %w", err)
 	}
+
 	return DenyRule, nil
 }
 

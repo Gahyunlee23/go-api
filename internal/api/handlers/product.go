@@ -2,7 +2,7 @@ package handler
 
 import (
 	_ "log"
-	"main-admin-api/internal/api/errors"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -34,12 +34,12 @@ func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 	var product models.Product
 
 	if err := ctx.ShouldBindJSON(&product); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productService.CreateProduct(&product, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -58,13 +58,13 @@ func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Product ID"})
 		return
 	}
 
 	product, err := c.productService.GetProductByID(uint(id))
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -85,7 +85,7 @@ func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 	products, err := c.productService.GetAllProducts(ctx)
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -107,18 +107,18 @@ func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Product ID"})
 		return
 	}
 
 	var product models.Product
 	if err := ctx.ShouldBindJSON(&product); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productService.UpdateProduct(uint(id), &product, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -138,12 +138,12 @@ func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
 func (c *ProductHandler) DeleteProduct(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Product ID"})
 		return
 	}
 
 	if err := c.productService.ArchiveProduct(uint(id)); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 

@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"errors"
+	"fmt"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	"main-admin-api/internal/utils"
@@ -24,7 +27,13 @@ func (r *productPartRepo) Create(productPart *models.ProductPart) error {
 func (r *productPartRepo) GetByID(id uint) (*models.ProductPart, error) {
 	ProductPart := &models.ProductPart{ID: id}
 	if err := r.db.Model(ProductPart).First(ProductPart).Error; err != nil {
-		return nil, err
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &customerrors.EntityNotFoundError{
+				EntityType: "ProductPart",
+				ID:         id,
+			}
+		}
+		return nil, fmt.Errorf("failed to fetch product: %w", err)
 	}
 	return ProductPart, nil
 }

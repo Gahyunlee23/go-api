@@ -2,7 +2,7 @@ package handler
 
 import (
 	_ "encoding/json"
-	"main-admin-api/internal/api/errors"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -34,12 +34,12 @@ func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 	var productPart models.ProductPart
 
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productPartService.CreateProductPart(&productPart, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -59,13 +59,13 @@ func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
 		return
 	}
 
 	productPart, err := c.productPartService.GetProductPartByID(uint(id))
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -86,7 +86,7 @@ func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 	productParts, err := c.productPartService.GetAllProductPart(ctx)
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -108,18 +108,18 @@ func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
 		return
 	}
 
 	var productPart models.ProductPart
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productPartService.UpdateProductPart(uint(id), &productPart, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -139,12 +139,12 @@ func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 func (c *ProductPartHandler) DeleteProductPart(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
 		return
 	}
 
 	if err := c.productPartService.ArchiveProductPart(uint(id)); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 

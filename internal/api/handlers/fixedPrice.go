@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"main-admin-api/internal/api/errors"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	services "main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -33,12 +33,12 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 	var fixedPrice models.FixedPrice
 
 	if err := ctx.ShouldBindJSON(&fixedPrice); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.FixedPriceService.CreateFixedPrice(ctx, &fixedPrice); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -58,13 +58,13 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
 		return
 	}
 
 	fixedPrice, err := c.FixedPriceService.GetFixedPriceByID(uint(id))
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -85,7 +85,7 @@ func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 	fixedPrices, err := c.FixedPriceService.GetAllFixedPrices(ctx)
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -107,18 +107,18 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
 		return
 	}
 
 	var fixedPrice models.FixedPrice
 	if err := ctx.ShouldBindJSON(&fixedPrice); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.FixedPriceService.UpdateFixedPrice(uint(id), &fixedPrice, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -138,12 +138,12 @@ func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 func (c *FixedPriceHandler) DeleteFixedPrice(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Fixed Price ID"})
 		return
 	}
 
 	if err := c.FixedPriceService.ArchiveFixedPrice(uint(id)); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 

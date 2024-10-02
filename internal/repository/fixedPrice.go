@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"errors"
+	"fmt"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	"main-admin-api/internal/utils"
@@ -24,7 +27,13 @@ func (r *fixedPriceRepo) Create(fixedPrice *models.FixedPrice) error {
 func (r *fixedPriceRepo) GetByID(id uint) (*models.FixedPrice, error) {
 	FixedPrice := &models.FixedPrice{ID: id}
 	if err := r.db.Model(FixedPrice).First(FixedPrice).Error; err != nil {
-		return nil, err
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &customerrors.EntityNotFoundError{
+				EntityType: "Fixed Price",
+				ID:         id,
+			}
+		}
+		return nil, fmt.Errorf("failed to fetch product: %w", err)
 	}
 	return FixedPrice, nil
 }

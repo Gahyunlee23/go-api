@@ -26,3 +26,7 @@ type SelectionRule struct {
 	DeletedAt     gorm.DeletedAt `gorm:"index" swaggerignore:"true" json:"deleted_at"`
 	ProductPart   ProductPart    `gorm:"foreignKey:product_part_id"`
 }
+
+func (*SelectionRule) TableName() string {
+	return "selection_rule"
+}

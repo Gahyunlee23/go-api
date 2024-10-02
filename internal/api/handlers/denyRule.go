@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"main-admin-api/internal/api/errors"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -33,12 +33,12 @@ func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 	var denyRule models.DenyRule
 
 	if err := ctx.ShouldBindJSON(&denyRule); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.denyRuleService.CreateDenyRule(&denyRule, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -58,13 +58,13 @@ func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
 		return
 	}
 
 	denyRule, err := c.denyRuleService.GetDenyRuleByID(uint(id))
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -85,7 +85,7 @@ func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
 func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 	denyRules, err := c.denyRuleService.GetAllDenyRules(ctx)
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -107,18 +107,18 @@ func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
 		return
 	}
 
 	var denyRule models.DenyRule
 	if err := ctx.ShouldBindJSON(&denyRule); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.denyRuleService.UpdateDenyRule(uint(id), &denyRule, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -138,12 +138,12 @@ func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
 func (c *DenyRuleHandler) DeleteDenyRule(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Deny Rule ID"})
 		return
 	}
 
 	if err := c.denyRuleService.ArchiveDenyRule(uint(id)); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 

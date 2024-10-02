@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"main-admin-api/internal/api/errors"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -33,12 +33,12 @@ func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 	var attribute models.Attribute
 
 	if err := ctx.ShouldBindJSON(&attribute); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.attributeService.CreateAttribute(&attribute, ctx); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -58,13 +58,13 @@ func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid attribute ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid attribute ID"})
 		return
 	}
 
 	attribute, err := c.attributeService.GetAttributeByID(uint(id))
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -85,7 +85,7 @@ func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 	attributes, err := c.attributeService.GetAllAttributes(ctx)
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -107,19 +107,19 @@ func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid attribute ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid attribute ID"})
 		return
 	}
 
 	var attribute models.Attribute
 	if err := ctx.ShouldBindJSON(&attribute); err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	err = c.attributeService.UpdateAttribute(uint(id), &attribute, ctx)
 	if err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
@@ -139,12 +139,12 @@ func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 func (c *AttributeHandler) DeleteAttribute(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid attribute ID"})
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid attribute ID"})
 		return
 	}
 
 	if err := c.attributeService.ArchiveAttribute(uint(id)); err != nil {
-		errors.HandleError(ctx, err)
+		customerrors.HandleError(ctx, err)
 		return
 	}
 
