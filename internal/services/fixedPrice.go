@@ -9,7 +9,6 @@ import (
 	"main-admin-api/internal/utils"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type fixedPriceService struct {
@@ -64,12 +63,9 @@ func (s *fixedPriceService) UpdateFixedPrice(urlID uint, fixedPrice *models.Fixe
 	}
 
 	// Check if the fixed price exists
-	_, err := s.fixedPriceRepository.GetByID(urlID)
+	_, err := utils.ValidateAndFetchEntity[models.FixedPrice](s.fixedPriceRepository, urlID, "Fixed Price")
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New("fixed price not found")
-		}
-		return fmt.Errorf("error checking existing fixed price: %w", err)
+		return fmt.Errorf("failed to validate fixed price: %w", err)
 	}
 
 	// JSON fields to process
@@ -102,5 +98,14 @@ func (s *fixedPriceService) UpdateFixedPrice(urlID uint, fixedPrice *models.Fixe
 }
 
 func (s *fixedPriceService) ArchiveFixedPrice(id uint) error {
-	return s.fixedPriceRepository.Archive(id)
+	_, err := utils.ValidateAndFetchEntity[models.FixedPrice](s.fixedPriceRepository, id, "Fixed Price")
+	if err != nil {
+		return fmt.Errorf("failed to validate fixed price: %w", err)
+	}
+
+	if err := s.fixedPriceRepository.Archive(id); err != nil {
+		return fmt.Errorf("failed to archive fixed price: %w", err)
+	}
+
+	return nil
 }

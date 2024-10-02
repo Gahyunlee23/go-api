@@ -9,7 +9,6 @@ import (
 	"main-admin-api/internal/utils"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type ProductPartServiceImpl struct {
@@ -65,12 +64,9 @@ func (s *ProductPartServiceImpl) UpdateProductPart(urlID uint, productPart *mode
 	}
 
 	// Check if the product part exists
-	_, err := s.productPartRepository.GetByID(urlID)
+	_, err := utils.ValidateAndFetchEntity[models.ProductPart](s.productPartRepository, urlID, "Product Part")
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New("product part not found")
-		}
-		return fmt.Errorf("error checking existing product part: %w", err)
+		return fmt.Errorf("failed to validate fixed price: %w", err)
 	}
 
 	// JSON fields to process
@@ -108,5 +104,14 @@ func (s *ProductPartServiceImpl) DeleteProductPart(id uint) error {
 }
 
 func (s *ProductPartServiceImpl) ArchiveProductPart(id uint) error {
-	return s.productPartRepository.Archive(id)
+	_, err := utils.ValidateAndFetchEntity[models.ProductPart](s.productPartRepository, id, "Product Part")
+	if err != nil {
+		return fmt.Errorf("failed to validate fixed price: %w", err)
+	}
+
+	if err := s.productPartRepository.Archive(id); err != nil {
+		return fmt.Errorf("failed to archive fixed price: %w", err)
+	}
+
+	return nil
 }

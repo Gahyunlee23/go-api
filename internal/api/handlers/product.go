@@ -1,7 +1,8 @@
 package handler
 
 import (
-	"log"
+	_ "log"
+	"main-admin-api/internal/api/errors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -33,17 +34,16 @@ func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 	var product models.Product
 
 	if err := ctx.ShouldBindJSON(&product); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		log.Println("Error parsing JSON:", err)
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productService.CreateProduct(&product, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create product"})
+		errors.HandleError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"product": product})
+	ctx.JSON(http.StatusCreated, product)
 }
 
 // GetProductByID godoc
@@ -56,12 +56,18 @@ func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 // @Failure 404 {object} map[string]interface{} "Product not found"
 // @Router /products/{id} [get]
 func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	product, err := c.productService.GetProductByID(uint(id))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product ID"})
 		return
 	}
+
+	product, err := c.productService.GetProductByID(uint(id))
+	if err != nil {
+		errors.HandleError(ctx, err)
+		return
+	}
+
 	ctx.JSON(http.StatusOK, product)
 }
 
@@ -79,9 +85,10 @@ func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 	products, err := c.productService.GetAllProducts(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve products"})
+		errors.HandleError(ctx, err)
 		return
 	}
+
 	ctx.JSON(http.StatusOK, products)
 }
 
@@ -98,22 +105,23 @@ func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [put]
 func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product ID"})
 		return
 	}
 
 	var product models.Product
 	if err := ctx.ShouldBindJSON(&product); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productService.UpdateProduct(uint(id), &product, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
+
 	ctx.JSON(http.StatusOK, product)
 }
 
@@ -128,14 +136,16 @@ func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /products/{id} [delete]
 func (c *ProductHandler) DeleteProduct(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product ID"})
 		return
 	}
+
 	if err := c.productService.ArchiveProduct(uint(id)); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"Product deleted successfully": id})
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully", "id": id})
 }

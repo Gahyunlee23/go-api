@@ -2,7 +2,7 @@ package handler
 
 import (
 	_ "encoding/json"
-	"log"
+	"main-admin-api/internal/api/errors"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/services/interfaces"
 	"net/http"
@@ -34,17 +34,16 @@ func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 	var productPart models.ProductPart
 
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		log.Println("Error parsing JSON:", err)
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productPartService.CreateProductPart(&productPart, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"productPart": productPart})
+	ctx.JSON(http.StatusCreated, productPart)
 }
 
 // GetProductPartByID godoc
@@ -58,15 +57,18 @@ func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 // @Failure 404 {object} map[string]interface{} "Product Part not found"
 // @Router /product-parts/{id} [get]
 func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
-	}
-	productPart, err := c.productPartService.GetProductPartByID(uint(id))
-	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Product Part not found"})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
 		return
 	}
+
+	productPart, err := c.productPartService.GetProductPartByID(uint(id))
+	if err != nil {
+		errors.HandleError(ctx, err)
+		return
+	}
+
 	ctx.JSON(http.StatusOK, productPart)
 }
 
@@ -84,10 +86,11 @@ func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 	productParts, err := c.productPartService.GetAllProductPart(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"productParts": productParts})
+
+	ctx.JSON(http.StatusOK, productParts)
 }
 
 // UpdateProductPart godoc
@@ -103,18 +106,24 @@ func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [put]
 func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
+		return
+	}
+
 	var productPart models.ProductPart
 	if err := ctx.ShouldBindJSON(&productPart); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
 	if err := c.productPartService.UpdateProductPart(uint(id), &productPart, ctx); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, err)
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"productPart": productPart})
+
+	ctx.JSON(http.StatusOK, productPart)
 }
 
 // DeleteProductPart godoc
@@ -128,13 +137,16 @@ func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 // @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
 // @Router /product-parts/{id} [delete]
 func (c *ProductPartHandler) DeleteProductPart(ctx *gin.Context) {
-	id, err := strconv.Atoi(ctx.Param("id"))
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Invalid ID": err.Error()})
-	}
-	if err := c.productPartService.ArchiveProductPart(uint(id)); err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errors.HandleError(ctx, &errors.ValidationError{Field: "id", Message: "Invalid Product Part ID"})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"Product Part deleted successfully": id})
+
+	if err := c.productPartService.ArchiveProductPart(uint(id)); err != nil {
+		errors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Product Part deleted successfully", "id": id})
 }
