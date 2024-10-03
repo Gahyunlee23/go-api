@@ -40,7 +40,7 @@ func (r *fixedPriceRepo) GetByID(id uint) (*models.FixedPrice, error) {
 
 func (r *fixedPriceRepo) GetAll(ctx *gin.Context) ([]models.FixedPrice, error) {
 	var FixedPrice []models.FixedPrice
-	if err := r.db.Model(&models.FixedPrice{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&FixedPrice).Error; err != nil {
+	if err := r.db.Debug().Model(&models.FixedPrice{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&FixedPrice).Error; err != nil {
 		return nil, err
 	}
 	return FixedPrice, nil
@@ -55,4 +55,13 @@ func (r *fixedPriceRepo) Archive(id uint) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
 		return utils.ArchiveAndDelete(tx, fixedPrice, id)
 	})
+}
+
+func (r *fixedPriceRepo) Count(ctx *gin.Context) (int64, error) {
+	var totalCount int64
+
+	if err := r.db.Model(&models.FixedPrice{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Count(&totalCount).Error; err != nil {
+		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
 }

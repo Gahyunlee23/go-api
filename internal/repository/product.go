@@ -40,7 +40,7 @@ func (r *productRepo) GetByID(id uint) (*models.Product, error) {
 
 func (r *productRepo) GetAll(ctx *gin.Context) ([]models.ProductLite, error) {
 	var products []models.ProductLite
-	if err := r.db.Model(&models.Product{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
+	if err := r.db.Debug().Model(&models.Product{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch products:	 %w", err)
 	}
 	return products, nil
@@ -60,4 +60,13 @@ func (r *productRepo) Archive(id uint) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
 		return utils.ArchiveAndDelete(tx, product, id)
 	})
+}
+
+func (r *productRepo) Count(ctx *gin.Context) (int64, error) {
+	var totalCount int64
+
+	if err := r.db.Model(&models.Product{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Count(&totalCount).Error; err != nil {
+		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
 }
