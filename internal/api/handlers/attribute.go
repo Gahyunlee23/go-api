@@ -20,7 +20,7 @@ func NewAttributeHandler(service services.AttributeService) *AttributeHandler {
 
 // CreateAttribute godoc
 // @Summary Create a new attribute
-// @Description Create a attribute with the provided JSON payload
+// @Description Create an attribute with the provided JSON payload
 // @Tags Attributes
 // @Accept  json
 // @Produce  json
@@ -75,6 +75,11 @@ func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 // GetAllAttributes godoc
 // @Summary Get all attribute
 // @Description Retrieve a list of all attributes
+// @Description Get a list of items with various search options.
+// @Description - Use 'search' parameter for full-text search across all searchable fields.
+// @Description - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+// @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+// @Description Example: /items?search=keyword&code=abc&name=test
 // @Tags Attributes
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)

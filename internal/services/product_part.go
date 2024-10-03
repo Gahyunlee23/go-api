@@ -53,8 +53,18 @@ func (s *ProductPartServiceImpl) GetProductPartByID(id uint) (*models.ProductPar
 	return s.productPartRepository.GetByID(id)
 }
 
-func (s *ProductPartServiceImpl) GetAllProductPart(ctx *gin.Context) ([]models.ProductPart, error) {
-	return s.productPartRepository.GetAll(ctx)
+func (s *ProductPartServiceImpl) GetAllProductPart(ctx *gin.Context) (*models.ListResponse[models.ProductPart], error) {
+	productPart, err := s.productPartRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	totalCount, err := s.productPartRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response := models.NewListResponse(totalCount, productPart)
+	return &response, nil
 }
 
 func (s *ProductPartServiceImpl) UpdateProductPart(urlID uint, productPart *models.ProductPart, ctx *gin.Context) error {

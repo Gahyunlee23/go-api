@@ -61,3 +61,12 @@ func (r *productPartRepo) Archive(id uint) error {
 		return utils.ArchiveAndDelete(tx, productPart, id)
 	})
 }
+
+func (r *productPartRepo) Count(ctx *gin.Context) (int64, error) {
+	var totalCount int64
+
+	if err := r.db.Model(&models.ProductPart{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Count(&totalCount).Error; err != nil {
+		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
+}

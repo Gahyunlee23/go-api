@@ -46,8 +46,19 @@ func (s *productService) GetProductByID(id uint) (*models.Product, error) {
 	return s.productRepository.GetByID(id)
 }
 
-func (s *productService) GetAllProducts(ctx *gin.Context) ([]models.ProductLite, error) {
-	return s.productRepository.GetAll(ctx)
+func (s *productService) GetAllProducts(ctx *gin.Context) (*models.ListResponse[models.ProductLite], error) {
+	product, err := s.productRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	totalCount, err := s.productRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response := models.NewListResponse(totalCount, product)
+	return &response, nil
 }
 
 func (s *productService) UpdateProduct(urlID uint, product *models.Product, ctx *gin.Context) error {

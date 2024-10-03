@@ -37,8 +37,19 @@ func (s *attributeService) GetAttributeByID(id uint) (*models.Attribute, error) 
 	return s.attributeRepository.GetByID(id)
 }
 
-func (s *attributeService) GetAllAttributes(ctx *gin.Context) ([]models.Attribute, error) {
-	return s.attributeRepository.GetAll(ctx)
+func (s *attributeService) GetAllAttributes(ctx *gin.Context) (*models.ListResponse[models.Attribute], error) {
+	attributes, err := s.attributeRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	totalCount, err := s.attributeRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response := models.NewListResponse(totalCount, attributes)
+	return &response, nil
 }
 
 func (s *attributeService) UpdateAttribute(urlID uint, attribute *models.Attribute, ctx *gin.Context) error {

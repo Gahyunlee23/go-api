@@ -13,4 +13,5 @@ type AttributeRepository interface {
 	Update(attribute *models.Attribute) error
 	Delete(ID uint) error
 	Archive(ID uint) error
+	Count(ctx *gin.Context) (int64, error)
 }

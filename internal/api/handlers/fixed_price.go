@@ -75,6 +75,11 @@ func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 // GetAllFixedPrices godoc
 // @Summary Get all FixedPrice
 // @Description Retrieve a list of all FixedPrices
+// @Description Get a list of items with various search options.
+// @Description - Use 'search' parameter for full-text search across all searchable fields.
+// @Description - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+// @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+// @Description Example: /items?search=keyword&code=abc&name=test
 // @Tags FixedPrices
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
