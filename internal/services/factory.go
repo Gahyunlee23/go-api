@@ -39,3 +39,8 @@ func (f *ServiceFactory) CreateFixedPriceService() services.FixedPriceService {
 	fixedPriceRepo := repository.NewFixedPriceRepository(f.db)
 	return NewFixedPriceService(fixedPriceRepo)
 }
+
+func (f *ServiceFactory) CreateSelectionRuleService() services.SelectionRuleService {
+	selectionRuleRepo := repository.NewSelectionRuleRepository(f.db)
+	return NewSelectionRuleService(selectionRuleRepo)
+}

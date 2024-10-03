@@ -140,14 +140,21 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "Attribute not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -193,7 +200,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -235,7 +249,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -376,7 +397,7 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -612,14 +633,21 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "Fixed Price not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -665,7 +693,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -707,7 +742,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -900,7 +942,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -942,7 +991,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1082,8 +1138,22 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.Product"
                         }
                     },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "404": {
-                        "description": "Product not found",
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1129,7 +1199,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Bad request",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1171,7 +1248,271 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/selection-rules/": {
+            "get": {
+                "description": "Retrieve a list of all selection rules",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SelectionRules"
+                ],
+                "summary": "Get all selection rules",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Number of items per page",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search term for filtering by name or code",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.SelectionRule"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a selection rule with the provided JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SelectionRules"
+                ],
+                "summary": "Create a new selection rule",
+                "parameters": [
+                    {
+                        "description": "Selection Rule data",
+                        "name": "SelectionRule",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SelectionRule"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SelectionRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/selection-rules/{id}": {
+            "get": {
+                "description": "Get a single Selection Rule by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SelectionRules"
+                ],
+                "summary": "Get SelectionRule by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Selection Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SelectionRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Entity 'Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing selection rule by providing the updated JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SelectionRules"
+                ],
+                "summary": "Update an existing selection rule",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Selection Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated Selection Rule data",
+                        "name": "SelectionRule",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SelectionRule"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.SelectionRule"
+                        }
+                    },
+                    "400": {
+                        "description": "Entity 'Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single selection rule by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SelectionRules"
+                ],
+                "summary": "Delete a selection rule by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Selection Rule ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SelectionRule deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1372,6 +1713,35 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SelectionRule": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_global": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "productPart": {
+                    "$ref": "#/definitions/models.ProductPart"
+                },
+                "product_part_id": {
+                    "type": "integer"
                 },
                 "updated_at": {
                     "type": "string"

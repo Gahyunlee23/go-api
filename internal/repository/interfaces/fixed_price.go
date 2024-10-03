@@ -12,4 +12,5 @@ type FixedPriceRepository interface {
 	GetAll(ctx *gin.Context) ([]models.FixedPrice, error)
 	Update(*models.FixedPrice) error
 	Archive(id uint) error
+	Count(ctx *gin.Context) (int64, error)
 }

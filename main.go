@@ -31,12 +31,13 @@ func main() {
 	denyRuleHandler := Handlers.NewDenyRuleHandler(serviceFactory.CreateDenyRuleService())
 	attributeHandler := Handlers.NewAttributeHandler(serviceFactory.CreateAttributeService())
 	fixedPriceHandler := Handlers.NewFixedPriceHandler(serviceFactory.CreateFixedPriceService())
+	selectionRuleHandler := Handlers.NewSelectionRuleHandler(serviceFactory.CreateSelectionRuleService())
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
 	router.Use(middleware.SetupCORS())
 
-	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler, fixedPriceHandler)
+	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler, fixedPriceHandler, selectionRuleHandler)
 
 	routes.RegisterRoutes(router, allRoutes)
 

@@ -53,6 +53,7 @@ func (s *fixedPriceService) GetFixedPriceByID(id uint) (*models.FixedPrice, erro
 }
 
 func (s *fixedPriceService) GetAllFixedPrices(ctx *gin.Context) ([]models.FixedPrice, error) {
+
 	return s.fixedPriceRepository.GetAll(ctx)
 }
 

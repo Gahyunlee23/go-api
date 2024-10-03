@@ -13,4 +13,5 @@ type ProductRepository interface {
 	Update(product *models.Product) error
 	Delete(id uint) error
 	Archive(id uint) error
+	Count(ctx *gin.Context) (int64, error)
 }
