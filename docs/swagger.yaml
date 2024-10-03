@@ -147,7 +147,12 @@ info:
 paths:
   /attributes/:
     get:
-      description: Retrieve a list of all attributes
+      description: |-
+        Retrieve a list of all attributes.
+        - Use 'search' parameter for full-text search across all searchable fields.
+        - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /items?search=keyword&code=abc&name=test
       parameters:
       - default: 1
         description: Page number
@@ -159,9 +164,21 @@ paths:
         in: query
         name: page_size
         type: integer
-      - description: Search term for filtering by name or code
+      - description: Search term for full-text search across searchable fields
         in: query
         name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
         type: string
       produces:
       - application/json
@@ -172,18 +189,23 @@ paths:
             items:
               $ref: '#/definitions/models.Attribute'
             type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
             additionalProperties: true
             type: object
-      summary: Get all attribute
+      summary: Get all attributes
       tags:
       - Attributes
     post:
       consumes:
       - application/json
-      description: Create a attribute with the provided JSON payload
+      description: Create an attribute with the provided JSON payload
       parameters:
       - description: Attribute data
         in: body
@@ -323,7 +345,12 @@ paths:
       - Attributes
   /deny-rules/:
     get:
-      description: Retrieve a list of all deny rules
+      description: |-
+        Retrieve a list of all deny rules.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /deny-rules?search=keyword&code=abc&name=test
       parameters:
       - default: 1
         description: Page number
@@ -335,9 +362,21 @@ paths:
         in: query
         name: page_size
         type: integer
-      - description: Search term for filtering by name or code
+      - description: Full-text search across all searchable fields
         in: query
         name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
         type: string
       produces:
       - application/json
@@ -348,6 +387,11 @@ paths:
             items:
               $ref: '#/definitions/models.DenyRule'
             type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
@@ -484,7 +528,12 @@ paths:
       - DenyRule
   /fixed-prices/:
     get:
-      description: Retrieve a list of all FixedPrices
+      description: |-
+        Retrieve a list of all FixedPrices.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /fixed-prices?search=keyword&code=abc&name=test
       parameters:
       - default: 1
         description: Page number
@@ -496,9 +545,21 @@ paths:
         in: query
         name: page_size
         type: integer
-      - description: Search term for filtering by name or code
+      - description: Full-text search across all searchable fields
         in: query
         name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
         type: string
       produces:
       - application/json
@@ -509,12 +570,17 @@ paths:
             items:
               $ref: '#/definitions/models.FixedPrice'
             type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
             additionalProperties: true
             type: object
-      summary: Get all FixedPrice
+      summary: Get all FixedPrices
       tags:
       - FixedPrices
     post:
@@ -660,7 +726,12 @@ paths:
       - FixedPrices
   /product-parts/:
     get:
-      description: Retrieve a list of all product parts
+      description: |-
+        Retrieve a list of all product parts.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', 'name', or 'content_type' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', 'name', and 'content_type' parameters for cross-field AND search.
+        Example: /product-parts?search=keyword&code=abc&name=test
       parameters:
       - default: 1
         description: Page number
@@ -672,9 +743,25 @@ paths:
         in: query
         name: page_size
         type: integer
-      - description: Search term for filtering by name or code
+      - description: Full-text search across all searchable fields
         in: query
         name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      - description: Filter by content_type field (partial match)
+        in: query
+        name: content_type
         type: string
       produces:
       - application/json
@@ -685,6 +772,11 @@ paths:
             items:
               $ref: '#/definitions/models.ProductPart'
             type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
@@ -830,7 +922,12 @@ paths:
       - ProductPart
   /products/:
     get:
-      description: Retrieve a list of all products
+      description: |-
+        Retrieve a list of all products.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.
+        Example: /products?search=keyword&code=abc&name=test
       parameters:
       - default: 1
         description: Page number
@@ -842,9 +939,25 @@ paths:
         in: query
         name: page_size
         type: integer
-      - description: Search term for filtering by name or code
+      - description: Full-text search across all searchable fields
         in: query
         name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      - description: Filter by type field (partial match)
+        in: query
+        name: type
         type: string
       produces:
       - application/json
@@ -855,6 +968,11 @@ paths:
             items:
               $ref: '#/definitions/models.Product'
             type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:
@@ -1006,7 +1124,12 @@ paths:
       - Products
   /selection-rules/:
     get:
-      description: Retrieve a list of all selection rules
+      description: |-
+        Retrieve a list of all selection rules.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use 'code' or 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /selection-rules?search=keyword&code=abc&name=test
       parameters:
       - default: 1
         description: Page number
@@ -1018,9 +1141,21 @@ paths:
         in: query
         name: page_size
         type: integer
-      - description: Search term for filtering by name or code
+      - description: Full-text search across all searchable fields
         in: query
         name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
         type: string
       produces:
       - application/json
@@ -1031,6 +1166,11 @@ paths:
             items:
               $ref: '#/definitions/models.SelectionRule'
             type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
         "500":
           description: Internal server error
           schema:

@@ -74,18 +74,21 @@ func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
 
 // GetAllDenyRules godoc
 // @Summary Get all deny rules
-// @Description Retrieve a list of all deny rules
-// @Description Get a list of items with various search options.
-// @Description - Use 'search' parameter for full-text search across all searchable fields.
-// @Description - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+// @Description Retrieve a list of all deny rules.
+// @Description - Use the 'search' parameter for a full-text search across all searchable fields.
+// @Description - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-// @Description Example: /items?search=keyword&code=abc&name=test
+// @Description Example: /deny-rules?search=keyword&code=abc&name=test
 // @Tags DenyRule
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
-// @Param search query string false "Search term for filtering by name or code"
+// @Param search query string false "Full-text search across all searchable fields"
+// @Param code query string false "Filter by code field (partial match)"
+// @Param id query string false "Filter by ID field (partial match)"
+// @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.DenyRule
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/ [get]
 func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {

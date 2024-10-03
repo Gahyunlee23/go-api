@@ -73,19 +73,22 @@ func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 }
 
 // GetAllFixedPrices godoc
-// @Summary Get all FixedPrice
-// @Description Retrieve a list of all FixedPrices
-// @Description Get a list of items with various search options.
-// @Description - Use 'search' parameter for full-text search across all searchable fields.
-// @Description - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+// @Summary Get all FixedPrices
+// @Description Retrieve a list of all FixedPrices.
+// @Description - Use the 'search' parameter for a full-text search across all searchable fields.
+// @Description - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-// @Description Example: /items?search=keyword&code=abc&name=test
+// @Description Example: /fixed-prices?search=keyword&code=abc&name=test
 // @Tags FixedPrices
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
-// @Param search query string false "Search term for filtering by name or code"
+// @Param search query string false "Full-text search across all searchable fields"
+// @Param code query string false "Filter by code field (partial match)"
+// @Param id query string false "Filter by ID field (partial match)"
+// @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.FixedPrice
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/ [get]
 func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {

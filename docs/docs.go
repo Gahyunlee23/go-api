@@ -17,14 +17,14 @@ const docTemplate = `{
     "paths": {
         "/attributes/": {
             "get": {
-                "description": "Retrieve a list of all attributes",
+                "description": "Retrieve a list of all attributes.\n- Use 'search' parameter for full-text search across all searchable fields.\n- Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /items?search=keyword\u0026code=abc\u0026name=test",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Attributes"
                 ],
-                "summary": "Get all attribute",
+                "summary": "Get all attributes",
                 "parameters": [
                     {
                         "type": "integer",
@@ -42,8 +42,26 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Search term for filtering by name or code",
+                        "description": "Search term for full-text search across searchable fields",
                         "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
                         "in": "query"
                     }
                 ],
@@ -57,6 +75,13 @@ const docTemplate = `{
                             }
                         }
                     },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
@@ -67,7 +92,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Create a attribute with the provided JSON payload",
+                "description": "Create an attribute with the provided JSON payload",
                 "consumes": [
                     "application/json"
                 ],
@@ -274,7 +299,7 @@ const docTemplate = `{
         },
         "/deny-rules/": {
             "get": {
-                "description": "Retrieve a list of all deny rules",
+                "description": "Retrieve a list of all deny rules.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /deny-rules?search=keyword\u0026code=abc\u0026name=test",
                 "produces": [
                     "application/json"
                 ],
@@ -299,8 +324,26 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Search term for filtering by name or code",
+                        "description": "Full-text search across all searchable fields",
                         "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
                         "in": "query"
                     }
                 ],
@@ -312,6 +355,13 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.DenyRule"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
@@ -510,14 +560,14 @@ const docTemplate = `{
         },
         "/fixed-prices/": {
             "get": {
-                "description": "Retrieve a list of all FixedPrices",
+                "description": "Retrieve a list of all FixedPrices.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /fixed-prices?search=keyword\u0026code=abc\u0026name=test",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "FixedPrices"
                 ],
-                "summary": "Get all FixedPrice",
+                "summary": "Get all FixedPrices",
                 "parameters": [
                     {
                         "type": "integer",
@@ -535,8 +585,26 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Search term for filtering by name or code",
+                        "description": "Full-text search across all searchable fields",
                         "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
                         "in": "query"
                     }
                 ],
@@ -548,6 +616,13 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.FixedPrice"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
@@ -767,7 +842,7 @@ const docTemplate = `{
         },
         "/product-parts/": {
             "get": {
-                "description": "Retrieve a list of all product parts",
+                "description": "Retrieve a list of all product parts.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'content_type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'content_type' parameters for cross-field AND search.\nExample: /product-parts?search=keyword\u0026code=abc\u0026name=test",
                 "produces": [
                     "application/json"
                 ],
@@ -792,8 +867,32 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Search term for filtering by name or code",
+                        "description": "Full-text search across all searchable fields",
                         "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by content_type field (partial match)",
+                        "name": "content_type",
                         "in": "query"
                     }
                 ],
@@ -805,6 +904,13 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.ProductPart"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
@@ -1016,7 +1122,7 @@ const docTemplate = `{
         },
         "/products/": {
             "get": {
-                "description": "Retrieve a list of all products",
+                "description": "Retrieve a list of all products.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.\nExample: /products?search=keyword\u0026code=abc\u0026name=test",
                 "produces": [
                     "application/json"
                 ],
@@ -1041,8 +1147,32 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Search term for filtering by name or code",
+                        "description": "Full-text search across all searchable fields",
                         "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by type field (partial match)",
+                        "name": "type",
                         "in": "query"
                     }
                 ],
@@ -1054,6 +1184,13 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.Product"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
@@ -1273,7 +1410,7 @@ const docTemplate = `{
         },
         "/selection-rules/": {
             "get": {
-                "description": "Retrieve a list of all selection rules",
+                "description": "Retrieve a list of all selection rules.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use 'code' or 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /selection-rules?search=keyword\u0026code=abc\u0026name=test",
                 "produces": [
                     "application/json"
                 ],
@@ -1298,8 +1435,26 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Search term for filtering by name or code",
+                        "description": "Full-text search across all searchable fields",
                         "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
                         "in": "query"
                     }
                 ],
@@ -1311,6 +1466,13 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/models.SelectionRule"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
