@@ -56,3 +56,11 @@ func (r *selectionRuleRepo) Archive(id uint) error {
 		return utils.ArchiveAndDelete(tx, selectionRule, id)
 	})
 }
+
+func (r *selectionRuleRepo) Count(ctx *gin.Context) (int64, error) {
+	var totalCount int64
+	if err := r.db.Model(&models.SelectionRule{}).Scopes(utils.Search(ctx, "id", "name", "code")).Count(&totalCount).Error; err != nil {
+		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
+}

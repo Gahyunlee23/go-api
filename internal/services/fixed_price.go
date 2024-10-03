@@ -52,9 +52,19 @@ func (s *fixedPriceService) GetFixedPriceByID(id uint) (*models.FixedPrice, erro
 	return s.fixedPriceRepository.GetByID(id)
 }
 
-func (s *fixedPriceService) GetAllFixedPrices(ctx *gin.Context) ([]models.FixedPrice, error) {
+func (s *fixedPriceService) GetAllFixedPrices(ctx *gin.Context) (*models.ListResponse[models.FixedPrice], error) {
+	fixedPrice, err := s.fixedPriceRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
 
-	return s.fixedPriceRepository.GetAll(ctx)
+	totalCount, err := s.fixedPriceRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response := models.NewListResponse(totalCount, fixedPrice)
+	return &response, nil
 }
 
 func (s *fixedPriceService) UpdateFixedPrice(urlID uint, fixedPrice *models.FixedPrice, ctx *gin.Context) error {

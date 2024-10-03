@@ -67,8 +67,19 @@ func (s *denyRuleService) GetDenyRuleByID(id uint) (*models.DenyRule, error) {
 	return s.denyRuleRepository.GetByID(id)
 }
 
-func (s *denyRuleService) GetAllDenyRules(ctx *gin.Context) ([]models.DenyRule, error) {
-	return s.denyRuleRepository.GetAll(ctx)
+func (s *denyRuleService) GetAllDenyRules(ctx *gin.Context) (*models.ListResponse[models.DenyRule], error) {
+	denyRules, err := s.denyRuleRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	totalCount, err := s.denyRuleRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response := models.NewListResponse(totalCount, denyRules)
+	return &response, nil
 }
 
 func (s *denyRuleService) UpdateDenyRule(urlID uint, denyRule *models.DenyRule, ctx *gin.Context) error {

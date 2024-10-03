@@ -12,4 +12,5 @@ type SelectionRuleRepository interface {
 	GetAll(ctx *gin.Context) ([]models.SelectionRule, error)
 	Update(*models.SelectionRule) error
 	Archive(id uint) error
+	Count(ctx *gin.Context) (int64, error)
 }

@@ -50,8 +50,17 @@ func (s *selectionRuleService) GetSelectionRuleByID(id uint) (*models.SelectionR
 	return s.selectionRuleRepository.GetByID(id)
 }
 
-func (s *selectionRuleService) GetAllSelectionRules(ctx *gin.Context) ([]models.SelectionRule, error) {
-	return s.selectionRuleRepository.GetAll(ctx)
+func (s *selectionRuleService) GetAllSelectionRules(ctx *gin.Context) (*models.ListResponse[models.SelectionRule], error) {
+	selectionRule, err := s.selectionRuleRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	totalCount, err := s.selectionRuleRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+	response := models.NewListResponse(totalCount, selectionRule)
+	return &response, nil
 }
 
 func (s *selectionRuleService) UpdateSelectionRule(urlID uint, SelectionRule *models.SelectionRule, ctx *gin.Context) error {

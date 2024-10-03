@@ -44,7 +44,7 @@ func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
 func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 	var denyRules []models.DenyRule
 
-	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "name", "code")).Find(&denyRules).Error; err != nil {
+	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
 		return nil, err
 	}
 	return denyRules, nil
@@ -65,4 +65,12 @@ func (r *denyRuleRepo) Archive(id uint) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
 		return utils.ArchiveAndDelete(tx, denyRule, id)
 	})
+}
+
+func (r *denyRuleRepo) Count(ctx *gin.Context) (int64, error) {
+	var totalCount int64
+	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
 }

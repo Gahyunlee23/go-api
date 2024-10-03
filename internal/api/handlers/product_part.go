@@ -75,6 +75,10 @@ func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 // GetAllProductParts godoc
 // @Summary Get all product parts
 // @Description Retrieve a list of all product parts
+// @Description Get a list of items with various search options.
+// @Description - Use 'search' parameter for full-text search across all searchable fields.
+// @Description - Use 'code' or 'id', or 'name' or 'content_type' parameters for individual field searches (partial matches).
+// @Description - Combine 'code', 'id', 'name' and 'content_type' parameters for cross-field AND search.
 // @Tags ProductPart
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
