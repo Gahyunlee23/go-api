@@ -74,17 +74,22 @@ func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 
 // GetAllProductParts godoc
 // @Summary Get all product parts
-// @Description Retrieve a list of all product parts
-// @Description Get a list of items with various search options.
-// @Description - Use 'search' parameter for full-text search across all searchable fields.
-// @Description - Use 'code' or 'id', or 'name' or 'content_type' parameters for individual field searches (partial matches).
-// @Description - Combine 'code', 'id', 'name' and 'content_type' parameters for cross-field AND search.
+// @Description Retrieve a list of all product parts.
+// @Description - Use the 'search' parameter for a full-text search across all searchable fields.
+// @Description - Use the 'code', 'id', 'name', or 'content_type' parameters for individual field searches (partial matches).
+// @Description - Combine 'code', 'id', 'name', and 'content_type' parameters for cross-field AND search.
+// @Description Example: /product-parts?search=keyword&code=abc&name=test
 // @Tags ProductPart
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
-// @Param search query string false "Search term for filtering by name or code"
+// @Param search query string false "Full-text search across all searchable fields"
+// @Param code query string false "Filter by code field (partial match)"
+// @Param id query string false "Filter by ID field (partial match)"
+// @Param name query string false "Filter by name field (partial match)"
+// @Param content_type query string false "Filter by content_type field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.ProductPart
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/ [get]
 func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {

@@ -10,20 +10,16 @@ import (
 
 func Paginate(c *gin.Context) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		page, err := strconv.Atoi(c.Query("page"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"page is not valid": err.Error()})
-		}
-		if page == 0 {
-			page = 1
+		page, err := strconv.Atoi(c.DefaultQuery("page", "1"))
+		if err != nil || page < 1 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid page number"})
+			return nil
 		}
 
-		pageSize, err := strconv.Atoi(c.Query("page_size"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"page size is not valid": err.Error()})
-		}
-		if pageSize == 0 {
-			pageSize = 10
+		pageSize, err := strconv.Atoi(c.DefaultQuery("page_size", "10"))
+		if err != nil || pageSize < 1 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid page size"})
+			return nil
 		}
 
 		offset := (page - 1) * pageSize
