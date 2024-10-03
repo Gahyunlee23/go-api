@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"log"
 	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -51,7 +50,6 @@ func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 }
 
 func (r *denyRuleRepo) Update(denyRule *models.DenyRule) error {
-	log.Printf("Updating DenyRule with ID: %d", denyRule.ID)
 	return r.db.Model(denyRule).Updates(denyRule).Error
 }
 

@@ -20,40 +20,25 @@ func NewDenyRuleService(repository repository.DenyRuleRepository) services.DenyR
 }
 
 func (s *denyRuleService) CreateDenyRule(denyRule *models.DenyRule, ctx *gin.Context) error {
-	var err error
-	denyRule.Paper, err = utils.MarshalAndAssignJSON(denyRule.Paper, "paper", ctx)
-	if err != nil {
-		return err
+	// JSON fields to process
+	jsonFields := []struct {
+		field interface{}
+		name  string
+	}{
+		{&denyRule.Paper, "paper"},
+		{&denyRule.Format, "format"},
+		{&denyRule.Pages, "pages"},
+		{&denyRule.Colors, "colors"},
+		{&denyRule.BookBinding, "bookBinding"},
+		{&denyRule.Refinement, "refinement"},
+		{&denyRule.Finishing, "finishing"},
 	}
 
-	denyRule.Format, err = utils.MarshalAndAssignJSON(denyRule.Format, "format", ctx)
-	if err != nil {
-		return err
-	}
-
-	denyRule.Pages, err = utils.MarshalAndAssignJSON(denyRule.Pages, "pages", ctx)
-	if err != nil {
-		return err
-	}
-
-	denyRule.Colors, err = utils.MarshalAndAssignJSON(denyRule.Colors, "colors", ctx)
-	if err != nil {
-		return err
-	}
-
-	denyRule.BookBinding, err = utils.MarshalAndAssignJSON(denyRule.BookBinding, "bookBinding", ctx)
-	if err != nil {
-		return err
-	}
-
-	denyRule.Refinement, err = utils.MarshalAndAssignJSON(denyRule.Refinement, "refinement", ctx)
-	if err != nil {
-		return err
-	}
-
-	denyRule.Finishing, err = utils.MarshalAndAssignJSON(denyRule.Finishing, "finishing", ctx)
-	if err != nil {
-		return err
+	// Process all JSON fields
+	for _, item := range jsonFields {
+		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+			return fmt.Errorf("error processing %s: %w", item.name, err)
+		}
 	}
 
 	if err := s.denyRuleRepository.Create(denyRule); err != nil {
