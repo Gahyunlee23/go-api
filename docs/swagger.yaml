@@ -145,6 +145,97 @@ definitions:
 info:
   contact: {}
 paths:
+  /attribute-categories/:
+    get:
+      description: |-
+        Retrieve a list of all AttributeCategory.
+        - Use 'search' parameter for full-text search across all searchable fields.
+        - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /items?search=keyword&code=abc&name=test
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Search term for full-text search across searchable fields
+        in: query
+        name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AttributeCategory'
+            type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all AttributeCategory
+      tags:
+      - AttributeCategory
+  /attribute-categories/{id}:
+    get:
+      description: Get a single AttributeCategory by its ID
+      parameters:
+      - description: AttributeCategory ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttributeCategory'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get AttributeCategory by ID
+      tags:
+      - AttributeCategory
   /attributes/:
     get:
       description: |-
