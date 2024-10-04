@@ -40,7 +40,7 @@ func (r *attributeRepo) GetByID(id uint) (*models.Attribute, error) {
 
 func (r *attributeRepo) GetAll(ctx *gin.Context) ([]models.Attribute, error) {
 	var attributes []models.Attribute
-	if err := r.db.Model(&models.Attribute{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributes).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributes).Error; err != nil {
 		return nil, err
 	}
 	return attributes, nil
@@ -66,6 +66,22 @@ func (r *attributeRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
 	if err := r.db.Model(&models.Attribute{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
+}
+
+func (r *attributeRepo) GetByCategoryID(categoryID uint, ctx *gin.Context) ([]models.Attribute, error) {
+	var attributes []models.Attribute
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributes, models.Attribute{CategoryID: categoryID}).Error; err != nil {
+		return nil, err
+	}
+	return attributes, nil
+}
+
+func (r *attributeRepo) CountByCategoryID(categoryID uint, ctx *gin.Context) (int64, error) {
+	var totalCount int64
+	if err := r.db.Where("category_id = ?", categoryID).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+		return 0, err
 	}
 	return totalCount, nil
 }

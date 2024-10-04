@@ -26,7 +26,7 @@ func (r *attributeCategoryRepo) Create(AttributeCategory *models.AttributeCatego
 
 func (r *attributeCategoryRepo) GetAll(ctx *gin.Context) ([]models.AttributeCategory, error) {
 	var attributeCategory []models.AttributeCategory
-	if err := r.db.Model(&models.AttributeCategory{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributeCategory).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributeCategory).Error; err != nil {
 		return nil, err
 	}
 	return attributeCategory, nil

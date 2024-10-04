@@ -28,3 +28,33 @@ main-admin-api
 .env
 main.go
 go.mod
+
+
+
+
+[
+    {
+        id: 1
+        name: 2
+        type: "stella-test"
+        attributes: [
+            {
+                category_id: 1
+                name: "attribute1"
+                type: "stella-test"
+            },
+          {
+            category_id: 1
+            name: "attribute1"
+            type: "stella-test"
+          },
+          {
+            category_id: 1
+            name: "attribute1"
+            type: "stella-test"
+          }
+
+        ]
+
+    }
+]

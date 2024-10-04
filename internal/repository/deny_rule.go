@@ -43,7 +43,7 @@ func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
 func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 	var denyRules []models.DenyRule
 
-	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
 		return nil, err
 	}
 	return denyRules, nil

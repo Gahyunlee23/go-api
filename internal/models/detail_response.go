@@ -1,12 +1,12 @@
 package models
 
-type DetailResponse[T any] struct {
+type DetailResponse[T any, U any] struct {
 	Category T   `json:"category"`
-	Items    []T `json:"items"`
+	Items    []U `json:"items"`
 }
 
-func NewCategoryResponse[T any](category T, items []T) DetailResponse[T] {
-	return DetailResponse[T]{
+func NewDetailResponse[T any, U any](category T, items []U) DetailResponse[T, U] {
+	return DetailResponse[T, U]{
 		Category: category,
 		Items:    items,
 	}

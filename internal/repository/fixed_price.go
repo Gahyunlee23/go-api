@@ -40,7 +40,7 @@ func (r *fixedPriceRepo) GetByID(id uint) (*models.FixedPrice, error) {
 
 func (r *fixedPriceRepo) GetAll(ctx *gin.Context) ([]models.FixedPrice, error) {
 	var FixedPrice []models.FixedPrice
-	if err := r.db.Debug().Model(&models.FixedPrice{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&FixedPrice).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&FixedPrice).Error; err != nil {
 		return nil, err
 	}
 	return FixedPrice, nil
