@@ -40,7 +40,7 @@ func (r *productRepo) GetByID(id uint) (*models.Product, error) {
 
 func (r *productRepo) GetAll(ctx *gin.Context) ([]models.ProductLite, error) {
 	var products []models.ProductLite
-	if err := r.db.Debug().Model(&models.Product{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch products:	 %w", err)
 	}
 	return products, nil

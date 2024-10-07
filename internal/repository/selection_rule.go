@@ -40,7 +40,7 @@ func (r *selectionRuleRepo) GetByID(id uint) (*models.SelectionRule, error) {
 
 func (r *selectionRuleRepo) GetAll(ctx *gin.Context) ([]models.SelectionRule, error) {
 	var selectionRules []models.SelectionRule
-	if err := r.db.Model(&models.SelectionRule{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&selectionRules).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&selectionRules).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch selection rules: %w", err)
 	}
 	return selectionRules, nil

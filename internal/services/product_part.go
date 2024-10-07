@@ -11,15 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type ProductPartServiceImpl struct {
+type ProductPartService struct {
 	productPartRepository repository.ProductPartRepository
 }
 
 func NewProductPartService(repository repository.ProductPartRepository) services.ProductPartService {
-	return &ProductPartServiceImpl{productPartRepository: repository}
+	return &ProductPartService{productPartRepository: repository}
 }
 
-func (s *ProductPartServiceImpl) CreateProductPart(productPart *models.ProductPart, ctx *gin.Context) error {
+func (s *ProductPartService) CreateProductPart(productPart *models.ProductPart, ctx *gin.Context) error {
 	// JSON fields to process
 	jsonFields := []struct {
 		field interface{}
@@ -49,11 +49,11 @@ func (s *ProductPartServiceImpl) CreateProductPart(productPart *models.ProductPa
 	return nil
 }
 
-func (s *ProductPartServiceImpl) GetProductPartByID(id uint) (*models.ProductPart, error) {
+func (s *ProductPartService) GetProductPartByID(id uint) (*models.ProductPart, error) {
 	return s.productPartRepository.GetByID(id)
 }
 
-func (s *ProductPartServiceImpl) GetAllProductPart(ctx *gin.Context) (*models.ListResponse[models.ProductPart], error) {
+func (s *ProductPartService) GetAllProductPart(ctx *gin.Context) (*models.ListResponse[models.ProductPart], error) {
 	productPart, err := s.productPartRepository.GetAll(ctx)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (s *ProductPartServiceImpl) GetAllProductPart(ctx *gin.Context) (*models.Li
 	return &response, nil
 }
 
-func (s *ProductPartServiceImpl) UpdateProductPart(urlID uint, productPart *models.ProductPart, ctx *gin.Context) error {
+func (s *ProductPartService) UpdateProductPart(urlID uint, productPart *models.ProductPart, ctx *gin.Context) error {
 	// Verify that URL ID matches the product part ID
 	if urlID != productPart.ID {
 		return errors.New("product part ID in URL does not match the ID in the request body")
@@ -109,11 +109,11 @@ func (s *ProductPartServiceImpl) UpdateProductPart(urlID uint, productPart *mode
 	return nil
 }
 
-func (s *ProductPartServiceImpl) DeleteProductPart(id uint) error {
+func (s *ProductPartService) DeleteProductPart(id uint) error {
 	return s.productPartRepository.Delete(id)
 }
 
-func (s *ProductPartServiceImpl) ArchiveProductPart(id uint) error {
+func (s *ProductPartService) ArchiveProductPart(id uint) error {
 	_, err := utils.ValidateAndFetchEntity[models.ProductPart](s.productPartRepository, id, "Product Part")
 	if err != nil {
 		return fmt.Errorf("failed to validate fixed price: %w", err)

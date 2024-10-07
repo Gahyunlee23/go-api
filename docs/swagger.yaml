@@ -2,7 +2,9 @@ definitions:
   models.Attribute:
     properties:
       category:
-        $ref: '#/definitions/models.AttributeCategory'
+        items:
+          $ref: '#/definitions/models.AttributeCategory'
+        type: array
       category_id:
         type: integer
       code:
@@ -22,6 +24,10 @@ definitions:
     type: object
   models.AttributeCategory:
     properties:
+      attributes:
+        items:
+          $ref: '#/definitions/models.Attribute'
+        type: array
       code:
         type: string
       created_at:
@@ -112,14 +118,22 @@ definitions:
         type: string
       created_at:
         type: string
-      deny_rules:
+      deny_rule:
         items:
           $ref: '#/definitions/models.DenyRule'
+        type: array
+      fixed_price:
+        items:
+          $ref: '#/definitions/models.FixedPrice'
         type: array
       id:
         type: integer
       name:
         type: string
+      selection_rule:
+        items:
+          $ref: '#/definitions/models.SelectionRule'
+        type: array
       updated_at:
         type: string
     type: object
@@ -145,6 +159,204 @@ definitions:
 info:
   contact: {}
 paths:
+  /attribute-categories/:
+    get:
+      description: |-
+        Retrieve a list of all AttributeCategory.
+        - Use 'search' parameter for full-text search across all searchable fields.
+        - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /items?search=keyword&code=abc&name=test
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Search term for full-text search across searchable fields
+        in: query
+        name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.AttributeCategory'
+            type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all AttributeCategory
+      tags:
+      - AttributeCategory
+    post:
+      consumes:
+      - application/json
+      description: Create an AttributeCategory with the provided JSON payload
+      parameters:
+      - description: Attribute Category data
+        in: body
+        name: AttributeCategory
+        required: true
+        schema:
+          $ref: '#/definitions/models.AttributeCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttributeCategory'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new AttributeCategory
+      tags:
+      - AttributeCategory
+  /attribute-categories/{id}:
+    delete:
+      description: Delete a single AttributeCategory by its ID
+      parameters:
+      - description: Attribute Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Attribute Category deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an AttributeCategory by ID
+      tags:
+      - AttributeCategory
+    get:
+      description: Get a single AttributeCategory by its ID
+      parameters:
+      - description: AttributeCategory ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttributeCategory'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get AttributeCategory by ID
+      tags:
+      - AttributeCategory
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing AttributeCategory by providing
+        the updated JSON payload
+      parameters:
+      - description: AttributeCategory ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated AttributeCategory data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.AttributeCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AttributeCategory'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing AttributeCategory
+      tags:
+      - AttributeCategory
   /attributes/:
     get:
       description: |-

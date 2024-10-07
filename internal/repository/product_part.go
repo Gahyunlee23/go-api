@@ -40,7 +40,7 @@ func (r *productPartRepo) GetByID(id uint) (*models.ProductPart, error) {
 
 func (r *productPartRepo) GetAll(ctx *gin.Context) ([]models.ProductPart, error) {
 	var productPart []models.ProductPart
-	if err := r.db.Model(&models.ProductPart{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Find(&productPart).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Find(&productPart).Error; err != nil {
 		return nil, err
 	}
 	return productPart, nil

@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"log"
 	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -44,14 +43,13 @@ func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
 func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 	var denyRules []models.DenyRule
 
-	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
 		return nil, err
 	}
 	return denyRules, nil
 }
 
 func (r *denyRuleRepo) Update(denyRule *models.DenyRule) error {
-	log.Printf("Updating DenyRule with ID: %d", denyRule.ID)
 	return r.db.Model(denyRule).Updates(denyRule).Error
 }
 

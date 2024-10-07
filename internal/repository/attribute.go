@@ -40,7 +40,7 @@ func (r *attributeRepo) GetByID(id uint) (*models.Attribute, error) {
 
 func (r *attributeRepo) GetAll(ctx *gin.Context) ([]models.Attribute, error) {
 	var attributes []models.Attribute
-	if err := r.db.Model(&models.Attribute{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributes).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributes).Error; err != nil {
 		return nil, err
 	}
 	return attributes, nil
