@@ -1,0 +1,292 @@
+[
+        {
+            "id": 1891,
+            "category_id": 2,
+            "code": "format_8_3x11_7",
+            "name": "8.3 x 11.7 Inches",
+            "description": "",
+            "order": 10,
+            "settings": {
+                "width": "10",
+                "height": "11.7",
+                "setupPrice": "0",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1892,
+            "category_id": 2,
+            "code": "format_11_7x8_3",
+            "name": "11.7 x 8.3 Inches",
+            "description": "",
+            "order": 40,
+            "settings": {
+                "width": "40",
+                "height": "8.3",
+                "setupPrice": "11.7",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1893,
+            "category_id": 2,
+            "code": "format_5_8x8_3",
+            "name": "5.8 x 8.3 Inches",
+            "description": "",
+            "order": 20,
+            "settings": {
+                "width": "20",
+                "height": "8.3",
+                "setupPrice": "5.8",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1894,
+            "category_id": 2,
+            "code": "format_8_3x5_8",
+            "name": "8.3 x 5.8 Inches",
+            "description": "",
+            "order": 50,
+            "settings": {
+                "width": "50",
+                "height": "5.8",
+                "setupPrice": "8.3",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1895,
+            "category_id": 2,
+            "code": "format_4_1x5_8",
+            "name": "4.1 x 5.8 Inches",
+            "description": "",
+            "order": 30,
+            "settings": {
+                "width": "30",
+                "height": "5.8",
+                "setupPrice": "4.1",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1896,
+            "category_id": 2,
+            "code": "format_5_8x4_1",
+            "name": "5.8 x 4.1 Inches",
+            "description": "",
+            "order": 60,
+            "settings": {
+                "width": "60",
+                "height": "4.1",
+                "setupPrice": "5.8",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1897,
+            "category_id": 2,
+            "code": "format_3_35x2_17",
+            "name": "3.35 x 2.17 Inches",
+            "description": "",
+            "order": 70,
+            "settings": {
+                "width": "2.17",
+                "height": "3.35",
+                "setupPrice": "0",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1898,
+            "category_id": 2,
+            "code": "format_2_17x3_35",
+            "name": "2.17 x 3.35 Inches",
+            "description": "",
+            "order": 80,
+            "settings": {
+                "width": "3.35",
+                "height": "2.17",
+                "setupPrice": "0",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1899,
+            "category_id": 2,
+            "code": "paper_size_35x2",
+            "name": "3.5 x 2 Inches",
+            "description": "",
+            "order": 0,
+            "settings": {
+                "width": "2",
+                "height": "3.5",
+                "setupPrice": "0",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        },
+        {
+            "id": 1900,
+            "category_id": 2,
+            "code": "format_35x15",
+            "name": "3.5 x 1.5 Inches",
+            "description": "",
+            "order": 99,
+            "settings": {
+                "width": "3.5",
+                "height": "1.5",
+                "setupPrice": "0",
+                "pricePer1000": {
+                    "price": 0.0
+                }
+            },
+            "created_at": "2024-09-30T14:17:45-04:00",
+            "updated_at": "2024-09-30T14:17:45-04:00",
+            "deleted_at": null,
+            "Category": {
+                "ID": 0,
+                "code": "",
+                "name": "",
+                "required_settings": null,
+                "created_at": "0001-01-01T00:00:00Z",
+                "updated_at": "0001-01-01T00:00:00Z",
+                "deleted_at": null,
+                "attributes": null
+            }
+        }
+    ]

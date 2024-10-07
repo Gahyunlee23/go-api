@@ -37,7 +37,7 @@ func (s *ProductPartService) CreateProductPart(productPart *models.ProductPart, 
 
 	// Process all JSON fields
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}
@@ -96,7 +96,7 @@ func (s *ProductPartService) UpdateProductPart(urlID uint, productPart *models.P
 
 	// Process all JSON fields
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}

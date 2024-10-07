@@ -30,7 +30,7 @@ func (s *productService) CreateProduct(product *models.Product, ctx *gin.Context
 	}
 
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}
@@ -81,7 +81,7 @@ func (s *productService) UpdateProduct(urlID uint, product *models.Product, ctx 
 	}
 
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}
