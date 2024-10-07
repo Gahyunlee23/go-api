@@ -2,6 +2,7 @@ package handler
 
 import (
 	"main-admin-api/internal/api/customerrors"
+	"main-admin-api/internal/models"
 	services "main-admin-api/internal/services/interfaces"
 	"net/http"
 	"strconv"
@@ -71,4 +72,92 @@ func (c *AttributeCategoryHandler) GetAllAttributeCategory(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, AttributeCategory)
+}
+
+// CreateAttributeCategory godoc
+// @Summary Create a new AttributeCategory
+// @Description Create an AttributeCategory with the provided JSON payload
+// @Tags AttributeCategory
+// @Accept  json
+// @Produce  json
+// @Param   AttributeCategory  body  models.AttributeCategory  true  "Attribute Category data"
+// @Success 200 {object} models.AttributeCategory
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /attribute-categories/ [post]
+func (c *AttributeCategoryHandler) CreateAttributeCategory(ctx *gin.Context) {
+	var attributeCategory models.AttributeCategory
+
+	if err := ctx.ShouldBindJSON(&attributeCategory); err != nil {
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
+		return
+	}
+
+	if err := c.attributeCategoryService.CreateAttributeCategory(&attributeCategory); err != nil {
+		customerrors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, attributeCategory)
+}
+
+// UpdateAttributeCategory godoc
+// @Summary Update an existing AttributeCategory
+// @Description Update the details of an existing AttributeCategory by providing the updated JSON payload
+// @Tags AttributeCategory
+// @Accept  json
+// @Produce  json
+// @Param   id  path  int  true  "AttributeCategory ID"
+// @Param   product  body  models.AttributeCategory  true  "Updated AttributeCategory data"
+// @Success 200 {object} models.AttributeCategory
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /attribute-categories/{id} [put]
+func (c *AttributeCategoryHandler) UpdateAttributeCategory(ctx *gin.Context) {
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid AttributeCategory ID"})
+		return
+	}
+
+	var AttributeCategory models.AttributeCategory
+	if err := ctx.ShouldBindJSON(&AttributeCategory); err != nil {
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
+		return
+	}
+
+	err = c.attributeCategoryService.UpdateAttributeCategory(uint(id), &AttributeCategory)
+	if err != nil {
+		customerrors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, AttributeCategory)
+}
+
+// DeleteAttributeCategory godoc
+// @Summary Delete an AttributeCategory by ID
+// @Description Delete a single AttributeCategory by its ID
+// @Tags AttributeCategory
+// @Produce json
+// @Param id path int true "Attribute Category ID"
+// @Success 200 {object} map[string]interface{} "Attribute Category deleted successfully"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /attribute-categories/{id} [delete]
+func (c *AttributeCategoryHandler) DeleteAttributeCategory(ctx *gin.Context) {
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
+	if err != nil {
+		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "id", Message: "Invalid Attribute Category ID"})
+		return
+	}
+
+	if err := c.attributeCategoryService.ArchiveAttributeCategory(uint(id)); err != nil {
+		customerrors.HandleError(ctx, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Attribute Category deleted successfully", "id": id})
 }

@@ -47,6 +47,5 @@ func (f *ServiceFactory) CreateSelectionRuleService() services.SelectionRuleServ
 
 func (f *ServiceFactory) CreateAttributeCategoryService() services.AttributeCategoryService {
 	attributeCategoryRepo := repository.NewAttributeCategoryRepository(f.db)
-	attributeRepo := repository.NewAttributeRepository(f.db)
-	return NewAttributeCategoryService(attributeCategoryRepo, attributeRepo)
+	return NewAttributeCategoryService(attributeCategoryRepo)
 }

@@ -13,4 +13,5 @@ type AttributeCategoryRepository interface {
 	Count(ctx *gin.Context) (int64, error)
 	Update(AttributeCategory *models.AttributeCategory) error
 	Archive(id uint) error
+	GetByCategoryID(ctx *gin.Context, categoryID uint) (*models.AttributeCategory, error)
 }

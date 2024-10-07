@@ -11,5 +11,8 @@ func AttributeCategoryRoutes(router *gin.Engine, handler *handler.AttributeCateg
 	{
 		AttributeCategory.GET("/", handler.GetAllAttributeCategory)
 		AttributeCategory.GET("/:id", handler.GetAttributeCategoryByID)
+		AttributeCategory.POST("/", handler.CreateAttributeCategory)
+		AttributeCategory.PUT("/:id", handler.UpdateAttributeCategory)
+		AttributeCategory.DELETE("/:id", handler.DeleteAttributeCategory)
 	}
 }

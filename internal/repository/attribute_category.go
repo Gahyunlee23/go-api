@@ -66,3 +66,17 @@ func (r *attributeCategoryRepo) Count(ctx *gin.Context) (int64, error) {
 	}
 	return totalCount, nil
 }
+
+func (r *attributeCategoryRepo) GetByCategoryID(ctx *gin.Context, categoryID uint) (*models.AttributeCategory, error) {
+	var category models.AttributeCategory
+
+	query := r.db.Preload("Attributes", func(db *gorm.DB) *gorm.DB {
+		return db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name"))
+	})
+
+	if err := query.First(&category, categoryID).Error; err != nil {
+		return nil, err
+	}
+
+	return &category, nil
+}

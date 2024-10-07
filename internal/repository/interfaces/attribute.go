@@ -14,6 +14,4 @@ type AttributeRepository interface {
 	Delete(ID uint) error
 	Archive(ID uint) error
 	Count(ctx *gin.Context) (int64, error)
-	GetByCategoryID(categoryID uint, ctx *gin.Context) ([]models.Attribute, error)
-	CountByCategoryID(categoryID uint, ctx *gin.Context) (int64, error)
 }

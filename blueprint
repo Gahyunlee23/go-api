@@ -36,22 +36,17 @@ go.mod
     {
         id: 1
         name: 2
-        type: "stella-test"
+        type: "product-parts"
         attributes: [
             {
-                category_id: 1
-                name: "attribute1"
+                product_part_id: 1
+                name: "deny-rule1"
                 type: "stella-test"
             },
           {
-            category_id: 1
-            name: "attribute1"
-            type: "stella-test"
-          },
-          {
-            category_id: 1
-            name: "attribute1"
-            type: "stella-test"
+                 product_part_id: 2
+                name: "deny-rule2"
+                type: "stella-test"
           }
 
         ]

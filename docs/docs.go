@@ -90,6 +90,52 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Create an AttributeCategory with the provided JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttributeCategory"
+                ],
+                "summary": "Create a new AttributeCategory",
+                "parameters": [
+                    {
+                        "description": "Attribute Category data",
+                        "name": "AttributeCategory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AttributeCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttributeCategory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
             }
         },
         "/attribute-categories/{id}": {
@@ -116,6 +162,115 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.AttributeCategory"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing AttributeCategory by providing the updated JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttributeCategory"
+                ],
+                "summary": "Update an existing AttributeCategory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "AttributeCategory ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated AttributeCategory data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AttributeCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.AttributeCategory"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single AttributeCategory by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AttributeCategory"
+                ],
+                "summary": "Delete an AttributeCategory by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Attribute Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Attribute Category deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -1823,7 +1978,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "category": {
-                    "$ref": "#/definitions/models.AttributeCategory"
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AttributeCategory"
+                    }
                 },
                 "category_id": {
                     "type": "integer"
@@ -1854,6 +2012,12 @@ const docTemplate = `{
         "models.AttributeCategory": {
             "type": "object",
             "properties": {
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Attribute"
+                    }
+                },
                 "code": {
                     "type": "string"
                 },
@@ -1991,10 +2155,16 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
-                "deny_rules": {
+                "deny_rule": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/models.DenyRule"
+                    }
+                },
+                "fixed_price": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.FixedPrice"
                     }
                 },
                 "id": {
@@ -2002,6 +2172,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "selection_rule": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SelectionRule"
+                    }
                 },
                 "updated_at": {
                     "type": "string"
