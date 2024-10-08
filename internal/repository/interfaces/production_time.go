@@ -12,4 +12,5 @@ type ProductionTimeRepository interface {
 	GetByID(id uint) (*models.ProductionTime, error)
 	Update(id uint, productionTime *models.ProductionTime) error
 	Archive(id uint) error
+	Count(ctx *gin.Context) (int64, error)
 }

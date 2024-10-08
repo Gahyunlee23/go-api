@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	"main-admin-api/internal/utils"
@@ -52,4 +53,12 @@ func (r *productionTimeRepo) Archive(id uint) error {
 	return r.db.Transaction(func(tx *gorm.DB) error {
 		return utils.ArchiveAndDelete(tx, productionTime, id)
 	})
+}
+
+func (r *productionTimeRepo) Count(ctx *gin.Context) (int64, error) {
+	var totalCount int64
+	if err := r.db.Model(&models.ProductionTime{}).Scopes(utils.Search(ctx, "id", "name", "code", "time")).Count(&totalCount).Error; err != nil {
+		return 0, fmt.Errorf("failed to fetch count: %w", err)
+	}
+	return totalCount, nil
 }

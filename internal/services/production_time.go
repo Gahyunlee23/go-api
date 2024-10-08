@@ -23,8 +23,18 @@ func (s *productionTimeService) CreateProductionTime(productionTime *models.Prod
 	return s.productionTimeRepository.Create(productionTime)
 }
 
-func (s *productionTimeService) GetAllProductionTimes(ctx *gin.Context) ([]models.ProductionTime, error) {
-	return s.productionTimeRepository.GetAll(ctx)
+func (s *productionTimeService) GetAllProductionTimes(ctx *gin.Context) (*models.ListResponse[models.ProductionTime], error) {
+	productionTimes, err := s.productionTimeRepository.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	totalCount, err := s.productionTimeRepository.Count(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response := models.NewListResponse(totalCount, productionTimes)
+	return &response, nil
 }
 
 func (s *productionTimeService) GetProductionTimeByID(id uint) (*models.ProductionTime, error) {

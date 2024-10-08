@@ -2,9 +2,7 @@ definitions:
   models.Attribute:
     properties:
       category:
-        items:
-          $ref: '#/definitions/models.AttributeCategory'
-        type: array
+        $ref: '#/definitions/models.AttributeCategory'
       category_id:
         type: integer
       code:
@@ -134,6 +132,23 @@ definitions:
         items:
           $ref: '#/definitions/models.SelectionRule'
         type: array
+      updated_at:
+        type: string
+    type: object
+  models.ProductionTime:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      time:
+        type: string
       updated_at:
         type: string
     type: object
@@ -1031,7 +1046,7 @@ paths:
     delete:
       description: Delete a single product part by its ID
       parameters:
-      - description: Product ID
+      - description: Product Part ID
         in: path
         name: id
         required: true
@@ -1132,6 +1147,202 @@ paths:
       summary: Update an existing product part
       tags:
       - ProductPart
+  /production-times/:
+    get:
+      description: |-
+        Retrieve a list of all productionTime.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', 'name', or 'time' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', 'name', and 'time' parameters for cross-field AND search.
+        Example: /productionTime?search=keyword&code=abc&name=test
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Full-text search across all searchable fields
+        in: query
+        name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      - description: Filter by time field (partial match)
+        in: query
+        name: content_type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ProductionTime'
+            type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all productionTime
+      tags:
+      - ProductionTime
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Production Time data
+        in: body
+        name: productionTime
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductionTime'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProductionTime'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new productionTime
+      tags:
+      - ProductionTime
+  /production-times/{id}:
+    delete:
+      description: Delete a single production Time by its ID
+      parameters:
+      - description: Production Time ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Production Time deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a product ionTime by ID
+      tags:
+      - ProductionTime
+    get:
+      description: Get a single Production Time by its ID
+      parameters:
+      - description: Production Time ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProductionTime'
+        "400":
+          description: Invalid ID
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Production Time not found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Production Time by ID
+      tags:
+      - ProductionTime
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing production Time by providing
+        the updated JSON payload
+      parameters:
+      - description: Production Time ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.ProductionTime'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ProductionTime'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing production Time
+      tags:
+      - ProductionTime
   /products/:
     get:
       description: |-
