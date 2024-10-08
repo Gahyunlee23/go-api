@@ -1,0 +1,77 @@
+case1: 단일 변수 이 경우, c는 매 루프마다 새로운 값으로 갱신 이전 값은 사라지고 새 값만 저장
+
+unsigned long a = 0;  // 측정값
+unsigned long b = 0;  // 밀리초(아마도 millis() 로 얻은 값?)
+unsigned long c = 0;  // a + b
+
+void loop() {
+  a = getMeasurement();  // 측정값을 얻는 함수
+  b = millis();          // 현재 밀리초
+  c = a + b;             // c에 새 값 할당
+
+  // c 사용
+  Serial.println(c);
+
+  delay(1000);  // 1초 대기
+}
+
+case 2: 배열로 저장 이 경우, 최근 10개의 샘플(1초마다의 값)이 저장. 배열이 다 차면 처음부터 다시 덮어씀.
+
+const int MAX_SAMPLES = 10;
+unsigned long a[MAX_SAMPLES] = {0};  // 측정값 배열
+unsigned long b[MAX_SAMPLES] = {0};  // 밀리초 배열
+unsigned long c[MAX_SAMPLES] = {0};  // a + b 배열
+int index = 0;
+
+void loop() {
+  a[index] = getMeasurement();  // 측정값을 얻는 함수
+  b[index] = millis();          // 현재 밀리초
+  c[index] = a[index] + b[index];  // c에 새 값 할당
+
+  // c 사용
+  Serial.println(c[index]);
+
+  index = (index + 1) % MAX_SAMPLES;  // 다음 인덱스로 이동 (순환)
+
+  delay(1000);  // 1초 대기
+}
+
+case 3: 구조체와 배열을 사용, 각 샘플의 a, b, c 값을 함께 저장
+
+struct Sample {
+  unsigned long a;  // 측정값
+  unsigned long b;  // 밀리초
+  unsigned long c;  // a + b
+};
+
+const int MAX_SAMPLES = 10;
+Sample samples[MAX_SAMPLES];
+int index = 0;
+
+void loop() {
+  samples[index].a = getMeasurement();  // 측정값을 얻는 함수
+  samples[index].b = millis();          // 현재 밀리초
+  samples[index].c = samples[index].a + samples[index].b;  // c 계산
+
+  // c 사용
+  Serial.println(samples[index].c);
+
+  index = (index + 1) % MAX_SAMPLES;  // 다음 인덱스로 이동 (순환)
+
+  delay(1000);  // 1초 대기
+}
+
+
+
+
+void loop() {
+  // 1. 측정값 얻기
+  a = getMeasurement();  // assumption: getMeasurement()는 센서에서 값을 읽는 함수
+
+  // 2. 현재 시간 얻기
+  b = millis();  // 프로그램 시작 후 경과한 밀리초
+
+  // 3. c 계산
+  c = a + b;
+
+}

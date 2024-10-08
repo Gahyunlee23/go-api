@@ -49,3 +49,8 @@ func (f *ServiceFactory) CreateAttributeCategoryService() services.AttributeCate
 	attributeCategoryRepo := repository.NewAttributeCategoryRepository(f.db)
 	return NewAttributeCategoryService(attributeCategoryRepo)
 }
+
+func (f *ServiceFactory) CreateProductionTimeService() services.ProductionTimeService {
+	productionTimeRepo := repository.NewProductionTimeRepository(f.db)
+	return NewProductionTimeService(productionTimeRepo)
+}

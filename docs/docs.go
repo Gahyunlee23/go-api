@@ -1364,7 +1364,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "Product ID",
+                        "description": "Product Part ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1373,6 +1373,286 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "Product Part deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/production-times/": {
+            "get": {
+                "description": "Retrieve a list of all productionTime.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'time' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'time' parameters for cross-field AND search.\nExample: /productionTime?search=keyword\u0026code=abc\u0026name=test",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProductionTime"
+                ],
+                "summary": "Get all productionTime",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Number of items per page",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Full-text search across all searchable fields",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by time field (partial match)",
+                        "name": "content_type",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ProductionTime"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProductionTime"
+                ],
+                "summary": "Create a new productionTime",
+                "parameters": [
+                    {
+                        "description": "Production Time data",
+                        "name": "productionTime",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ProductionTime"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ProductionTime"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/production-times/{id}": {
+            "get": {
+                "description": "Get a single Production Time by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProductionTime"
+                ],
+                "summary": "Get Production Time by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Production Time ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ProductionTime"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Production Time not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing production Time by providing the updated JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProductionTime"
+                ],
+                "summary": "Update an existing production Time",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Production Time ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated product data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ProductionTime"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ProductionTime"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single production Time by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ProductionTime"
+                ],
+                "summary": "Delete a product ionTime by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Production Time ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Production Time deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1978,10 +2258,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "category": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.AttributeCategory"
-                    }
+                    "$ref": "#/definitions/models.AttributeCategory"
                 },
                 "category_id": {
                     "type": "integer"
@@ -2178,6 +2455,32 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.SelectionRule"
                     }
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ProductionTime": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "time": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"

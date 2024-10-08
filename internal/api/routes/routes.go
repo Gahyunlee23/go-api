@@ -11,7 +11,7 @@ type Route struct {
 	Register func(router *gin.Engine, Handler interface{})
 }
 
-func InitRoutes(productHandler *Handlers.ProductHandler, productPartHandler *Handlers.ProductPartHandler, denyRuleHandler *Handlers.DenyRuleHandler, attributeHandler *Handlers.AttributeHandler, fixedPriceHandler *Handlers.FixedPriceHandler, selectionRuleHandler *Handlers.SelectionRuleHandler, attributeCategoryHandler *Handlers.AttributeCategoryHandler) []Route {
+func InitRoutes(productHandler *Handlers.ProductHandler, productPartHandler *Handlers.ProductPartHandler, denyRuleHandler *Handlers.DenyRuleHandler, attributeHandler *Handlers.AttributeHandler, fixedPriceHandler *Handlers.FixedPriceHandler, selectionRuleHandler *Handlers.SelectionRuleHandler, attributeCategoryHandler *Handlers.AttributeCategoryHandler, productionTimeHandler *Handlers.ProductionTimeHandler) []Route {
 	return []Route{
 		{Handler: productHandler, Register: func(r *gin.Engine, c interface{}) {
 			ProductRoutes(r, c.(*Handlers.ProductHandler))
@@ -33,6 +33,9 @@ func InitRoutes(productHandler *Handlers.ProductHandler, productPartHandler *Han
 		}},
 		{Handler: attributeCategoryHandler, Register: func(r *gin.Engine, c interface{}) {
 			AttributeCategoryRoutes(r, c.(*Handlers.AttributeCategoryHandler))
+		}},
+		{Handler: productionTimeHandler, Register: func(r *gin.Engine, c interface{}) {
+			ProductionTimeRoutes(r, c.(*Handlers.ProductionTimeHandler))
 		}},
 	}
 }

@@ -35,7 +35,7 @@ func (s *selectionRuleService) CreateSelectionRule(ctx *gin.Context, selectionRu
 	}
 
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}
@@ -91,7 +91,7 @@ func (s *selectionRuleService) UpdateSelectionRule(urlID uint, SelectionRule *mo
 
 	// Process all JSON fields
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}

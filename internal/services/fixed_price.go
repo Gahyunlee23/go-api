@@ -36,7 +36,7 @@ func (s *fixedPriceService) CreateFixedPrice(ctx *gin.Context, fixedPrice *model
 
 	// Process all JSON fields
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}
@@ -95,7 +95,7 @@ func (s *fixedPriceService) UpdateFixedPrice(urlID uint, fixedPrice *models.Fixe
 
 	// Process all JSON fields
 	for _, item := range jsonFields {
-		if err, _ := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
+		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
 			return fmt.Errorf("error processing %s: %w", item.name, err)
 		}
 	}

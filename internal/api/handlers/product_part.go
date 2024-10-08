@@ -141,7 +141,7 @@ func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 // @Description Delete a single product part by its ID
 // @Tags ProductPart
 // @Produce  json
-// @Param   id  path  int  true  "Product ID"
+// @Param   id  path  int  true  "Product Part ID"
 // @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
