@@ -68,7 +68,7 @@ func (s *attributeCategoryService) ArchiveAttributeCategory(id uint) error {
 	}
 
 	if err := s.attributeCategoryRepository.Archive(id); err != nil {
-		return fmt.Errorf("failed to archive attribute category: %w", err)
+		return fmt.Errorf("failed to delete attribute category: %w", err)
 	}
 
 	return nil

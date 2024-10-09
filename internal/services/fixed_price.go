@@ -115,7 +115,7 @@ func (s *fixedPriceService) ArchiveFixedPrice(id uint) error {
 	}
 
 	if err := s.fixedPriceRepository.Archive(id); err != nil {
-		return fmt.Errorf("failed to archive fixed price: %w", err)
+		return fmt.Errorf("failed to delete fixed price: %w", err)
 	}
 
 	return nil

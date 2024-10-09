@@ -65,13 +65,13 @@ func (c *AttributeCategoryHandler) GetAttributeCategoryByID(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attribute-categories/ [get]
 func (c *AttributeCategoryHandler) GetAllAttributeCategory(ctx *gin.Context) {
-	AttributeCategory, err := c.attributeCategoryService.GetAllAttributesCategories(ctx)
+	attributeCategory, err := c.attributeCategoryService.GetAllAttributesCategories(ctx)
 	if err != nil {
 		customerrors.HandleError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, AttributeCategory)
+	ctx.JSON(http.StatusOK, attributeCategory)
 }
 
 // CreateAttributeCategory godoc
@@ -121,19 +121,19 @@ func (c *AttributeCategoryHandler) UpdateAttributeCategory(ctx *gin.Context) {
 		return
 	}
 
-	var AttributeCategory models.AttributeCategory
-	if err := ctx.ShouldBindJSON(&AttributeCategory); err != nil {
+	var attributeCategory models.AttributeCategory
+	if err := ctx.ShouldBindJSON(&attributeCategory); err != nil {
 		customerrors.HandleError(ctx, &customerrors.ValidationError{Field: "body", Message: err.Error()})
 		return
 	}
 
-	err = c.attributeCategoryService.UpdateAttributeCategory(uint(id), &AttributeCategory)
+	err = c.attributeCategoryService.UpdateAttributeCategory(uint(id), &attributeCategory)
 	if err != nil {
 		customerrors.HandleError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, AttributeCategory)
+	ctx.JSON(http.StatusOK, attributeCategory)
 }
 
 // DeleteAttributeCategory godoc

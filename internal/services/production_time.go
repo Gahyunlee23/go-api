@@ -50,7 +50,7 @@ func (s *productionTimeService) UpdateProductionTime(urlID uint, productionTime 
 		return fmt.Errorf("failed to validate production time: %w", err)
 	}
 
-	if err := s.productionTimeRepository.Update(urlID, productionTime); err != nil {
+	if err := s.productionTimeRepository.Update(productionTime); err != nil {
 		return fmt.Errorf("failed to update production time: %w", err)
 	}
 

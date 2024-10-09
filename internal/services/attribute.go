@@ -89,7 +89,7 @@ func (s *attributeService) ArchiveAttribute(id uint) error {
 	}
 
 	if err := s.attributeRepository.Archive(id); err != nil {
-		return fmt.Errorf("failed to archive fixed price: %w", err)
+		return fmt.Errorf("failed to delete fixed price: %w", err)
 	}
 
 	return nil

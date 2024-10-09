@@ -1,7 +1,9 @@
 package repository
 
 import (
+	"errors"
 	"fmt"
+	"main-admin-api/internal/api/customerrors"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
 	"main-admin-api/internal/utils"
@@ -20,7 +22,7 @@ func NewProductionTimeRepository(db *gorm.DB) repository.ProductionTimeRepositor
 
 func (r *productionTimeRepo) Create(productionTime *models.ProductionTime) error {
 	if err := r.db.Create(productionTime).Error; err != nil {
-		return err
+		return fmt.Errorf("failed to create production time: %w", err)
 	}
 	return nil
 }
@@ -28,24 +30,27 @@ func (r *productionTimeRepo) Create(productionTime *models.ProductionTime) error
 func (r *productionTimeRepo) GetAll(ctx *gin.Context) ([]models.ProductionTime, error) {
 	var productionTime []models.ProductionTime
 	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name", "time")).Find(&productionTime).Error; err != nil {
-		return nil, err
+		return nil, fmt.Errorf("get production time: %w", err)
 	}
 	return productionTime, nil
 }
 
 func (r *productionTimeRepo) GetByID(id uint) (*models.ProductionTime, error) {
 	productionTime := &models.ProductionTime{ID: id}
-	if err := r.db.First(&productionTime, id).Error; err != nil {
-		return nil, err
+	if err := r.db.Model(productionTime).First(productionTime).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &customerrors.EntityNotFoundError{
+				EntityType: "ProductionTime",
+				ID:         id,
+			}
+		}
+		return nil, fmt.Errorf("failed to fetch production time: %w", err)
 	}
 	return productionTime, nil
 }
 
-func (r *productionTimeRepo) Update(id uint, productionTime *models.ProductionTime) error {
-	if err := r.db.Model(&models.ProductionTime{ID: id}).Updates(productionTime).Error; err != nil {
-		return err
-	}
-	return nil
+func (r *productionTimeRepo) Update(productionTime *models.ProductionTime) error {
+	return r.db.Model(productionTime).Updates(productionTime).Error
 }
 
 func (r *productionTimeRepo) Archive(id uint) error {

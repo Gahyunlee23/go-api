@@ -120,7 +120,7 @@ func (s *ProductPartService) ArchiveProductPart(id uint) error {
 	}
 
 	if err := s.productPartRepository.Archive(id); err != nil {
-		return fmt.Errorf("failed to archive fixed price: %w", err)
+		return fmt.Errorf("failed to delete fixed price: %w", err)
 	}
 
 	return nil
