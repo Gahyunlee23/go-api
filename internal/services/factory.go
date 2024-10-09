@@ -54,3 +54,8 @@ func (f *ServiceFactory) CreateProductionTimeService() services.ProductionTimeSe
 	productionTimeRepo := repository.NewProductionTimeRepository(f.db)
 	return NewProductionTimeService(productionTimeRepo)
 }
+
+func (f *ServiceFactory) CreateProofService() services.ProofService {
+	proofRepo := repository.NewProofRepository(f.db)
+	return NewProofService(proofRepo)
+}
