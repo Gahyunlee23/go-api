@@ -114,7 +114,7 @@ func (c *ProofHandler) GetAllProofs(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /Proofs/{id} [put]
+// @Router /proofs/{id} [put]
 func (c *ProofHandler) UpdateProof(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -146,7 +146,7 @@ func (c *ProofHandler) UpdateProof(ctx *gin.Context) {
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /Proofs/{id} [delete]
+// @Router /proofs/{id} [delete]
 func (c *ProofHandler) DeleteProof(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
