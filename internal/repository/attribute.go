@@ -41,13 +41,13 @@ func (r *attributeRepo) GetByID(id uint) (*models.Attribute, error) {
 func (r *attributeRepo) GetAll(ctx *gin.Context) ([]models.Attribute, error) {
 	var attributes []models.Attribute
 	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributes).Error; err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to fetch attributes: %w", err)
 	}
 	return attributes, nil
 }
 
-func (r *attributeRepo) Update(Attribute *models.Attribute) error {
-	return r.db.Model(Attribute).Updates(Attribute).Error
+func (r *attributeRepo) Update(attribute *models.Attribute) error {
+	return r.db.Model(attribute).Updates(attribute).Error
 }
 
 func (r *attributeRepo) Delete(id uint) error {

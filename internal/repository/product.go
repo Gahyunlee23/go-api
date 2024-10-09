@@ -25,7 +25,7 @@ func (r *productRepo) Create(product *models.Product) error {
 }
 
 func (r *productRepo) GetByID(id uint) (*models.Product, error) {
-	product := &models.Product{}
+	product := &models.Product{ID: id}
 	if err := r.db.First(product, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{

@@ -66,8 +66,7 @@ func (s *productService) UpdateProduct(urlID uint, product *models.Product, ctx 
 		return errors.New("product ID in URL does not match the ID in the request body")
 	}
 
-	_, err := utils.ValidateAndFetchEntity[models.Product](s.productRepository, urlID, "Product")
-	if err != nil {
+	if _, err := utils.ValidateAndFetchEntity[models.Product](s.productRepository, urlID, "Product"); err != nil {
 		return fmt.Errorf("failed to validate fixed price: %w", err)
 	}
 
@@ -98,13 +97,12 @@ func (s *productService) DeleteProduct(id uint) error {
 }
 
 func (s *productService) ArchiveProduct(id uint) error {
-	_, err := utils.ValidateAndFetchEntity[models.Product](s.productRepository, id, "Product")
-	if err != nil {
+	if _, err := utils.ValidateAndFetchEntity[models.Product](s.productRepository, id, "Product"); err != nil {
 		return fmt.Errorf("failed to validate fixed price: %w", err)
 	}
 
 	if err := s.productRepository.Archive(id); err != nil {
-		return fmt.Errorf("failed to archive fixed price: %w", err)
+		return fmt.Errorf("failed to delete fixed price: %w", err)
 	}
 
 	return nil

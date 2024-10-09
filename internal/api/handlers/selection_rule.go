@@ -92,13 +92,13 @@ func (c *SelectionRuleHandler) GetSelectionRuleByID(ctx *gin.Context) {
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/ [get]
 func (c *SelectionRuleHandler) GetAllSelectionRules(ctx *gin.Context) {
-	SelectionRules, err := c.selectionRuleService.GetAllSelectionRules(ctx)
+	selectionRules, err := c.selectionRuleService.GetAllSelectionRules(ctx)
 	if err != nil {
 		customerrors.HandleError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, SelectionRules)
+	ctx.JSON(http.StatusOK, selectionRules)
 }
 
 // UpdateSelectionRule godoc

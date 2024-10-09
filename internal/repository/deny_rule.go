@@ -44,7 +44,7 @@ func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 	var denyRules []models.DenyRule
 
 	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to fetch deny rules: %w", err)
 	}
 	return denyRules, nil
 }
