@@ -1,6 +1,5 @@
 # Go-related
 /bin/
-/pkg/
 /vendor/
 
 # Module cache and build files

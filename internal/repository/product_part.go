@@ -26,7 +26,7 @@ func (r *productPartRepo) Create(productPart *models.ProductPart) error {
 
 func (r *productPartRepo) GetByID(id uint) (*models.ProductPart, error) {
 	ProductPart := &models.ProductPart{ID: id}
-	if err := r.db.Model(ProductPart).First(ProductPart).Error; err != nil {
+	if err := r.db.First(ProductPart).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "ProductPart",

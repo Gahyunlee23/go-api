@@ -25,8 +25,8 @@ func (r *selectionRuleRepo) Create(selectionRule *models.SelectionRule) error {
 }
 
 func (r *selectionRuleRepo) GetByID(id uint) (*models.SelectionRule, error) {
-	var selectionRule models.SelectionRule
-	if err := r.db.First(&selectionRule, id).Error; err != nil {
+	selectionRule := &models.SelectionRule{ID: id}
+	if err := r.db.First(selectionRule).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "SelectionRule",
@@ -35,7 +35,7 @@ func (r *selectionRuleRepo) GetByID(id uint) (*models.SelectionRule, error) {
 		}
 		return nil, fmt.Errorf("failed to fetch selection rule: %w", err)
 	}
-	return &selectionRule, nil
+	return selectionRule, nil
 }
 
 func (r *selectionRuleRepo) GetAll(ctx *gin.Context) ([]models.SelectionRule, error) {

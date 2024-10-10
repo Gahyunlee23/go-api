@@ -25,9 +25,9 @@ func (r *denyRuleRepo) Create(DenyRule *models.DenyRule) error {
 }
 
 func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
-	DenyRule := &models.DenyRule{ID: id}
+	denyRule := &models.DenyRule{ID: id}
 
-	if err := r.db.First(DenyRule, id).Error; err != nil {
+	if err := r.db.First(denyRule).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "DenyRule",
@@ -37,7 +37,7 @@ func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
 		return nil, fmt.Errorf("failed to fetch deny rule: %w", err)
 	}
 
-	return DenyRule, nil
+	return denyRule, nil
 }
 
 func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {

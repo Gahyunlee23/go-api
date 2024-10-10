@@ -37,7 +37,7 @@ func (r *productionTimeRepo) GetAll(ctx *gin.Context) ([]models.ProductionTime, 
 
 func (r *productionTimeRepo) GetByID(id uint) (*models.ProductionTime, error) {
 	productionTime := &models.ProductionTime{ID: id}
-	if err := r.db.Model(productionTime).First(productionTime).Error; err != nil {
+	if err := r.db.First(productionTime).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "ProductionTime",

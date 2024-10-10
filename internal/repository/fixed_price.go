@@ -26,7 +26,7 @@ func (r *fixedPriceRepo) Create(fixedPrice *models.FixedPrice) error {
 
 func (r *fixedPriceRepo) GetByID(id uint) (*models.FixedPrice, error) {
 	FixedPrice := &models.FixedPrice{ID: id}
-	if err := r.db.Model(FixedPrice).First(FixedPrice).Error; err != nil {
+	if err := r.db.First(FixedPrice).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "Fixed Price",

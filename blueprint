@@ -43,11 +43,11 @@ go.mod
                 name: "deny-rule1"
                 type: "stella-test"
             },
-          {
+            {
                  product_part_id: 2
                 name: "deny-rule2"
                 type: "stella-test"
-          }
+            }
 
         ]
 
