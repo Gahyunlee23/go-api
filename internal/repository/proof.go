@@ -26,7 +26,7 @@ func (r *proofRepo) Create(proof *models.Proof) error {
 
 func (r *proofRepo) GetByID(id uint) (*models.Proof, error) {
 	proof := &models.Proof{ID: id}
-	if err := r.db.Model(proof).First(proof).Error; err != nil {
+	if err := r.db.First(proof).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "Proof",

@@ -33,9 +33,9 @@ func (r *attributeCategoryRepo) GetAll(ctx *gin.Context) ([]models.AttributeCate
 }
 
 func (r *attributeCategoryRepo) GetByID(id uint) (*models.AttributeCategory, error) {
-	AttributeCategory := &models.AttributeCategory{ID: id}
+	attributeCategory := &models.AttributeCategory{ID: id}
 
-	if err := r.db.First(AttributeCategory, id).Error; err != nil {
+	if err := r.db.First(attributeCategory).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "Attribute Category",
@@ -45,7 +45,7 @@ func (r *attributeCategoryRepo) GetByID(id uint) (*models.AttributeCategory, err
 		return nil, fmt.Errorf("failed to fetch attribute category: %w", err)
 	}
 
-	return AttributeCategory, nil
+	return attributeCategory, nil
 }
 
 func (r *attributeCategoryRepo) Update(attributeCategory *models.AttributeCategory) error {

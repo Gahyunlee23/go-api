@@ -25,8 +25,8 @@ func (r *attributeRepo) Create(Attribute *models.Attribute) error {
 }
 
 func (r *attributeRepo) GetByID(id uint) (*models.Attribute, error) {
-	Attribute := &models.Attribute{ID: id}
-	if err := r.db.First(Attribute, id).Error; err != nil {
+	attribute := &models.Attribute{ID: id}
+	if err := r.db.First(attribute).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "Attribute",
@@ -35,7 +35,7 @@ func (r *attributeRepo) GetByID(id uint) (*models.Attribute, error) {
 		}
 		return nil, fmt.Errorf("failed to fetch attribute: %w", err)
 	}
-	return Attribute, nil
+	return attribute, nil
 }
 
 func (r *attributeRepo) GetAll(ctx *gin.Context) ([]models.Attribute, error) {
