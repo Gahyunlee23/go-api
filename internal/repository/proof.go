@@ -47,7 +47,7 @@ func (r *proofRepo) GetAll(ctx *gin.Context) ([]models.Proof, error) {
 }
 
 func (r *proofRepo) Update(proof *models.Proof) error {
-	return r.db.Model(proof).Updates(proof).Error
+	return r.db.Updates(proof).Error
 }
 
 func (r *proofRepo) Archive(id uint) error {

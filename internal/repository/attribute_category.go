@@ -49,7 +49,7 @@ func (r *attributeCategoryRepo) GetByID(id uint) (*models.AttributeCategory, err
 }
 
 func (r *attributeCategoryRepo) Update(attributeCategory *models.AttributeCategory) error {
-	return r.db.Model(attributeCategory).Updates(attributeCategory).Error
+	return r.db.Updates(attributeCategory).Error
 }
 
 func (r *attributeCategoryRepo) Archive(id uint) error {

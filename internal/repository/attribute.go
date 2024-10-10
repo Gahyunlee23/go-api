@@ -47,12 +47,11 @@ func (r *attributeRepo) GetAll(ctx *gin.Context) ([]models.Attribute, error) {
 }
 
 func (r *attributeRepo) Update(attribute *models.Attribute) error {
-	return r.db.Model(attribute).Updates(attribute).Error
+	return r.db.Updates(attribute).Error
 }
 
 func (r *attributeRepo) Delete(id uint) error {
-	attribute := &models.Attribute{ID: id}
-	return r.db.Model(attribute).Delete(id).Error
+	return r.db.Delete(id).Error
 }
 
 func (r *attributeRepo) Archive(id uint) error {
@@ -64,7 +63,7 @@ func (r *attributeRepo) Archive(id uint) error {
 
 func (r *attributeRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.Attribute{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil

@@ -26,7 +26,7 @@ func (r *productPartRepo) Create(productPart *models.ProductPart) error {
 
 func (r *productPartRepo) GetByID(id uint) (*models.ProductPart, error) {
 	ProductPart := &models.ProductPart{ID: id}
-	if err := r.db.Model(ProductPart).First(ProductPart).Error; err != nil {
+	if err := r.db.First(ProductPart).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "ProductPart",
@@ -47,12 +47,11 @@ func (r *productPartRepo) GetAll(ctx *gin.Context) ([]models.ProductPart, error)
 }
 
 func (r *productPartRepo) Update(productPart *models.ProductPart) error {
-	return r.db.Model(productPart).Updates(productPart).Error
+	return r.db.Updates(productPart).Error
 }
 
 func (r *productPartRepo) Delete(id uint) error {
-	productPart := &models.ProductPart{ID: id}
-	return r.db.Model(productPart).Delete(id).Error
+	return r.db.Delete(id).Error
 }
 
 func (r *productPartRepo) Archive(id uint) error {
@@ -65,7 +64,7 @@ func (r *productPartRepo) Archive(id uint) error {
 func (r *productPartRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
 
-	if err := r.db.Model(&models.ProductPart{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil

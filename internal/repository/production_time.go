@@ -50,7 +50,7 @@ func (r *productionTimeRepo) GetByID(id uint) (*models.ProductionTime, error) {
 }
 
 func (r *productionTimeRepo) Update(productionTime *models.ProductionTime) error {
-	return r.db.Model(productionTime).Updates(productionTime).Error
+	return r.db.Updates(productionTime).Error
 }
 
 func (r *productionTimeRepo) Archive(id uint) error {
