@@ -11,7 +11,7 @@ type Route struct {
 	Register func(router *gin.Engine, Handler interface{})
 }
 
-func InitRoutes(productHandler *Handlers.ProductHandler, productPartHandler *Handlers.ProductPartHandler, denyRuleHandler *Handlers.DenyRuleHandler, attributeHandler *Handlers.AttributeHandler, fixedPriceHandler *Handlers.FixedPriceHandler, selectionRuleHandler *Handlers.SelectionRuleHandler, attributeCategoryHandler *Handlers.AttributeCategoryHandler, productionTimeHandler *Handlers.ProductionTimeHandler, proofHandler *Handlers.ProofHandler) []Route {
+func InitRoutes(productHandler *Handlers.ProductHandler, productPartHandler *Handlers.ProductPartHandler, denyRuleHandler *Handlers.DenyRuleHandler, attributeHandler *Handlers.AttributeHandler, fixedPriceHandler *Handlers.FixedPriceHandler, selectionRuleHandler *Handlers.SelectionRuleHandler, attributeCategoryHandler *Handlers.AttributeCategoryHandler, productionTimeHandler *Handlers.ProductionTimeHandler, proofHandler *Handlers.ProofHandler, fileTypeHandler *Handlers.FileTypeHandler) []Route {
 	return []Route{
 		{Handler: productHandler, Register: func(r *gin.Engine, c interface{}) {
 			ProductRoutes(r, c.(*Handlers.ProductHandler))
@@ -39,6 +39,9 @@ func InitRoutes(productHandler *Handlers.ProductHandler, productPartHandler *Han
 		}},
 		{Handler: proofHandler, Register: func(r *gin.Engine, c interface{}) {
 			ProofRoute(r, c.(*Handlers.ProofHandler))
+		}},
+		{Handler: fileTypeHandler, Register: func(r *gin.Engine, c interface{}) {
+			FileTypeRoute(r, c.(*Handlers.FileTypeHandler))
 		}},
 	}
 }

@@ -46,11 +46,11 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 }
 
 // GetFixedPriceByID godoc
-// @Summary Get FixedPrice by ID
-// @Description Get a single FixedPrice by its ID
+// @Summary Get Fixed Price by ID
+// @Description Get a single Fixed Price by its ID
 // @Tags FixedPrices
 // @Produce  json
-// @Param   id  path  int  true  "FixedPrice ID"
+// @Param   id  path  int  true  "Fixed Price ID"
 // @Success 200 {object} models.FixedPrice
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
@@ -102,13 +102,13 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 }
 
 // UpdateFixedPrice godoc
-// @Summary Update an existing FixedPrice
+// @Summary Update an existing Fixed Price
 // @Description Update the details of an existing FixedPrice by providing the updated JSON payload
 // @Tags FixedPrices
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "FixedPrice ID"
-// @Param   product  body  models.FixedPrice  true  "Updated FixedPrice data"
+// @Param   product  body  models.FixedPrice  true  "Updated Fixed Price data"
 // @Success 200 {object} models.FixedPrice
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
@@ -136,8 +136,8 @@ func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 }
 
 // DeleteFixedPrice godoc
-// @Summary Delete an FixedPrice by ID
-// @Description Delete a single FixedPrice by its ID
+// @Summary Delete an Fixed Price by ID
+// @Description Delete a single Fixed Price by its ID
 // @Tags FixedPrices
 // @Produce json
 // @Param id path int true "Fixed Price ID"

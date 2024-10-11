@@ -59,3 +59,8 @@ func (f *ServiceFactory) CreateProofService() services.ProofService {
 	proofRepo := repository.NewProofRepository(f.db)
 	return NewProofService(proofRepo)
 }
+
+func (f *ServiceFactory) CreateFileTypeService() services.FileTypeService {
+	fileTypeRepo := repository.NewFileTypeRepository(f.db)
+	return NewFileTypeService(fileTypeRepo)
+}
