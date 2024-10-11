@@ -21,7 +21,7 @@ func NewAttributeHandler(service services.AttributeService) *AttributeHandler {
 // CreateAttribute godoc
 // @Summary Create a new attribute
 // @Description Create an attribute with the provided JSON payload
-// @Tags Attributes
+// @Tags Attribute
 // @Accept  json
 // @Produce  json
 // @Param   Attribute  body  models.Attribute  true  "Attribute data"
@@ -48,7 +48,7 @@ func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 // GetAttributeByID godoc
 // @Summary Get Attribute by ID
 // @Description Get a single attribute by its ID
-// @Tags Attributes
+// @Tags Attribute
 // @Produce  json
 // @Param   id  path  int  true  "Attribute ID"
 // @Success 200 {object} models.Attribute
@@ -79,7 +79,7 @@ func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 // @Description - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
 // @Description Example: /items?search=keyword&code=abc&name=test
-// @Tags Attributes
+// @Tags Attribute
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Search term for full-text search across searchable fields"
@@ -104,7 +104,7 @@ func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 // UpdateAttribute godoc
 // @Summary Update an existing attribute
 // @Description Update the details of an existing attribute by providing the updated JSON payload
-// @Tags Attributes
+// @Tags Attribute
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "Attribute ID"
@@ -139,7 +139,7 @@ func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 // DeleteAttribute godoc
 // @Summary Delete an attribute by ID
 // @Description Delete a single attribute by its ID
-// @Tags Attributes
+// @Tags Attribute
 // @Produce json
 // @Param id path int true "Attribute ID"
 // @Success 200 {object} map[string]interface{} "Attribute deleted successfully"

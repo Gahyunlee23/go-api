@@ -21,7 +21,7 @@ func NewFixedPriceHandler(service services.FixedPriceService) *FixedPriceHandler
 // CreateFixedPrice godoc
 // @Summary Create a new Fixed Price
 // @Description Create a Fixed Price with the provided JSON payload
-// @Tags FixedPrices
+// @Tags FixedPrice
 // @Accept  json
 // @Produce  json
 // @Param   FixedPrice  body  models.FixedPrice  true  "Fixed Price data"
@@ -48,7 +48,7 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 // GetFixedPriceByID godoc
 // @Summary Get Fixed Price by ID
 // @Description Get a single Fixed Price by its ID
-// @Tags FixedPrices
+// @Tags FixedPrice
 // @Produce  json
 // @Param   id  path  int  true  "Fixed Price ID"
 // @Success 200 {object} models.FixedPrice
@@ -79,7 +79,7 @@ func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 // @Description - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
 // @Description Example: /fixed-prices?search=keyword&code=abc&name=test
-// @Tags FixedPrices
+// @Tags FixedPrice
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Full-text search across all searchable fields"
@@ -104,7 +104,7 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 // UpdateFixedPrice godoc
 // @Summary Update an existing Fixed Price
 // @Description Update the details of an existing FixedPrice by providing the updated JSON payload
-// @Tags FixedPrices
+// @Tags FixedPrice
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "FixedPrice ID"
@@ -138,7 +138,7 @@ func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 // DeleteFixedPrice godoc
 // @Summary Delete an Fixed Price by ID
 // @Description Delete a single Fixed Price by its ID
-// @Tags FixedPrices
+// @Tags FixedPrice
 // @Produce json
 // @Param id path int true "Fixed Price ID"
 // @Success 200 {object} map[string]interface{} "Fixed Price deleted successfully"

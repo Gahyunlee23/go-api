@@ -56,6 +56,23 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.FileType:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      updated_at:
+        type: string
+    type: object
   models.FixedPrice:
     properties:
       code:
@@ -279,7 +296,7 @@ paths:
       - AttributeCategory
   /attribute-categories/{id}:
     delete:
-      description: Delete a single AttributeCategory by its ID
+      description: Delete a single Attribute Category by its ID
       parameters:
       - description: Attribute Category ID
         in: path
@@ -309,7 +326,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Delete an AttributeCategory by ID
+      summary: Delete an Attribute Category by ID
       tags:
       - AttributeCategory
     get:
@@ -351,12 +368,12 @@ paths:
       description: Update the details of an existing AttributeCategory by providing
         the updated JSON payload
       parameters:
-      - description: AttributeCategory ID
+      - description: Attribute Category ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Updated AttributeCategory data
+      - description: Updated Attribute Category data
         in: body
         name: product
         required: true
@@ -443,7 +460,7 @@ paths:
             type: object
       summary: Get all attributes
       tags:
-      - Attributes
+      - Attribute
     post:
       consumes:
       - application/json
@@ -474,7 +491,7 @@ paths:
             type: object
       summary: Create a new attribute
       tags:
-      - Attributes
+      - Attribute
   /attributes/{id}:
     delete:
       description: Delete a single attribute by its ID
@@ -509,7 +526,7 @@ paths:
             type: object
       summary: Delete an attribute by ID
       tags:
-      - Attributes
+      - Attribute
     get:
       description: Get a single attribute by its ID
       parameters:
@@ -542,7 +559,7 @@ paths:
             type: object
       summary: Get Attribute by ID
       tags:
-      - Attributes
+      - Attribute
     put:
       consumes:
       - application/json
@@ -584,7 +601,7 @@ paths:
             type: object
       summary: Update an existing attribute
       tags:
-      - Attributes
+      - Attribute
   /deny-rules/:
     get:
       description: |-
@@ -768,6 +785,204 @@ paths:
       summary: Update an existing deny rule
       tags:
       - DenyRule
+  /file-types/:
+    get:
+      description: |-
+        Retrieve a list of all file types.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /file types?search=keyword&code=abc&name=test
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Full-text search across all searchable fields
+        in: query
+        name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FileType'
+            type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all file types
+      tags:
+      - FileType
+    post:
+      consumes:
+      - application/json
+      description: Create a File Type with the provided JSON payload
+      parameters:
+      - description: File Type data
+        in: body
+        name: FileType
+        required: true
+        schema:
+          $ref: '#/definitions/models.FileType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FileType'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new File Type
+      tags:
+      - FileType
+  /file-types/{id}:
+    delete:
+      description: Delete a single File Type by its ID
+      parameters:
+      - description: File Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: File Type deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a File Type by ID
+      tags:
+      - FileType
+    get:
+      description: Get a single File Type by its ID
+      parameters:
+      - description: File Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FileType'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get File Type by ID
+      tags:
+      - FileType
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing File Type by providing the updated
+        JSON payload
+      parameters:
+      - description: FileType ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated File Type data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.FixedPrice'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FixedPrice'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Type' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing FileType
+      tags:
+      - FileType
   /fixed-prices/:
     get:
       description: |-
@@ -824,7 +1039,7 @@ paths:
             type: object
       summary: Get all FixedPrices
       tags:
-      - FixedPrices
+      - FixedPrice
     post:
       consumes:
       - application/json
@@ -855,10 +1070,10 @@ paths:
             type: object
       summary: Create a new Fixed Price
       tags:
-      - FixedPrices
+      - FixedPrice
   /fixed-prices/{id}:
     delete:
-      description: Delete a single FixedPrice by its ID
+      description: Delete a single Fixed Price by its ID
       parameters:
       - description: Fixed Price ID
         in: path
@@ -888,13 +1103,13 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Delete an FixedPrice by ID
+      summary: Delete an Fixed Price by ID
       tags:
-      - FixedPrices
+      - FixedPrice
     get:
-      description: Get a single FixedPrice by its ID
+      description: Get a single Fixed Price by its ID
       parameters:
-      - description: FixedPrice ID
+      - description: Fixed Price ID
         in: path
         name: id
         required: true
@@ -921,9 +1136,9 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get FixedPrice by ID
+      summary: Get Fixed Price by ID
       tags:
-      - FixedPrices
+      - FixedPrice
     put:
       consumes:
       - application/json
@@ -935,7 +1150,7 @@ paths:
         name: id
         required: true
         type: integer
-      - description: Updated FixedPrice data
+      - description: Updated Fixed Price data
         in: body
         name: product
         required: true
@@ -963,9 +1178,9 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Update an existing FixedPrice
+      summary: Update an existing Fixed Price
       tags:
-      - FixedPrices
+      - FixedPrice
   /product-parts/:
     get:
       description: |-
@@ -1418,7 +1633,7 @@ paths:
             type: object
       summary: Get all products
       tags:
-      - Products
+      - Product
     post:
       consumes:
       - application/json
@@ -1449,7 +1664,7 @@ paths:
             type: object
       summary: Create a new product
       tags:
-      - Products
+      - Product
   /products/{id}:
     delete:
       description: Delete a single product by its ID
@@ -1484,7 +1699,7 @@ paths:
             type: object
       summary: Delete a product by ID
       tags:
-      - Products
+      - Product
     get:
       description: Get a single product by its ID
       parameters:
@@ -1517,7 +1732,7 @@ paths:
             type: object
       summary: Get product by ID
       tags:
-      - Products
+      - Product
     put:
       consumes:
       - application/json
@@ -1559,7 +1774,7 @@ paths:
             type: object
       summary: Update an existing product
       tags:
-      - Products
+      - Product
   /proofs/:
     get:
       description: |-
@@ -1620,7 +1835,7 @@ paths:
             type: object
       summary: Get all Proofs
       tags:
-      - Proofs
+      - Proof
     post:
       consumes:
       - application/json
@@ -1651,7 +1866,7 @@ paths:
             type: object
       summary: Create a new Proof
       tags:
-      - Proofs
+      - Proof
   /proofs/{id}:
     delete:
       description: Delete a single Proof by its ID
@@ -1686,7 +1901,7 @@ paths:
             type: object
       summary: Delete a Proof by ID
       tags:
-      - Proofs
+      - Proof
     get:
       description: Get a single Proof by its ID
       parameters:
@@ -1719,7 +1934,7 @@ paths:
             type: object
       summary: Get Proof by ID
       tags:
-      - Proofs
+      - Proof
     put:
       consumes:
       - application/json
@@ -1761,7 +1976,7 @@ paths:
             type: object
       summary: Update an existing Proof
       tags:
-      - Proofs
+      - Proof
   /selection-rules/:
     get:
       description: |-
@@ -1818,7 +2033,7 @@ paths:
             type: object
       summary: Get all selection rules
       tags:
-      - SelectionRules
+      - SelectionRule
     post:
       consumes:
       - application/json
@@ -1849,7 +2064,7 @@ paths:
             type: object
       summary: Create a new selection rule
       tags:
-      - SelectionRules
+      - SelectionRule
   /selection-rules/{id}:
     delete:
       description: Delete a single selection rule by its ID
@@ -1884,7 +2099,7 @@ paths:
             type: object
       summary: Delete a selection rule by ID
       tags:
-      - SelectionRules
+      - SelectionRule
     get:
       description: Get a single Selection Rule by its ID
       parameters:
@@ -1917,7 +2132,7 @@ paths:
             type: object
       summary: Get SelectionRule by ID
       tags:
-      - SelectionRules
+      - SelectionRule
     put:
       consumes:
       - application/json
@@ -1959,5 +2174,5 @@ paths:
             type: object
       summary: Update an existing selection rule
       tags:
-      - SelectionRules
+      - SelectionRule
 swagger: "2.0"

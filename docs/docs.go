@@ -202,13 +202,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "AttributeCategory ID",
+                        "description": "Attribute Category ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Updated AttributeCategory data",
+                        "description": "Updated Attribute Category data",
                         "name": "product",
                         "in": "body",
                         "required": true,
@@ -248,14 +248,14 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Delete a single AttributeCategory by its ID",
+                "description": "Delete a single Attribute Category by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "AttributeCategory"
                 ],
-                "summary": "Delete an AttributeCategory by ID",
+                "summary": "Delete an Attribute Category by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -304,7 +304,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Attributes"
+                    "Attribute"
                 ],
                 "summary": "Get all attributes",
                 "parameters": [
@@ -382,7 +382,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Attributes"
+                    "Attribute"
                 ],
                 "summary": "Create a new attribute",
                 "parameters": [
@@ -427,7 +427,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Attributes"
+                    "Attribute"
                 ],
                 "summary": "Get Attribute by ID",
                 "parameters": [
@@ -478,7 +478,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Attributes"
+                    "Attribute"
                 ],
                 "summary": "Update an existing attribute",
                 "parameters": [
@@ -535,7 +535,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Attributes"
+                    "Attribute"
                 ],
                 "summary": "Delete an attribute by ID",
                 "parameters": [
@@ -840,6 +840,288 @@ const docTemplate = `{
                 }
             }
         },
+        "/file-types/": {
+            "get": {
+                "description": "Retrieve a list of all file types.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /file types?search=keyword\u0026code=abc\u0026name=test",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileType"
+                ],
+                "summary": "Get all file types",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Number of items per page",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Full-text search across all searchable fields",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FileType"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a File Type with the provided JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileType"
+                ],
+                "summary": "Create a new File Type",
+                "parameters": [
+                    {
+                        "description": "File Type data",
+                        "name": "FileType",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FileType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FileType"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/file-types/{id}": {
+            "get": {
+                "description": "Get a single File Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileType"
+                ],
+                "summary": "Get File Type by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "File Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FileType"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing File Type by providing the updated JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileType"
+                ],
+                "summary": "Update an existing FileType",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FileType ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated File Type data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FixedPrice"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FixedPrice"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single File Type by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileType"
+                ],
+                "summary": "Delete a File Type by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "File Type ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File Type deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Type' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/fixed-prices/": {
             "get": {
                 "description": "Retrieve a list of all FixedPrices.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /fixed-prices?search=keyword\u0026code=abc\u0026name=test",
@@ -847,7 +1129,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "FixedPrices"
+                    "FixedPrice"
                 ],
                 "summary": "Get all FixedPrices",
                 "parameters": [
@@ -925,7 +1207,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "FixedPrices"
+                    "FixedPrice"
                 ],
                 "summary": "Create a new Fixed Price",
                 "parameters": [
@@ -965,18 +1247,18 @@ const docTemplate = `{
         },
         "/fixed-prices/{id}": {
             "get": {
-                "description": "Get a single FixedPrice by its ID",
+                "description": "Get a single Fixed Price by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "FixedPrices"
+                    "FixedPrice"
                 ],
-                "summary": "Get FixedPrice by ID",
+                "summary": "Get Fixed Price by ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "FixedPrice ID",
+                        "description": "Fixed Price ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1021,9 +1303,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "FixedPrices"
+                    "FixedPrice"
                 ],
-                "summary": "Update an existing FixedPrice",
+                "summary": "Update an existing Fixed Price",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1033,7 +1315,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Updated FixedPrice data",
+                        "description": "Updated Fixed Price data",
                         "name": "product",
                         "in": "body",
                         "required": true,
@@ -1073,14 +1355,14 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Delete a single FixedPrice by its ID",
+                "description": "Delete a single Fixed Price by its ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "FixedPrices"
+                    "FixedPrice"
                 ],
-                "summary": "Delete an FixedPrice by ID",
+                "summary": "Delete an Fixed Price by ID",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1689,7 +1971,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
                 "summary": "Get all products",
                 "parameters": [
@@ -1773,7 +2055,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
                 "summary": "Create a new product",
                 "parameters": [
@@ -1818,7 +2100,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
                 "summary": "Get product by ID",
                 "parameters": [
@@ -1869,7 +2151,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
                 "summary": "Update an existing product",
                 "parameters": [
@@ -1926,7 +2208,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Products"
+                    "Product"
                 ],
                 "summary": "Delete a product by ID",
                 "parameters": [
@@ -1977,7 +2259,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proofs"
+                    "Proof"
                 ],
                 "summary": "Get all Proofs",
                 "parameters": [
@@ -2061,7 +2343,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proofs"
+                    "Proof"
                 ],
                 "summary": "Create a new Proof",
                 "parameters": [
@@ -2106,7 +2388,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proofs"
+                    "Proof"
                 ],
                 "summary": "Get Proof by ID",
                 "parameters": [
@@ -2157,7 +2439,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proofs"
+                    "Proof"
                 ],
                 "summary": "Update an existing Proof",
                 "parameters": [
@@ -2214,7 +2496,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Proofs"
+                    "Proof"
                 ],
                 "summary": "Delete a Proof by ID",
                 "parameters": [
@@ -2265,7 +2547,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SelectionRules"
+                    "SelectionRule"
                 ],
                 "summary": "Get all selection rules",
                 "parameters": [
@@ -2343,7 +2625,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SelectionRules"
+                    "SelectionRule"
                 ],
                 "summary": "Create a new selection rule",
                 "parameters": [
@@ -2388,7 +2670,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SelectionRules"
+                    "SelectionRule"
                 ],
                 "summary": "Get SelectionRule by ID",
                 "parameters": [
@@ -2439,7 +2721,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SelectionRules"
+                    "SelectionRule"
                 ],
                 "summary": "Update an existing selection rule",
                 "parameters": [
@@ -2496,7 +2778,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "SelectionRules"
+                    "SelectionRule"
                 ],
                 "summary": "Delete a selection rule by ID",
                 "parameters": [
@@ -2623,6 +2905,32 @@ const docTemplate = `{
                 },
                 "product_part_id": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.FileType": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "updated_at": {
                     "type": "string"

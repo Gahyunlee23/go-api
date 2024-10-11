@@ -22,7 +22,7 @@ func NewProductHandler(service services.ProductService) *ProductHandler {
 // CreateProduct godoc
 // @Summary Create a new product
 // @Description Create a product with the provided JSON payload
-// @Tags Products
+// @Tags Product
 // @Accept  json
 // @Produce  json
 // @Param   product  body  models.Product  true  "Product data"
@@ -49,7 +49,7 @@ func (c *ProductHandler) CreateProduct(ctx *gin.Context) {
 // GetProductByID godoc
 // @Summary Get product by ID
 // @Description Get a single product by its ID
-// @Tags Products
+// @Tags Product
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} models.Product
@@ -80,7 +80,7 @@ func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 // @Description - Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.
 // @Description Example: /products?search=keyword&code=abc&name=test
-// @Tags Products
+// @Tags Product
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Full-text search across all searchable fields"
@@ -106,7 +106,7 @@ func (c *ProductHandler) GetAllProducts(ctx *gin.Context) {
 // UpdateProduct godoc
 // @Summary Update an existing product
 // @Description Update the details of an existing product by providing the updated JSON payload
-// @Tags Products
+// @Tags Product
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
@@ -140,7 +140,7 @@ func (c *ProductHandler) UpdateProduct(ctx *gin.Context) {
 // DeleteProduct godoc
 // @Summary Delete a product by ID
 // @Description Delete a single product by its ID
-// @Tags Products
+// @Tags Product
 // @Produce  json
 // @Param   id  path  int  true  "Product ID"
 // @Success 200 {object} map[string]interface{} "Product deleted successfully"
