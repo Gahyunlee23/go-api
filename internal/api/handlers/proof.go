@@ -21,7 +21,7 @@ func NewProofHandler(service services.ProofService) *ProofHandler {
 // CreateProof godoc
 // @Summary Create a new Proof
 // @Description Create an Proof with the provided JSON payload
-// @Tags Proofs
+// @Tags Proof
 // @Accept  json
 // @Produce  json
 // @Param   Proof  body  models.Proof  true  "Proof data"
@@ -48,7 +48,7 @@ func (c *ProofHandler) CreateProof(ctx *gin.Context) {
 // GetProofByID godoc
 // @Summary Get Proof by ID
 // @Description Get a single Proof by its ID
-// @Tags Proofs
+// @Tags Proof
 // @Produce  json
 // @Param   id  path  int  true  "Proof ID"
 // @Success 200 {object} models.Proof
@@ -79,7 +79,7 @@ func (c *ProofHandler) GetProofByID(ctx *gin.Context) {
 // @Description - Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.
 // @Description Example: /proofs?search=keyword&code=abc&name=test
-// @Tags Proofs
+// @Tags Proof
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Full-text search across all searchable fields"
@@ -105,7 +105,7 @@ func (c *ProofHandler) GetAllProofs(ctx *gin.Context) {
 // UpdateProof godoc
 // @Summary Update an existing Proof
 // @Description Update the details of an existing Proof by providing the updated JSON payload
-// @Tags Proofs
+// @Tags Proof
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "Proof ID"
@@ -139,7 +139,7 @@ func (c *ProofHandler) UpdateProof(ctx *gin.Context) {
 // DeleteProof godoc
 // @Summary Delete a Proof by ID
 // @Description Delete a single Proof by its ID
-// @Tags Proofs
+// @Tags Proof
 // @Produce  json
 // @Param   id  path  int  true  "Proof ID"
 // @Success 200 {object} map[string]interface{} "Proof deleted successfully"

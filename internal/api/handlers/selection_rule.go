@@ -21,7 +21,7 @@ func NewSelectionRuleHandler(service services.SelectionRuleService) *SelectionRu
 // CreateSelectionRule godoc
 // @Summary Create a new selection rule
 // @Description Create a selection rule with the provided JSON payload
-// @Tags SelectionRules
+// @Tags SelectionRule
 // @Accept  json
 // @Produce  json
 // @Param   SelectionRule  body  models.SelectionRule  true  "Selection Rule data"
@@ -48,7 +48,7 @@ func (c *SelectionRuleHandler) CreateSelectionRule(ctx *gin.Context) {
 // GetSelectionRuleByID godoc
 // @Summary Get SelectionRule by ID
 // @Description Get a single Selection Rule by its ID
-// @Tags SelectionRules
+// @Tags SelectionRule
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} models.SelectionRule
@@ -79,7 +79,7 @@ func (c *SelectionRuleHandler) GetSelectionRuleByID(ctx *gin.Context) {
 // @Description - Use 'code' or 'id', or 'name' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
 // @Description Example: /selection-rules?search=keyword&code=abc&name=test
-// @Tags SelectionRules
+// @Tags SelectionRule
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)
 // @Param search query string false "Full-text search across all searchable fields"
@@ -104,7 +104,7 @@ func (c *SelectionRuleHandler) GetAllSelectionRules(ctx *gin.Context) {
 // UpdateSelectionRule godoc
 // @Summary Update an existing selection rule
 // @Description Update the details of an existing selection rule by providing the updated JSON payload
-// @Tags SelectionRules
+// @Tags SelectionRule
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
@@ -138,7 +138,7 @@ func (c *SelectionRuleHandler) UpdateSelectionRule(ctx *gin.Context) {
 // DeleteSelectionRule godoc
 // @Summary Delete a selection rule by ID
 // @Description Delete a single selection rule by its ID
-// @Tags SelectionRules
+// @Tags SelectionRule
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} map[string]interface{} "SelectionRule deleted successfully"

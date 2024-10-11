@@ -21,7 +21,7 @@ func NewFileTypeHandler(service services.FileTypeService) *FileTypeHandler {
 // CreateFileType godoc
 // @Summary Create a new File Type
 // @Description Create a File Type with the provided JSON payload
-// @Tags FileTypes
+// @Tags FileType
 // @Accept  json
 // @Produce  json
 // @Param   FileType  body  models.FileType  true  "File Type data"
@@ -48,14 +48,14 @@ func (c *FileTypeHandler) CreateFileType(ctx *gin.Context) {
 // GetFileTypeByID godoc
 // @Summary Get File Type by ID
 // @Description Get a single File Type by its ID
-// @Tags FixedPrices
+// @Tags FileType
 // @Produce  json
 // @Param   id  path  int  true  "File Type ID"
 // @Success 200 {object} models.FileType
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /fixed-prices/{id} [get]
+// @Router /file-types/{id} [get]
 func (c *FileTypeHandler) GetFileTypeByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
@@ -90,7 +90,7 @@ func (c *FileTypeHandler) GetFileTypeByID(ctx *gin.Context) {
 // @Success 200 {array} models.FileType
 // @Failure 400 {object} map[string]interface{} "Invalid query parameters"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /file types/ [get]
+// @Router /file-types/ [get]
 func (c *FileTypeHandler) GetAllFileTypes(ctx *gin.Context) {
 	fileType, err := c.fileTypeService.GetAllFileTypes(ctx)
 	if err != nil {
@@ -104,7 +104,7 @@ func (c *FileTypeHandler) GetAllFileTypes(ctx *gin.Context) {
 // UpdateFileType godoc
 // @Summary Update an existing FileType
 // @Description Update the details of an existing File Type by providing the updated JSON payload
-// @Tags FileTypes
+// @Tags FileType
 // @Accept  json
 // @Produce  json
 // @Param   id  path  int  true  "FileType ID"
@@ -138,14 +138,14 @@ func (c *FileTypeHandler) UpdateFileType(ctx *gin.Context) {
 // DeleteFileType godoc
 // @Summary Delete a File Type by ID
 // @Description Delete a single File Type by its ID
-// @Tags FileTypes
+// @Tags FileType
 // @Produce json
 // @Param id path int true "File Type ID"
 // @Success 200 {object} map[string]interface{} "File Type deleted successfully"
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /fixed-prices/{id} [delete]
+// @Router /file-types/{id} [delete]
 func (c *FileTypeHandler) DeleteFileType(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
 	if err != nil {
