@@ -47,7 +47,7 @@ func (r *fixedPriceRepo) GetAll(ctx *gin.Context) ([]models.FixedPrice, error) {
 }
 
 func (r *fixedPriceRepo) Update(fixedPrice *models.FixedPrice) error {
-	return r.db.Model(fixedPrice).Updates(fixedPrice).Error
+	return r.db.Updates(fixedPrice).Error
 }
 
 func (r *fixedPriceRepo) Archive(id uint) error {

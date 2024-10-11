@@ -51,8 +51,7 @@ func (r *productRepo) Update(product *models.Product) error {
 }
 
 func (r *productRepo) Delete(id uint) error {
-	product := &models.Product{ID: id}
-	return r.db.Model(product).Delete(id).Error
+	return r.db.Delete(id).Error
 }
 
 func (r *productRepo) Archive(id uint) error {

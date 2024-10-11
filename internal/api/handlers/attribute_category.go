@@ -107,8 +107,8 @@ func (c *AttributeCategoryHandler) CreateAttributeCategory(ctx *gin.Context) {
 // @Tags AttributeCategory
 // @Accept  json
 // @Produce  json
-// @Param   id  path  int  true  "AttributeCategory ID"
-// @Param   product  body  models.AttributeCategory  true  "Updated AttributeCategory data"
+// @Param   id  path  int  true  "Attribute Category ID"
+// @Param   product  body  models.AttributeCategory  true  "Updated Attribute Category data"
 // @Success 200 {object} models.AttributeCategory
 // @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
 // @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
@@ -137,8 +137,8 @@ func (c *AttributeCategoryHandler) UpdateAttributeCategory(ctx *gin.Context) {
 }
 
 // DeleteAttributeCategory godoc
-// @Summary Delete an AttributeCategory by ID
-// @Description Delete a single AttributeCategory by its ID
+// @Summary Delete an Attribute Category by ID
+// @Description Delete a single Attribute Category by its ID
 // @Tags AttributeCategory
 // @Produce json
 // @Param id path int true "Attribute Category ID"

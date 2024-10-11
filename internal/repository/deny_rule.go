@@ -54,8 +54,7 @@ func (r *denyRuleRepo) Update(denyRule *models.DenyRule) error {
 }
 
 func (r *denyRuleRepo) Delete(id uint) error {
-	DenyRule := &models.DenyRule{ID: id}
-	return r.db.Model(DenyRule).Delete(id).Error
+	return r.db.Delete(id).Error
 }
 
 func (r *denyRuleRepo) Archive(id uint) error {
