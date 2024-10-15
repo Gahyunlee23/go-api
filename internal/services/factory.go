@@ -64,3 +64,8 @@ func (f *ServiceFactory) CreateFileTypeService() services.FileTypeService {
 	fileTypeRepo := repository.NewFileTypeRepository(f.db)
 	return NewFileTypeService(fileTypeRepo)
 }
+
+func (f *ServiceFactory) CreateFileInspectionService() services.FileInspectionService {
+	fileInspectionRepo := repository.NewFileInspectionRepository(f.db)
+	return NewFileInspectionService(fileInspectionRepo)
+}
