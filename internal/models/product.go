@@ -28,6 +28,7 @@ type Product struct {
 	CreatedAt            time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt            time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt            gorm.DeletedAt `gorm:"index" swaggerignore:"true" json:"deleted_at"`
+	Parts                []ProductPart  `gorm:"many2many:product_product_part;"`
 }
 
 func (*Product) TableName() string {
