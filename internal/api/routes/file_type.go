@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func FileTypeRoute(router *gin.Engine, handler *handler.FileTypeHandler) {
+func FileTypeRoutes(router *gin.Engine, handler *handler.FileTypeHandler) {
 	fileTypeGroup := router.Group("/file-type")
 	{
 		fileTypeGroup.GET("/", handler.GetAllFileTypes)

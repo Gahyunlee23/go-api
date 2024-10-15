@@ -36,12 +36,13 @@ func main() {
 	productionTimeHandler := Handlers.NewProductionTimeHandler(serviceFactory.CreateProductionTimeService())
 	proofHandler := Handlers.NewProofHandler(serviceFactory.CreateProofService())
 	fileTypeHandler := Handlers.NewFileTypeHandler(serviceFactory.CreateFileTypeService())
+	fileInspectionHandler := Handlers.NewFileInspectionHandler(serviceFactory.CreateFileInspectionService())
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
 	router.Use(middleware.SetupCORS())
 
-	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler, fixedPriceHandler, selectionRuleHandler, attributeCategoryHandler, productionTimeHandler, proofHandler, fileTypeHandler)
+	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler, fixedPriceHandler, selectionRuleHandler, attributeCategoryHandler, productionTimeHandler, proofHandler, fileTypeHandler, fileInspectionHandler)
 
 	routes.RegisterRoutes(router, allRoutes)
 

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ProofRoute(router *gin.Engine, handler *handler.ProofHandler) {
+func ProofRoutes(router *gin.Engine, handler *handler.ProofHandler) {
 	proofGroup := router.Group("/proofs")
 	{
 		proofGroup.GET("/", handler.GetAllProofs)
