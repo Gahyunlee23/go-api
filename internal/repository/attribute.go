@@ -63,7 +63,7 @@ func (r *attributeRepo) Archive(id uint) error {
 
 func (r *attributeRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.Attribute{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil

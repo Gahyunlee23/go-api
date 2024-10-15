@@ -60,7 +60,7 @@ func (r *fileTypeRepo) Archive(id uint) error {
 }
 func (r *fileTypeRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.FileType{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to count file type: %w", err)
 	}
 	return totalCount, nil

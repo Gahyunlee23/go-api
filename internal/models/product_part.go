@@ -26,6 +26,7 @@ type ProductPart struct {
 	DenyRule          []DenyRule      `gorm:"foreignKey:ProductPartID" json:"deny_rule"`
 	FixedPrice        []FixedPrice    `gorm:"foreignKey:ProductPartID" json:"fixed_price"`
 	SelectionRule     []SelectionRule `gorm:"foreignKey:ProductPartID" json:"selection_rule"`
+	Product           []Product       `gorm:"many2many:product_part_products"`
 }
 
 func (*ProductPart) TableName() string {

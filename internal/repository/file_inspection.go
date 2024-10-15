@@ -60,7 +60,7 @@ func (r *fileInspectionRepo) Archive(id uint) error {
 }
 func (r *fileInspectionRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Scopes(utils.Search(ctx, "id", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.FileInspection{}).Scopes(utils.Search(ctx, "id", "name")).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to count file inspection: %w", err)
 	}
 	return totalCount, nil

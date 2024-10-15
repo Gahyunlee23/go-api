@@ -62,7 +62,6 @@ func (s *ProductPartService) GetAllProductPart(ctx *gin.Context) (*models.ListRe
 	if err != nil {
 		return nil, err
 	}
-
 	response := models.NewListResponse(totalCount, productPart)
 	return &response, nil
 }
