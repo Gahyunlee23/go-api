@@ -31,7 +31,7 @@ func (s *productService) CreateProduct(product *models.Product, ctx *gin.Context
 
 	for _, item := range jsonFields {
 		if _, err := utils.MarshalAndAssignJSON(item.field, item.name, ctx); err != nil {
-			return fmt.Errorf("error processing %s: %w", item.name, err)
+			return fmt.Errorf("error while processing %s: %w", item.name, err)
 		}
 	}
 
@@ -43,7 +43,7 @@ func (s *productService) CreateProduct(product *models.Product, ctx *gin.Context
 }
 
 func (s *productService) GetProductByID(id uint) (*models.Product, error) {
-	return s.productRepository.GetByID(id)
+	return s.productRepository.GetByIDWithPreloads(id, "Part", "Proof", "ProductionTime", "FileType", "FileInspection")
 }
 
 func (s *productService) GetAllProducts(ctx *gin.Context) (*models.ListResponse[models.ProductLite], error) {
