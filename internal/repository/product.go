@@ -26,7 +26,28 @@ func (r *productRepo) Create(product *models.Product) error {
 
 func (r *productRepo) GetByID(id uint) (*models.Product, error) {
 	product := &models.Product{ID: id}
-	if err := r.db.Preload("Proofs").Preload("Parts").First(product).Error; err != nil {
+
+	if err := r.db.First(product).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, &customerrors.EntityNotFoundError{
+				EntityType: "Product",
+				ID:         id,
+			}
+		}
+		return nil, fmt.Errorf("failed to fetch product:	 %w", err)
+	}
+	return product, nil
+}
+
+func (r *productRepo) GetByIDWithPreloads(id uint, preloadFields ...string) (*models.Product, error) {
+	product := &models.Product{ID: id}
+
+	query := r.db
+	for _, preloadField := range preloadFields {
+		query = query.Preload(preloadField)
+	}
+
+	if err := query.First(product).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, &customerrors.EntityNotFoundError{
 				EntityType: "Product",
@@ -41,7 +62,7 @@ func (r *productRepo) GetByID(id uint) (*models.Product, error) {
 func (r *productRepo) GetAll(ctx *gin.Context) ([]models.ProductLite, error) {
 	var products []models.ProductLite
 	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
-		return nil, fmt.Errorf("failed to fetch products:	 %w", err)
+		return nil, fmt.Errorf("failed to fetch products: %w", err)
 	}
 	return products, nil
 }

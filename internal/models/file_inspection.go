@@ -12,6 +12,7 @@ type FileInspection struct {
 	CreatedAt time.Time      `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" swaggerignore:"true" json:"deleted_at"`
+	Product   []Product      `gorm:"many2many:product_proof"`
 }
 
 func (*FileInspection) TableName() string {

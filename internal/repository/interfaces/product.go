@@ -9,6 +9,7 @@ import (
 type ProductRepository interface {
 	Create(product *models.Product) error
 	GetByID(id uint) (*models.Product, error)
+	GetByIDWithPreloads(id uint, preloads ...string) (*models.Product, error)
 	GetAll(ctx *gin.Context) ([]models.ProductLite, error)
 	Update(product *models.Product) error
 	Delete(id uint) error
