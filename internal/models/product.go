@@ -29,6 +29,7 @@ type Product struct {
 	UpdatedAt            time.Time      `gorm:"autoUpdateTime" json:"updated_at"`
 	DeletedAt            gorm.DeletedAt `gorm:"index" swaggerignore:"true" json:"deleted_at"`
 	Parts                []ProductPart  `gorm:"many2many:product_product_part;"`
+	Proofs               []Proof        `gorm:"many2many:product_proof;"`
 }
 
 func (*Product) TableName() string {
