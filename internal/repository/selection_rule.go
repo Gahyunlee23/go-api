@@ -47,7 +47,7 @@ func (r *selectionRuleRepo) GetAll(ctx *gin.Context) ([]models.SelectionRule, er
 }
 
 func (r *selectionRuleRepo) Update(selectionRule *models.SelectionRule) error {
-	return r.db.Updates(selectionRule).Error
+	return r.db.Debug().Updates(selectionRule).Error
 }
 
 func (r *selectionRuleRepo) Archive(id uint) error {

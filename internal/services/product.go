@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/repository/interfaces"
@@ -62,8 +61,9 @@ func (s *productService) GetAllProducts(ctx *gin.Context) (*models.ListResponse[
 }
 
 func (s *productService) UpdateProduct(urlID uint, product *models.Product, ctx *gin.Context) error {
-	if urlID != product.ID {
-		return errors.New("product ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, product.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	if _, err := utils.ValidateAndFetchEntity[models.Product](s.productRepository, urlID, "Product"); err != nil {

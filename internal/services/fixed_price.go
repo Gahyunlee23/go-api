@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -68,9 +67,9 @@ func (s *fixedPriceService) GetAllFixedPrices(ctx *gin.Context) (*models.ListRes
 }
 
 func (s *fixedPriceService) UpdateFixedPrice(urlID uint, fixedPrice *models.FixedPrice, ctx *gin.Context) error {
-	// Verify that URL ID matches the fixed price ID
-	if urlID != fixedPrice.ID {
-		return errors.New("fixed price ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, fixedPrice.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	// Check if the fixed price exists

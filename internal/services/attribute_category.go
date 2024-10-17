@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -46,8 +45,9 @@ func (s *attributeCategoryService) CreateAttributeCategory(attributeCategory *mo
 }
 
 func (s *attributeCategoryService) UpdateAttributeCategory(urlID uint, attributeCategory *models.AttributeCategory) error {
-	if urlID != attributeCategory.ID {
-		return errors.New("attribute category ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, attributeCategory.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	_, err := utils.ValidateAndFetchEntity[models.AttributeCategory](s.attributeCategoryRepository, urlID, "Attribute Category")

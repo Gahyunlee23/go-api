@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/repository/interfaces"
@@ -69,8 +68,8 @@ func (s *denyRuleService) GetAllDenyRules(ctx *gin.Context) (*models.ListRespons
 
 func (s *denyRuleService) UpdateDenyRule(urlID uint, denyRule *models.DenyRule, ctx *gin.Context) error {
 	// Verify that URL ID matches the deny rule ID
-	if urlID != denyRule.ID {
-		return errors.New("deny rule ID in URL does not match the ID in the request body")
+	if err := utils.ValidateID(urlID, denyRule.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	// Check if the deny rule exists

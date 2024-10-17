@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -43,8 +42,9 @@ func (s *proofService) GetAllProofs(ctx *gin.Context) (*models.ListResponse[mode
 }
 
 func (s *proofService) UpdateProof(urlID uint, proof *models.Proof) error {
-	if urlID != proof.ID {
-		return errors.New("proof ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, proof.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	if _, err := utils.ValidateAndFetchEntity(s.proofRepository, urlID, "Proof"); err != nil {

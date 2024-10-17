@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -44,8 +43,9 @@ func (s *fileTypeService) GetAllFileTypes(ctx *gin.Context) (*models.ListRespons
 }
 
 func (s *fileTypeService) UpdateFileType(urlID uint, fileType *models.FileType) error {
-	if urlID != fileType.ID {
-		return errors.New("file type ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, fileType.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	if _, err := utils.ValidateAndFetchEntity(s.fileTypeRepository, urlID, "File Type"); err != nil {

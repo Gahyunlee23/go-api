@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	"main-admin-api/internal/repository/interfaces"
@@ -54,8 +53,8 @@ func (s *attributeService) GetAllAttributes(ctx *gin.Context) (*models.ListRespo
 
 func (s *attributeService) UpdateAttribute(urlID uint, attribute *models.Attribute, ctx *gin.Context) error {
 	// Verify that URL ID matches the attribute ID
-	if urlID != attribute.ID {
-		return errors.New("attribute ID in URL does not match the ID in the request body")
+	if err := utils.ValidateID(urlID, attribute.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	// Check if the attribute exists

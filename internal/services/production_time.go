@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -42,8 +41,9 @@ func (s *productionTimeService) GetProductionTimeByID(id uint) (*models.Producti
 }
 
 func (s *productionTimeService) UpdateProductionTime(urlID uint, productionTime *models.ProductionTime) error {
-	if urlID != productionTime.ID {
-		return errors.New("production time ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, productionTime.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	if _, err := utils.ValidateAndFetchEntity(s.productionTimeRepository, urlID, "production time"); err != nil {

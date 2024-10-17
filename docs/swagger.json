@@ -829,6 +829,288 @@
                 }
             }
         },
+        "/file-inspections/": {
+            "get": {
+                "description": "Retrieve a list of all file Inspections.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /file Inspections?search=keyword\u0026code=abc\u0026name=test",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileInspection"
+                ],
+                "summary": "Get all file Inspections",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 10,
+                        "description": "Number of items per page",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Full-text search across all searchable fields",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by code field (partial match)",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by ID field (partial match)",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by name field (partial match)",
+                        "name": "name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.FileInspection"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a File Inspection with the provided JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileInspection"
+                ],
+                "summary": "Create a new File Inspection",
+                "parameters": [
+                    {
+                        "description": "File Inspection data",
+                        "name": "FileInspection",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FileInspection"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FileInspection"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/file-inspections/{id}": {
+            "get": {
+                "description": "Get a single File Inspection by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileInspection"
+                ],
+                "summary": "Get File Inspection by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "File Inspection ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FileInspection"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Inspection' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing File Inspection by providing the updated JSON payload",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileInspection"
+                ],
+                "summary": "Update an existing FileInspection",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FileInspection ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated File Inspection data",
+                        "name": "product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FixedPrice"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.FixedPrice"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Inspection' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single File Inspection by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FileInspection"
+                ],
+                "summary": "Delete a File Inspection by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "File Inspection ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "File Inspection deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error on field '%Given ID'",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Entity '%Entity Inspection' with ID '%Given ID' not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/file-types/": {
             "get": {
                 "description": "Retrieve a list of all file types.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /file types?search=keyword\u0026code=abc\u0026name=test",
@@ -2900,6 +3182,29 @@
                 }
             }
         },
+        "models.FileInspection": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "product": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Product"
+                    }
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "models.FileType": {
             "type": "object",
             "properties": {
@@ -2920,6 +3225,12 @@
                 },
                 "price": {
                     "type": "number"
+                },
+                "product": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Product"
+                    }
                 },
                 "updated_at": {
                     "type": "string"
@@ -2976,6 +3287,18 @@
                 "enable_custom_quantity": {
                     "type": "boolean"
                 },
+                "fileInspection": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.FileInspection"
+                    }
+                },
+                "fileType": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.FileType"
+                    }
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -2991,8 +3314,26 @@
                 "packing_unit": {
                     "type": "integer"
                 },
+                "part": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ProductPart"
+                    }
+                },
                 "price_calculation_type": {
                     "type": "string"
+                },
+                "productionTime": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.ProductionTime"
+                    }
+                },
+                "proof": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Proof"
+                    }
                 },
                 "time_to_produce": {
                     "type": "string"
@@ -3035,6 +3376,12 @@
                 "name": {
                     "type": "string"
                 },
+                "product": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Product"
+                    }
+                },
                 "selection_rule": {
                     "type": "array",
                     "items": {
@@ -3064,6 +3411,12 @@
                 "price": {
                     "type": "number"
                 },
+                "product": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Product"
+                    }
+                },
                 "time": {
                     "type": "string"
                 },
@@ -3089,6 +3442,12 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "product": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Product"
+                    }
                 },
                 "updated_at": {
                     "type": "string"

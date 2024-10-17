@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"fmt"
 	"main-admin-api/internal/models"
 	repository "main-admin-api/internal/repository/interfaces"
@@ -44,8 +43,9 @@ func (s *fileInspectionService) GetAllFileInspections(ctx *gin.Context) (*models
 }
 
 func (s *fileInspectionService) UpdateFileInspection(urlID uint, fileInspection *models.FileInspection) error {
-	if urlID != fileInspection.ID {
-		return errors.New("file Inspection ID in URL does not match the ID in the request body")
+	// Verify that URL ID matches the attribute ID
+	if err := utils.ValidateID(urlID, fileInspection.ID); err != nil {
+		return fmt.Errorf("ID validation failed: %w", err)
 	}
 
 	if _, err := utils.ValidateAndFetchEntity(s.fileInspectionRepository, urlID, "File Inspection"); err != nil {

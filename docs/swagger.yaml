@@ -56,6 +56,21 @@ definitions:
       updated_at:
         type: string
     type: object
+  models.FileInspection:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      product:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
+      updated_at:
+        type: string
+    type: object
   models.FileType:
     properties:
       code:
@@ -70,6 +85,10 @@ definitions:
         type: string
       price:
         type: number
+      product:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
       updated_at:
         type: string
     type: object
@@ -106,6 +125,14 @@ definitions:
         type: boolean
       enable_custom_quantity:
         type: boolean
+      fileInspection:
+        items:
+          $ref: '#/definitions/models.FileInspection'
+        type: array
+      fileType:
+        items:
+          $ref: '#/definitions/models.FileType'
+        type: array
       id:
         type: integer
       maximum_quantity:
@@ -116,8 +143,20 @@ definitions:
         type: string
       packing_unit:
         type: integer
+      part:
+        items:
+          $ref: '#/definitions/models.ProductPart'
+        type: array
       price_calculation_type:
         type: string
+      productionTime:
+        items:
+          $ref: '#/definitions/models.ProductionTime'
+        type: array
+      proof:
+        items:
+          $ref: '#/definitions/models.Proof'
+        type: array
       time_to_produce:
         type: string
       type:
@@ -145,6 +184,10 @@ definitions:
         type: integer
       name:
         type: string
+      product:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
       selection_rule:
         items:
           $ref: '#/definitions/models.SelectionRule'
@@ -164,6 +207,10 @@ definitions:
         type: string
       price:
         type: number
+      product:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
       time:
         type: string
       updated_at:
@@ -181,6 +228,10 @@ definitions:
         type: integer
       name:
         type: string
+      product:
+        items:
+          $ref: '#/definitions/models.Product'
+        type: array
       updated_at:
         type: string
     type: object
@@ -785,6 +836,204 @@ paths:
       summary: Update an existing deny rule
       tags:
       - DenyRule
+  /file-inspections/:
+    get:
+      description: |-
+        Retrieve a list of all file Inspections.
+        - Use the 'search' parameter for a full-text search across all searchable fields.
+        - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
+        - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
+        Example: /file Inspections?search=keyword&code=abc&name=test
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: Number of items per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Full-text search across all searchable fields
+        in: query
+        name: search
+        type: string
+      - description: Filter by code field (partial match)
+        in: query
+        name: code
+        type: string
+      - description: Filter by ID field (partial match)
+        in: query
+        name: id
+        type: string
+      - description: Filter by name field (partial match)
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.FileInspection'
+            type: array
+        "400":
+          description: Invalid query parameters
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all file Inspections
+      tags:
+      - FileInspection
+    post:
+      consumes:
+      - application/json
+      description: Create a File Inspection with the provided JSON payload
+      parameters:
+      - description: File Inspection data
+        in: body
+        name: FileInspection
+        required: true
+        schema:
+          $ref: '#/definitions/models.FileInspection'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FileInspection'
+        "400":
+          description: Bad request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new File Inspection
+      tags:
+      - FileInspection
+  /file-inspections/{id}:
+    delete:
+      description: Delete a single File Inspection by its ID
+      parameters:
+      - description: File Inspection ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: File Inspection deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Inspection' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a File Inspection by ID
+      tags:
+      - FileInspection
+    get:
+      description: Get a single File Inspection by its ID
+      parameters:
+      - description: File Inspection ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FileInspection'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Inspection' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get File Inspection by ID
+      tags:
+      - FileInspection
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing File Inspection by providing
+        the updated JSON payload
+      parameters:
+      - description: FileInspection ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated File Inspection data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.FixedPrice'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.FixedPrice'
+        "400":
+          description: Validation error on field '%Given ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Entity '%Entity Inspection' with ID '%Given ID' not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing FileInspection
+      tags:
+      - FileInspection
   /file-types/:
     get:
       description: |-
