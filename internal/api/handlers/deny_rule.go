@@ -26,8 +26,8 @@ func NewDenyRuleHandler(service services.DenyRuleService) *DenyRuleHandler {
 // @Produce  json
 // @Param   denyRule  body  models.DenyRule  true  "Deny Rule data"
 // @Success 200 {object} models.DenyRule
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/ [post]
 func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 	var denyRule models.DenyRule
@@ -52,9 +52,9 @@ func (c *DenyRuleHandler) CreateDenyRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} models.DenyRule
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 404 {object} map[string]interface{} "Deny Rule not found"
 // @Router /deny-rules/{id} [get]
 func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -88,8 +88,8 @@ func (c *DenyRuleHandler) GetDenyRuleByID(ctx *gin.Context) {
 // @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.DenyRule
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/ [get]
 func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 	denyRules, err := c.denyRuleService.GetAllDenyRules(ctx)
@@ -109,12 +109,9 @@ func (c *DenyRuleHandler) GetAllDenyRules(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Param   denyRule  body  models.DenyRule  true  "Updated deny rule data"
-// @Success 200 {object} models.DenyRule "Successfully updated the deny rule"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
-// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Success 200 {object} models.DenyRule
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/{id} [put]
 func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -144,9 +141,8 @@ func (c *DenyRuleHandler) UpdateDenyRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Deny Rule ID"
 // @Success 200 {object} map[string]interface{} "Deny Rule deleted successfully"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid ID"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /deny-rules/{id} [delete]
 func (c *DenyRuleHandler) DeleteDenyRule(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

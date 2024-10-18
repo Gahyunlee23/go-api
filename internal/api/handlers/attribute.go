@@ -26,8 +26,8 @@ func NewAttributeHandler(service services.AttributeService) *AttributeHandler {
 // @Produce  json
 // @Param   Attribute  body  models.Attribute  true  "Attribute data"
 // @Success 200 {object} models.Attribute
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/ [post]
 func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 	var attribute models.Attribute
@@ -52,9 +52,9 @@ func (c *AttributeHandler) CreateAttribute(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Attribute ID"
 // @Success 200 {object} models.Attribute
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [get]
 func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -88,8 +88,8 @@ func (c *AttributeHandler) GetAttributeByID(ctx *gin.Context) {
 // @Param id query string false "Filter by ID field (partial match)"
 // @Produce json
 // @Success 200 {array} models.Attribute
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/ [get]
 func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 	attributes, err := c.attributeService.GetAllAttributes(ctx)
@@ -107,14 +107,12 @@ func (c *AttributeHandler) GetAllAttributes(ctx *gin.Context) {
 // @Tags Attribute
 // @Accept  json
 // @Produce  json
-// @Param   id  path  integer  true  "Attribute ID"
+// @Param   id  path  int  true  "Attribute ID"
 // @Param   product  body  models.Attribute  true  "Updated Attribute data"
-// @Success 200 {object} models.Attribute "Successfully updated the attribute"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
-// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Success 200 {object} models.Attribute
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [put]
 func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -145,9 +143,9 @@ func (c *AttributeHandler) UpdateAttribute(ctx *gin.Context) {
 // @Produce json
 // @Param id path int true "Attribute ID"
 // @Success 200 {object} map[string]interface{} "Attribute deleted successfully"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /attributes/{id} [delete]
 func (c *AttributeHandler) DeleteAttribute(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

@@ -27,8 +27,8 @@ func NewProductPartHandler(service services.ProductPartService) *ProductPartHand
 // @Produce  json
 // @Param   productPart  body  models.ProductPart  true  "Product Part data"
 // @Success 200 {object} models.ProductPart
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/ [post]
 func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 	var productPart models.ProductPart
@@ -53,9 +53,8 @@ func (c *ProductPartHandler) CreateProductPart(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Product Part ID"
 // @Success 200 {object} models.ProductPart
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid ID"
+// @Failure 404 {object} map[string]interface{} "Product Part not found"
 // @Router /product-parts/{id} [get]
 func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -90,8 +89,8 @@ func (c *ProductPartHandler) GetProductPartByID(ctx *gin.Context) {
 // @Param content_type query string false "Filter by content_type field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.ProductPart
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/ [get]
 func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 	productParts, err := c.productPartService.GetAllProductPart(ctx)
@@ -114,11 +113,9 @@ func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 // @Param   id  path  int  true  "Product Part ID"
 // @Param   product  body  models.ProductPart  true  "Updated product data"
 // @Success 200 {object} models.ProductPart
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
-// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [put]
 func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -148,9 +145,9 @@ func (c *ProductPartHandler) UpdateProductPart(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Product Part ID"
 // @Success 200 {object} map[string]interface{} "Product Part deleted successfully"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /product-parts/{id} [delete]
 func (c *ProductPartHandler) DeleteProductPart(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

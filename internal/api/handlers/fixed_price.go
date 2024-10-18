@@ -26,8 +26,8 @@ func NewFixedPriceHandler(service services.FixedPriceService) *FixedPriceHandler
 // @Produce  json
 // @Param   FixedPrice  body  models.FixedPrice  true  "Fixed Price data"
 // @Success 200 {object} models.FixedPrice
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/ [post]
 func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 	var fixedPrice models.FixedPrice
@@ -52,9 +52,9 @@ func (c *FixedPriceHandler) CreateFixedPrice(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Fixed Price ID"
 // @Success 200 {object} models.FixedPrice
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [get]
 func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -88,8 +88,8 @@ func (c *FixedPriceHandler) GetFixedPriceByID(ctx *gin.Context) {
 // @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.FixedPrice
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/ [get]
 func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 	fixedPrices, err := c.FixedPriceService.GetAllFixedPrices(ctx)
@@ -110,11 +110,9 @@ func (c *FixedPriceHandler) GetAllFixedPrices(ctx *gin.Context) {
 // @Param   id  path  int  true  "FixedPrice ID"
 // @Param   product  body  models.FixedPrice  true  "Updated Fixed Price data"
 // @Success 200 {object} models.FixedPrice
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
-// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [put]
 func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -144,9 +142,9 @@ func (c *FixedPriceHandler) UpdateFixedPrice(ctx *gin.Context) {
 // @Produce json
 // @Param id path int true "Fixed Price ID"
 // @Success 200 {object} map[string]interface{} "Fixed Price deleted successfully"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /fixed-prices/{id} [delete]
 func (c *FixedPriceHandler) DeleteFixedPrice(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

@@ -26,8 +26,8 @@ func NewFileTypeHandler(service services.FileTypeService) *FileTypeHandler {
 // @Produce  json
 // @Param   FileType  body  models.FileType  true  "File Type data"
 // @Success 200 {object} models.FileType
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /file-types/ [post]
 func (c *FileTypeHandler) CreateFileType(ctx *gin.Context) {
 	var fileType models.FileType
@@ -52,9 +52,9 @@ func (c *FileTypeHandler) CreateFileType(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "File Type ID"
 // @Success 200 {object} models.FileType
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /file-types/{id} [get]
 func (c *FileTypeHandler) GetFileTypeByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -88,8 +88,8 @@ func (c *FileTypeHandler) GetFileTypeByID(ctx *gin.Context) {
 // @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.FileType
-// / @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /file-types/ [get]
 func (c *FileTypeHandler) GetAllFileTypes(ctx *gin.Context) {
 	fileType, err := c.fileTypeService.GetAllFileTypes(ctx)
@@ -110,11 +110,9 @@ func (c *FileTypeHandler) GetAllFileTypes(ctx *gin.Context) {
 // @Param   id  path  int  true  "FileType ID"
 // @Param   product  body  models.FixedPrice  true  "Updated File Type data"
 // @Success 200 {object} models.FixedPrice
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
-// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /file-types/{id} [put]
 func (c *FileTypeHandler) UpdateFileType(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -144,8 +142,8 @@ func (c *FileTypeHandler) UpdateFileType(ctx *gin.Context) {
 // @Produce json
 // @Param id path int true "File Type ID"
 // @Success 200 {object} map[string]interface{} "File Type deleted successfully"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /file-types/{id} [delete]
 func (c *FileTypeHandler) DeleteFileType(ctx *gin.Context) {

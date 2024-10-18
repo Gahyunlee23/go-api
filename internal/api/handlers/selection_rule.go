@@ -26,8 +26,8 @@ func NewSelectionRuleHandler(service services.SelectionRuleService) *SelectionRu
 // @Produce  json
 // @Param   SelectionRule  body  models.SelectionRule  true  "Selection Rule data"
 // @Success 200 {object} models.SelectionRule
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Bad request"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/ [post]
 func (c *SelectionRuleHandler) CreateSelectionRule(ctx *gin.Context) {
 	var selectionRule models.SelectionRule
@@ -52,9 +52,9 @@ func (c *SelectionRuleHandler) CreateSelectionRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} models.SelectionRule
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [get]
 func (c *SelectionRuleHandler) GetSelectionRuleByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
@@ -88,8 +88,8 @@ func (c *SelectionRuleHandler) GetSelectionRuleByID(ctx *gin.Context) {
 // @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.SelectionRule
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/ [get]
 func (c *SelectionRuleHandler) GetAllSelectionRules(ctx *gin.Context) {
 	selectionRules, err := c.selectionRuleService.GetAllSelectionRules(ctx)
@@ -109,12 +109,10 @@ func (c *SelectionRuleHandler) GetAllSelectionRules(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Param   SelectionRule  body  models.SelectionRule  true  "Updated Selection Rule data"
-// @Success 200 {object} models.SelectionRule "successfully updated selection rule"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
-// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Success 200 {object} models.SelectionRule
+// @Failure 400 {object} map[string]interface{} "Entity 'Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [put]
 func (c *SelectionRuleHandler) UpdateSelectionRule(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -144,9 +142,9 @@ func (c *SelectionRuleHandler) UpdateSelectionRule(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Selection Rule ID"
 // @Success 200 {object} map[string]interface{} "SelectionRule deleted successfully"
-// @Failure 400 {object} models.ErrorResponse "Validation error"
-// @Failure 404 {object} models.ErrorResponse "Entity not found"
-// @Failure 500 {object} models.ErrorResponse "Internal server error"
+// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
+// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /selection-rules/{id} [delete]
 func (c *SelectionRuleHandler) DeleteSelectionRule(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

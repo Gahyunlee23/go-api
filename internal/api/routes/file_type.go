@@ -7,7 +7,7 @@ import (
 )
 
 func FileTypeRoutes(router *gin.Engine, handler *handler.FileTypeHandler) {
-	fileTypeGroup := router.Group("/file-types")
+	fileTypeGroup := router.Group("/file-type")
 	{
 		fileTypeGroup.GET("/", handler.GetAllFileTypes)
 		fileTypeGroup.POST("/", handler.CreateFileType)
