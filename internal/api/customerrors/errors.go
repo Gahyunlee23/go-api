@@ -29,7 +29,7 @@ type IDMismatchError struct {
 }
 
 func (e *IDMismatchError) Error() string {
-	return fmt.Sprintf("ID '%d' does not match resource ID '%d'", e.URLId, e.ResourceId)
+	return fmt.Sprintf("URL ID '%d' does not match resource ID '%d'", e.URLId, e.ResourceId)
 }
 
 // CheckIDExists represents an error when the resource ID is not included in the request body

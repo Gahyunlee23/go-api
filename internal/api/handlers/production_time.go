@@ -25,8 +25,8 @@ func NewProductionTimeHandler(service services.ProductionTimeService) *Productio
 // @Produce  json
 // @Param   productionTime  body  models.ProductionTime  true  "Production Time data"
 // @Success 200 {object} models.ProductionTime
-// @Failure 400 {object} map[string]interface{} "Bad request"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /production-times/ [post]
 func (c *ProductionTimeHandler) CreateProductionTime(ctx *gin.Context) {
 	var productionTime models.ProductionTime
@@ -51,8 +51,8 @@ func (c *ProductionTimeHandler) CreateProductionTime(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Production Time ID"
 // @Success 200 {object} models.ProductionTime
-// @Failure 400 {object} map[string]interface{} "Invalid ID"
-// @Failure 404 {object} map[string]interface{} "Production Time not found"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /production-times/{id} [get]
 func (c *ProductionTimeHandler) GetProductionTimeByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -87,8 +87,8 @@ func (c *ProductionTimeHandler) GetProductionTimeByID(ctx *gin.Context) {
 // @Param content_type query string false "Filter by time field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.ProductionTime
-// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /production-times/ [get]
 func (c *ProductionTimeHandler) GetAllProductionTime(ctx *gin.Context) {
 	productionTime, err := c.productionTimeService.GetAllProductionTimes(ctx)
@@ -108,10 +108,12 @@ func (c *ProductionTimeHandler) GetAllProductionTime(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Production Time ID"
 // @Param   product  body  models.ProductionTime  true  "Updated product data"
-// @Success 200 {object} models.ProductionTime
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} models.ProductionTime "successfully updated production time"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
+// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /production-times/{id} [put]
 func (c *ProductionTimeHandler) UpdateProductionTime(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -141,9 +143,9 @@ func (c *ProductionTimeHandler) UpdateProductionTime(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Production Time ID"
 // @Success 200 {object} map[string]interface{} "Production Time deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /production-times/{id} [delete]
 func (c *ProductionTimeHandler) DeleteProductionTime(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

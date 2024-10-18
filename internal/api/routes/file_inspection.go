@@ -10,7 +10,7 @@ func FileInspectionRoutes(router *gin.Engine, handler *Handlers.FileInspectionHa
 	FileInspectionGroup := router.Group("/file-inspections")
 	{
 		FileInspectionGroup.GET("/", handler.GetAllFileInspections)
-		FileInspectionGroup.POST("/", handler.GetAllFileInspections)
+		FileInspectionGroup.POST("/", handler.CreateFileInspection)
 		FileInspectionGroup.GET(":id", handler.GetFileInspectionByID)
 		FileInspectionGroup.PUT("/:id", handler.UpdateFileInspection)
 		FileInspectionGroup.DELETE("/:id", handler.DeleteFileInspection)

@@ -26,8 +26,8 @@ func NewFileInspectionHandler(service services.FileInspectionService) *FileInspe
 // @Produce  json
 // @Param   FileInspection  body  models.FileInspection  true  "File Inspection data"
 // @Success 200 {object} models.FileInspection
-// @Failure 400 {object} map[string]interface{} "Bad request"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// / @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /file-inspections/ [post]
 func (c *FileInspectionHandler) CreateFileInspection(ctx *gin.Context) {
 	var fileInspection models.FileInspection
@@ -52,9 +52,9 @@ func (c *FileInspectionHandler) CreateFileInspection(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "File Inspection ID"
 // @Success 200 {object} models.FileInspection
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Inspection' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /file-inspections/{id} [get]
 func (c *FileInspectionHandler) GetFileInspectionByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -88,8 +88,8 @@ func (c *FileInspectionHandler) GetFileInspectionByID(ctx *gin.Context) {
 // @Param name query string false "Filter by name field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.FileInspection
-// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// / @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /file-inspections/ [get]
 func (c *FileInspectionHandler) GetAllFileInspections(ctx *gin.Context) {
 	fileInspection, err := c.fileInspectionService.GetAllFileInspections(ctx)
@@ -109,10 +109,12 @@ func (c *FileInspectionHandler) GetAllFileInspections(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "FileInspection ID"
 // @Param   product  body  models.FixedPrice  true  "Updated File Inspection data"
-// @Success 200 {object} models.FixedPrice
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Inspection' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Success 200 {object} models.FixedPrice "successfully updated fixed price"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
+// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /file-inspections/{id} [put]
 func (c *FileInspectionHandler) UpdateFileInspection(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -142,9 +144,9 @@ func (c *FileInspectionHandler) UpdateFileInspection(ctx *gin.Context) {
 // @Produce json
 // @Param id path int true "File Inspection ID"
 // @Success 200 {object} map[string]interface{} "File Inspection deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Inspection' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /file-inspections/{id} [delete]
 func (c *FileInspectionHandler) DeleteFileInspection(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)

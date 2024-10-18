@@ -20,14 +20,14 @@ func NewProofHandler(service services.ProofService) *ProofHandler {
 
 // CreateProof godoc
 // @Summary Create a new Proof
-// @Description Create an Proof with the provided JSON payload
+// @Description Create a Proof with the provided JSON payload
 // @Tags Proof
 // @Accept  json
 // @Produce  json
 // @Param   Proof  body  models.Proof  true  "Proof data"
 // @Success 200 {object} models.Proof
-// @Failure 400 {object} map[string]interface{} "Bad request"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /proofs/ [post]
 func (c *ProofHandler) CreateProof(ctx *gin.Context) {
 	var Proof models.Proof
@@ -52,9 +52,9 @@ func (c *ProofHandler) CreateProof(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Proof ID"
 // @Success 200 {object} models.Proof
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /proofs/{id} [get]
 func (c *ProofHandler) GetProofByID(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -89,8 +89,8 @@ func (c *ProofHandler) GetProofByID(ctx *gin.Context) {
 // @Param type query string false "Filter by type field (partial match)"
 // @Produce  json
 // @Success 200 {array} models.Proof
-// @Failure 400 {object} map[string]interface{} "Invalid query parameters"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /proofs/ [get]
 func (c *ProofHandler) GetAllProofs(ctx *gin.Context) {
 	proofs, err := c.proofService.GetAllProofs(ctx)
@@ -111,9 +111,11 @@ func (c *ProofHandler) GetAllProofs(ctx *gin.Context) {
 // @Param   id  path  int  true  "Proof ID"
 // @Param   Proof  body  models.Proof  true  "Updated Proof data"
 // @Success 200 {object} models.Proof
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 400 {object} models.ErrorResponse "ID mismatch error"
+// @Failure 400 {object} models.ErrorResponse "Invalid ID in request body"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /proofs/{id} [put]
 func (c *ProofHandler) UpdateProof(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
@@ -143,9 +145,9 @@ func (c *ProofHandler) UpdateProof(ctx *gin.Context) {
 // @Produce  json
 // @Param   id  path  int  true  "Proof ID"
 // @Success 200 {object} map[string]interface{} "Proof deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Validation error on field '%Given ID'"
-// @Failure 404 {object} map[string]interface{} "Entity '%Entity Type' with ID '%Given ID' not found"
-// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Failure 400 {object} models.ErrorResponse "Validation error"
+// @Failure 404 {object} models.ErrorResponse "Entity not found"
+// @Failure 500 {object} models.ErrorResponse "Internal server error"
 // @Router /proofs/{id} [delete]
 func (c *ProofHandler) DeleteProof(ctx *gin.Context) {
 	id, err := strconv.ParseUint(ctx.Param("id"), 10, 32)
