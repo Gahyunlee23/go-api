@@ -12,7 +12,7 @@
 
 # Environment files (may contain sensitive information)
 .env
-config.yaml
+config/config.yaml
 config.json
 
 # JetBrains IDE-related (e.g., GoLand)

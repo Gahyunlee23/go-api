@@ -26,7 +26,7 @@ func TestCreateProduct(t *testing.T) {
 		Name:                 "stella_1",
 		Code:                 "stella_1",
 		Type:                 "stella_1",
-		MinimumQuantity:      0,
+		MinimumQuantity:      1,
 		MaximumQuantity:      intPtr(100000),
 		PackingUnit:          1,
 		EnableCustomQuantity: true,

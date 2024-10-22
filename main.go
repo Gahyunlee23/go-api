@@ -7,6 +7,7 @@ import (
 	"main-admin-api/internal/api/middleware"
 	"main-admin-api/internal/api/routes"
 	"main-admin-api/internal/services"
+	"main-admin-api/pkg/config"
 	"main-admin-api/pkg/database"
 
 	"github.com/gin-gonic/gin"
@@ -20,7 +21,17 @@ func init() {
 }
 
 func main() {
-	db, err := database.ConnectDB()
+	// Load configuration
+	cfg, err := config.LoadConfig("config/config.yaml")
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
+
+	// Set Gin mode
+	gin.SetMode(cfg.Server.Mode)
+
+	// Database connection with config
+	db, err := database.ConnectDB(cfg)
 	if err != nil {
 		log.Fatalf("Failed to connect DB: %v", err)
 	}
@@ -40,15 +51,18 @@ func main() {
 
 	router := gin.Default()
 	router.RedirectTrailingSlash = false
-	router.Use(middleware.SetupCORS())
 
-	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler, fixedPriceHandler, selectionRuleHandler, attributeCategoryHandler, productionTimeHandler, proofHandler, fileTypeHandler, fileInspectionHandler)
+	// convey config to CORS Middleware
+	router.Use(middleware.SetupCORS(cfg))
+
+	allRoutes := routes.InitRoutes(productHandler, productPartHandler, denyRuleHandler, attributeHandler,
+		fixedPriceHandler, selectionRuleHandler, attributeCategoryHandler, productionTimeHandler,
+		proofHandler, fileTypeHandler, fileInspectionHandler)
 
 	routes.RegisterRoutes(router, allRoutes)
-
 	routes.SwaggerRoutes(router)
 
-	if err := router.Run(":8080"); err != nil {
+	if err := router.Run(cfg.Server.Port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
