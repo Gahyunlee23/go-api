@@ -12,6 +12,8 @@
 
 # Environment files (may contain sensitive information)
 .env
+config/config.yaml
+config.json
 
 # JetBrains IDE-related (e.g., GoLand)
 /.idea

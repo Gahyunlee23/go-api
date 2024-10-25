@@ -31,9 +31,9 @@ The api server for main admin, it contains product configurator and editor
     ```bash
     go mod tidy
     ```
-4. Set up environment variables (it's located in project root):
+4. Set up environment variables (it's located in config directory):
     ```bash
-    cp .env.example .env
+    cp config/config.example.yaml .config.yaml
     ```
 
 ## Usage
