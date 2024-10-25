@@ -99,8 +99,6 @@ func (c *ProductPartHandler) GetAllProductParts(ctx *gin.Context) {
 		return
 	}
 
-	println("아따어디여")
-
 	ctx.JSON(http.StatusOK, productParts)
 }
 
