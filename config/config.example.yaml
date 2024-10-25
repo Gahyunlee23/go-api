@@ -7,7 +7,7 @@ database:
   port: 49311
   user: root
   password: root
-  dbname: product_configurator
+  name: product_configurator
 
 cors:
   allow_origins:
