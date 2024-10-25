@@ -3,12 +3,11 @@ server:
   mode: "debug"
 
 database:
-  host: "localhost"
-  port: "49311"
-  name: "product_configurator"
-  user: "root"
-  password: "root"
-  sslmode: "disable"
+  host: localhost
+  port: 49311
+  user: root
+  password: root
+  dbname: product_configurator
 
 cors:
   allow_origins:
