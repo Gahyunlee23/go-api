@@ -33,7 +33,7 @@ The api server for main admin, it contains product configurator and editor
     ```
 4. Set up environment variables (it's located in config directory):
     ```bash
-    cp config/config.example.yaml .config.yaml
+    cp config/config.example.yaml config/config.yaml
     ```
 
 ## Usage
