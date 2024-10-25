@@ -58,7 +58,7 @@ cover:
 	go test -coverprofile=coverage.out ./...
 	go tool cover -html=coverage.out
 
-# 린트 검사
+# diagnose lint
 lint:
 	@echo "Running linter..."
 	golangci-lint run
@@ -69,16 +69,6 @@ clean:
 	@rm -rf $(BUILD_DIR)
 	@rm -f coverage.out
 	@go clean
-
-# docker build
-docker-build:
-	@echo "Building Docker image..."
-	docker build -t $(APP_NAME) .
-
-# docker execute
-docker-run:
-	@echo "Running Docker container..."
-	docker run -p 8080:8080 $(APP_NAME)
 
 # help
 help:
