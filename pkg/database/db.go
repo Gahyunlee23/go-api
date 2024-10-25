@@ -2,33 +2,26 @@ package database
 
 import (
 	"fmt"
-	"log"
 	"main-admin-api/pkg/config"
 
-	"github.com/joho/godotenv"
-	"gorm.io/driver/postgres"
+	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-}
-
 func ConnectDB(cfg *config.Config) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
-		cfg.Database.Host,
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		cfg.Database.User,
 		cfg.Database.Password,
-		cfg.Database.Name,
+		cfg.Database.Host,
 		cfg.Database.Port,
-		cfg.Database.SSLMode,
+		cfg.Database.Name,
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to initialize database, got error %v", err)
 	}
 
 	return db, nil
