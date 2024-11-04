@@ -61,7 +61,7 @@ func (r *productRepo) GetByIDWithPreloads(id uint, preloadFields ...string) (*mo
 
 func (r *productRepo) GetAll(ctx *gin.Context) ([]models.ProductLite, error) {
 	var products []models.ProductLite
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
+	if err := r.db.Model(&models.ProductLite{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type"), utils.Sort(ctx)).Find(&products).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch products: %w", err)
 	}
 	return products, nil
