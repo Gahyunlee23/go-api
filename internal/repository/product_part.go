@@ -16,6 +16,11 @@ type productPartRepo struct {
 	db *gorm.DB
 }
 
+var productPartColumns = models.SearchSortColumns{
+	Search: []string{"id", "name", "code", "content_type"},
+	Sort:   []string{"id", "name", "code", "content_type", "created_at"},
+}
+
 func NewProductPartRepository(db *gorm.DB) repository.ProductPartRepository {
 	return &productPartRepo{db: db}
 }
@@ -40,7 +45,7 @@ func (r *productPartRepo) GetByID(id uint) (*models.ProductPart, error) {
 
 func (r *productPartRepo) GetAll(ctx *gin.Context) ([]models.ProductPart, error) {
 	var productPart []models.ProductPart
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Find(&productPart).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, productPartColumns.Search), utils.Sort(ctx, productPartColumns.Sort)).Find(&productPart).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch product part: %w", err)
 	}
 	return productPart, nil
@@ -65,7 +70,7 @@ func (r *productPartRepo) Archive(id uint) error {
 func (r *productPartRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
 
-	if err := r.db.Model(&models.ProductPart{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "content_type")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.ProductPart{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, productPartColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 

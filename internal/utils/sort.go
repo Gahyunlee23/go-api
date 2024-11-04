@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,7 @@ func isValidSortDirection(direction string) bool {
 	return funk.Contains(sortBy, direction)
 }
 
-func Sort(c *gin.Context) func(db *gorm.DB) *gorm.DB {
+func Sort(c *gin.Context, allowedColumns []string) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
 		sort := c.QueryMap("sort")
 
@@ -23,8 +22,14 @@ func Sort(c *gin.Context) func(db *gorm.DB) *gorm.DB {
 			sortingCol := strings.ToLower(sortingCol)
 			direction := strings.ToLower(direction)
 
+			if !funk.Contains(allowedColumns, sortingCol) {
+				db.Error = fmt.Errorf("invalid sort column: %s", sortingCol)
+				return db
+			}
+
 			if !isValidSortDirection(direction) {
-				log.Printf("invalid sort direction: %s", direction)
+				db.Error = fmt.Errorf("invalid sort direction: %s", direction)
+				return db
 			}
 
 			db = db.Order(fmt.Sprintf("%s %s", sortingCol, direction))

@@ -16,6 +16,11 @@ type selectionRuleRepo struct {
 	db *gorm.DB
 }
 
+var selectionTimeColumns = models.SearchSortColumns{
+	Search: []string{"id", "name", "code"},
+	Sort:   []string{"id", "name", "code", "created_at"},
+}
+
 func NewSelectionRuleRepository(db *gorm.DB) repository.SelectionRuleRepository {
 	return &selectionRuleRepo{db: db}
 }
@@ -40,7 +45,7 @@ func (r *selectionRuleRepo) GetByID(id uint) (*models.SelectionRule, error) {
 
 func (r *selectionRuleRepo) GetAll(ctx *gin.Context) ([]models.SelectionRule, error) {
 	var selectionRules []models.SelectionRule
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&selectionRules).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, selectionTimeColumns.Search), utils.Sort(ctx, selectionTimeColumns.Sort)).Find(&selectionRules).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch selection rules: %w", err)
 	}
 	return selectionRules, nil
@@ -59,7 +64,7 @@ func (r *selectionRuleRepo) Archive(id uint) error {
 
 func (r *selectionRuleRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.SelectionRule{}).Scopes(utils.Search(ctx, "id", "name", "code")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.SelectionRule{}).Scopes(utils.Search(ctx, selectionTimeColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil

@@ -16,6 +16,11 @@ type attributeCategoryRepo struct {
 	db *gorm.DB
 }
 
+var attributeCategoryColumns = models.SearchSortColumns{
+	Search: []string{"id", "code", "name"},
+	Sort:   []string{"id", "code", "name", "created_at"},
+}
+
 func NewAttributeCategoryRepository(db *gorm.DB) repository.AttributeCategoryRepository {
 	return &attributeCategoryRepo{db: db}
 }
@@ -26,7 +31,7 @@ func (r *attributeCategoryRepo) Create(AttributeCategory *models.AttributeCatego
 
 func (r *attributeCategoryRepo) GetAll(ctx *gin.Context) ([]models.AttributeCategory, error) {
 	var attributeCategory []models.AttributeCategory
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&attributeCategory).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, attributeColumns.Search), utils.Sort(ctx, attributeCategoryColumns.Sort)).Find(&attributeCategory).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch attribute categories: %w", err)
 	}
 	return attributeCategory, nil
@@ -61,7 +66,7 @@ func (r *attributeCategoryRepo) Archive(id uint) error {
 
 func (r *attributeCategoryRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.AttributeCategory{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.AttributeCategory{}).Scopes(utils.Search(ctx, attributeCategoryColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil
@@ -71,7 +76,7 @@ func (r *attributeCategoryRepo) GetByCategoryID(ctx *gin.Context, categoryID uin
 	var category models.AttributeCategory
 
 	query := r.db.Preload("Attributes", func(db *gorm.DB) *gorm.DB {
-		return db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name"))
+		return db.Scopes(utils.Paginate(ctx), utils.Search(ctx, attributeCategoryColumns.Search))
 	})
 
 	if err := query.First(&category, categoryID).Error; err != nil {

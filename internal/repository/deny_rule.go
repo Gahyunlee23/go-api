@@ -16,6 +16,11 @@ type denyRuleRepo struct {
 	db *gorm.DB
 }
 
+var denyRuleColumns = models.SearchSortColumns{
+	Search: []string{"id", "name", "code"},
+	Sort:   []string{"id", "name", "code", "created_at"},
+}
+
 func NewDenyRuleRepository(db *gorm.DB) repository.DenyRuleRepository {
 	return &denyRuleRepo{db: db}
 }
@@ -43,7 +48,7 @@ func (r *denyRuleRepo) GetByID(id uint) (*models.DenyRule, error) {
 func (r *denyRuleRepo) GetAll(ctx *gin.Context) ([]models.DenyRule, error) {
 	var denyRules []models.DenyRule
 
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&denyRules).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, attributeCategoryColumns.Search), utils.Sort(ctx, attributeCategoryColumns.Sort)).Find(&denyRules).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch deny rules: %w", err)
 	}
 	return denyRules, nil
@@ -66,7 +71,7 @@ func (r *denyRuleRepo) Archive(id uint) error {
 
 func (r *denyRuleRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.DenyRule{}).Scopes(utils.Search(ctx, attributeCategoryColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil
