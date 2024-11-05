@@ -18,7 +18,7 @@ type productPartRepo struct {
 
 var productPartColumns = models.SearchSortColumns{
 	Search: []string{"id", "name", "code", "content_type"},
-	Sort:   []string{"id", "name", "code", "content_type", "created_at"},
+	Sort:   []string{"id", "name", "code", "content_type"},
 }
 
 func NewProductPartRepository(db *gorm.DB) repository.ProductPartRepository {

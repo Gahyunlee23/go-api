@@ -490,6 +490,11 @@ paths:
         in: query
         name: id
         type: string
+      - description: 'Sort parameters. Example: sort[id]=desc or sort[name]=asc'
+        format: map[string]string
+        in: query
+        name: sort
+        type: object
       produces:
       - application/json
       responses:
