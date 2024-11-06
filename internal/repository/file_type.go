@@ -16,6 +16,11 @@ type fileTypeRepo struct {
 	db *gorm.DB
 }
 
+var fileTypeColumns = models.SearchSortColumns{
+	Search: []string{"id", "code", "name"},
+	Sort:   []string{"id", "code", "name"},
+}
+
 func NewFileTypeRepository(db *gorm.DB) repository.FileTypeRepository {
 	return &fileTypeRepo{db: db}
 }
@@ -39,7 +44,7 @@ func (r *fileTypeRepo) GetByID(id uint) (*models.FileType, error) {
 
 func (r *fileTypeRepo) GetAll(ctx *gin.Context) ([]models.FileType, error) {
 	var fileTypes []models.FileType
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name")).Find(&fileTypes).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, fileInspectionColumns.Search), utils.Sort(ctx, fileTypeColumns.Sort)).Find(&fileTypes).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch file type: %w", err)
 	}
 	return fileTypes, nil
@@ -60,7 +65,7 @@ func (r *fileTypeRepo) Archive(id uint) error {
 }
 func (r *fileTypeRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.FileType{}).Scopes(utils.Search(ctx, "id", "code", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.FileType{}).Scopes(utils.Search(ctx, fileTypeColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to count file type: %w", err)
 	}
 	return totalCount, nil

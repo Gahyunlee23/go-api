@@ -16,6 +16,11 @@ type fixedPriceRepo struct {
 	db *gorm.DB
 }
 
+var fixedPriceColumns = models.SearchSortColumns{
+	Search: []string{"id", "name", "code"},
+	Sort:   []string{"id", "name", "code"},
+}
+
 func NewFixedPriceRepository(db *gorm.DB) repository.FixedPriceRepository {
 	return &fixedPriceRepo{db: db}
 }
@@ -40,7 +45,7 @@ func (r *fixedPriceRepo) GetByID(id uint) (*models.FixedPrice, error) {
 
 func (r *fixedPriceRepo) GetAll(ctx *gin.Context) ([]models.FixedPrice, error) {
 	var FixedPrice []models.FixedPrice
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Find(&FixedPrice).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, fixedPriceColumns.Search), utils.Sort(ctx, fileTypeColumns.Sort)).Find(&FixedPrice).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch products: %w", err)
 	}
 	return FixedPrice, nil
@@ -60,7 +65,7 @@ func (r *fixedPriceRepo) Archive(id uint) error {
 func (r *fixedPriceRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
 
-	if err := r.db.Model(&models.FixedPrice{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.FixedPrice{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, fixedPriceColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil

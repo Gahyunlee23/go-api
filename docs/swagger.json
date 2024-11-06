@@ -334,6 +334,13 @@
                         "description": "Filter by ID field (partial match)",
                         "name": "id",
                         "in": "query"
+                    },
+                    {
+                        "type": "object",
+                        "format": "map[string]string",
+                        "description": "Sort parameters. Example: sort[id]=desc or sort[name]=asc",
+                        "name": "sort",
+                        "in": "query"
                     }
                 ],
                 "responses": {

@@ -16,6 +16,11 @@ type fileInspectionRepo struct {
 	db *gorm.DB
 }
 
+var fileInspectionColumns = models.SearchSortColumns{
+	Search: []string{"id", "name"},
+	Sort:   []string{"id", "name", "created_at"},
+}
+
 func NewFileInspectionRepository(db *gorm.DB) repository.FileInspectionRepository {
 	return &fileInspectionRepo{db: db}
 }
@@ -39,7 +44,7 @@ func (r *fileInspectionRepo) GetByID(id uint) (*models.FileInspection, error) {
 
 func (r *fileInspectionRepo) GetAll(ctx *gin.Context) ([]models.FileInspection, error) {
 	var fileInspections []models.FileInspection
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name")).Find(&fileInspections).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, fileInspectionColumns.Search), utils.Sort(ctx, fileInspectionColumns.Sort)).Find(&fileInspections).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch file inspection: %w", err)
 	}
 	return fileInspections, nil
@@ -60,7 +65,7 @@ func (r *fileInspectionRepo) Archive(id uint) error {
 }
 func (r *fileInspectionRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.FileInspection{}).Scopes(utils.Search(ctx, "id", "name")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.FileInspection{}).Scopes(utils.Search(ctx, fileInspectionColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to count file inspection: %w", err)
 	}
 	return totalCount, nil

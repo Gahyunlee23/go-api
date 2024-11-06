@@ -16,6 +16,11 @@ type productionTimeRepo struct {
 	db *gorm.DB
 }
 
+var productionTimeColumns = models.SearchSortColumns{
+	Search: []string{"id", "code", "name", "time"},
+	Sort:   []string{"id", "code", "name", "time", "created_at"},
+}
+
 func NewProductionTimeRepository(db *gorm.DB) repository.ProductionTimeRepository {
 	return &productionTimeRepo{db: db}
 }
@@ -29,7 +34,7 @@ func (r *productionTimeRepo) Create(productionTime *models.ProductionTime) error
 
 func (r *productionTimeRepo) GetAll(ctx *gin.Context) ([]models.ProductionTime, error) {
 	var productionTime []models.ProductionTime
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "code", "name", "time")).Find(&productionTime).Error; err != nil {
+	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, productPartColumns.Search), utils.Sort(ctx, productPartColumns.Sort)).Find(&productionTime).Error; err != nil {
 		return nil, fmt.Errorf("get production time: %w", err)
 	}
 	return productionTime, nil
@@ -62,7 +67,7 @@ func (r *productionTimeRepo) Archive(id uint) error {
 
 func (r *productionTimeRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
-	if err := r.db.Model(&models.ProductionTime{}).Scopes(utils.Search(ctx, "id", "name", "code", "time")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.ProductionTime{}).Scopes(utils.Search(ctx, productPartColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil

@@ -79,7 +79,8 @@ func (c *ProductHandler) GetProductByID(ctx *gin.Context) {
 // @Description - Use the 'search' parameter for a full-text search across all searchable fields.
 // @Description - Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).
 // @Description - Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.
-// @Description Example: /products?search=keyword&code=abc&name=test
+// @Description - sort[any_field]=asc or sort[ant_field]=desc
+// @Description Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
 // @Tags Product
 // @Param page query int false "Page number" default(1)
 // @Param page_size query int false "Number of items per page" default(10)

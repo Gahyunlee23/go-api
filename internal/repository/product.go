@@ -16,6 +16,11 @@ type productRepo struct {
 	db *gorm.DB
 }
 
+var productColumns = models.SearchSortColumns{
+	Search: []string{"id", "name", "code", "type"},
+	Sort:   []string{"id", "name", "code", "type", "created_at"},
+}
+
 func NewProductRepository(db *gorm.DB) repository.ProductRepository {
 	return &productRepo{db: db}
 }
@@ -61,7 +66,8 @@ func (r *productRepo) GetByIDWithPreloads(id uint, preloadFields ...string) (*mo
 
 func (r *productRepo) GetAll(ctx *gin.Context) ([]models.ProductLite, error) {
 	var products []models.ProductLite
-	if err := r.db.Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Find(&products).Error; err != nil {
+
+	if err := r.db.Model(&models.ProductLite{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, productColumns.Search), utils.Sort(ctx, productColumns.Sort)).Find(&products).Error; err != nil {
 		return nil, fmt.Errorf("failed to fetch products: %w", err)
 	}
 	return products, nil
@@ -85,7 +91,7 @@ func (r *productRepo) Archive(id uint) error {
 func (r *productRepo) Count(ctx *gin.Context) (int64, error) {
 	var totalCount int64
 
-	if err := r.db.Model(&models.Product{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, "id", "name", "code", "type")).Count(&totalCount).Error; err != nil {
+	if err := r.db.Model(&models.Product{}).Scopes(utils.Paginate(ctx), utils.Search(ctx, productColumns.Search)).Count(&totalCount).Error; err != nil {
 		return 0, fmt.Errorf("failed to fetch count: %w", err)
 	}
 	return totalCount, nil
