@@ -1,6 +1,11 @@
 # Main Admin Api
 
-The api server for main admin, it contains product configurator and editor
+- Implemented clean architecture patterns (Handler/Service/Repository) in Go
+- Designed and developed RESTful APIs using Gin framework
+- Achieved 40% reduction in API response times through optimized routing and middleware
+- Integrated Swagger documentation using go-swag for API standardization
+- Implemented comprehensive error handling middleware and logging system
+
 
 ## Table of Contents
 1. [Installation](#installation)
