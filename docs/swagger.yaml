@@ -264,7 +264,8 @@ paths:
         - Use 'search' parameter for full-text search across all searchable fields.
         - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /items?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -462,7 +463,8 @@ paths:
         - Use 'search' parameter for full-text search across all searchable fields.
         - Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /items?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -490,11 +492,6 @@ paths:
         in: query
         name: id
         type: string
-      - description: 'Sort parameters. Example: sort[id]=desc or sort[name]=asc'
-        format: map[string]string
-        in: query
-        name: sort
-        type: object
       produces:
       - application/json
       responses:
@@ -665,7 +662,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /deny-rules?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -848,7 +846,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /file Inspections?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -1046,7 +1045,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /file types?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -1244,7 +1244,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /fixed-prices?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -1442,7 +1443,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', 'name', or 'content_type' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', 'name', and 'content_type' parameters for cross-field AND search.
-        Example: /product-parts?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -1638,7 +1640,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', 'name', or 'time' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', 'name', and 'time' parameters for cross-field AND search.
-        Example: /productionTime?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -1834,7 +1837,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.
-        Example: /products?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -2036,7 +2040,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.
-        Example: /proofs?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number
@@ -2238,7 +2243,8 @@ paths:
         - Use the 'search' parameter for a full-text search across all searchable fields.
         - Use 'code' or 'id', or 'name' parameters for individual field searches (partial matches).
         - Combine 'code', 'id', and 'name' parameters for cross-field AND search.
-        Example: /selection-rules?search=keyword&code=abc&name=test
+        - sort[any_field]=asc or sort[ant_field]=desc
+        Example: /?search=keyword&code=abc&name=test&sort[name]=asc&sort[id]=desc
       parameters:
       - default: 1
         description: Page number

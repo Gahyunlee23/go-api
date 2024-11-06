@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/attribute-categories/": {
             "get": {
-                "description": "Retrieve a list of all AttributeCategory.\n- Use 'search' parameter for full-text search across all searchable fields.\n- Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /items?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all AttributeCategory.\n- Use 'search' parameter for full-text search across all searchable fields.\n- Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -299,7 +299,7 @@ const docTemplate = `{
         },
         "/attributes/": {
             "get": {
-                "description": "Retrieve a list of all attributes.\n- Use 'search' parameter for full-text search across all searchable fields.\n- Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /items?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all attributes.\n- Use 'search' parameter for full-text search across all searchable fields.\n- Use 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -344,13 +344,6 @@ const docTemplate = `{
                         "type": "string",
                         "description": "Filter by ID field (partial match)",
                         "name": "id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "object",
-                        "format": "map[string]string",
-                        "description": "Sort parameters. Example: sort[id]=desc or sort[name]=asc",
-                        "name": "sort",
                         "in": "query"
                     }
                 ],
@@ -588,7 +581,7 @@ const docTemplate = `{
         },
         "/deny-rules/": {
             "get": {
-                "description": "Retrieve a list of all deny rules.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /deny-rules?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all deny rules.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -849,7 +842,7 @@ const docTemplate = `{
         },
         "/file-inspections/": {
             "get": {
-                "description": "Retrieve a list of all file Inspections.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /file Inspections?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all file Inspections.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -1131,7 +1124,7 @@ const docTemplate = `{
         },
         "/file-types/": {
             "get": {
-                "description": "Retrieve a list of all file types.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /file types?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all file types.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -1413,7 +1406,7 @@ const docTemplate = `{
         },
         "/fixed-prices/": {
             "get": {
-                "description": "Retrieve a list of all FixedPrices.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /fixed-prices?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all FixedPrices.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -1695,7 +1688,7 @@ const docTemplate = `{
         },
         "/product-parts/": {
             "get": {
-                "description": "Retrieve a list of all product parts.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'content_type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'content_type' parameters for cross-field AND search.\nExample: /product-parts?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all product parts.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'content_type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'content_type' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -1975,7 +1968,7 @@ const docTemplate = `{
         },
         "/production-times/": {
             "get": {
-                "description": "Retrieve a list of all productionTime.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'time' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'time' parameters for cross-field AND search.\nExample: /productionTime?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all productionTime.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'time' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'time' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -2255,7 +2248,7 @@ const docTemplate = `{
         },
         "/products/": {
             "get": {
-                "description": "Retrieve a list of all products.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.\nExample: /products?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all products.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -2543,7 +2536,7 @@ const docTemplate = `{
         },
         "/proofs/": {
             "get": {
-                "description": "Retrieve a list of all Proofs.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.\nExample: /proofs?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all Proofs.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use the 'code', 'id', 'name', or 'type' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', 'name', and 'type' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
@@ -2831,7 +2824,7 @@ const docTemplate = `{
         },
         "/selection-rules/": {
             "get": {
-                "description": "Retrieve a list of all selection rules.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use 'code' or 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\nExample: /selection-rules?search=keyword\u0026code=abc\u0026name=test",
+                "description": "Retrieve a list of all selection rules.\n- Use the 'search' parameter for a full-text search across all searchable fields.\n- Use 'code' or 'id', or 'name' parameters for individual field searches (partial matches).\n- Combine 'code', 'id', and 'name' parameters for cross-field AND search.\n- sort[any_field]=asc or sort[ant_field]=desc\nExample: /?search=keyword\u0026code=abc\u0026name=test\u0026sort[name]=asc\u0026sort[id]=desc",
                 "produces": [
                     "application/json"
                 ],
